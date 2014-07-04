@@ -14,7 +14,7 @@ var graphMixinLoaders = {
   _loadMixin: function (sourceVariable) {
     for (var mixinFunction in sourceVariable) {
       if (sourceVariable.hasOwnProperty(mixinFunction)) {
-        Graph.prototype[mixinFunction] = sourceVariable[mixinFunction];
+        Network.prototype[mixinFunction] = sourceVariable[mixinFunction];
       }
     }
   },
@@ -29,7 +29,7 @@ var graphMixinLoaders = {
   _clearMixin: function (sourceVariable) {
     for (var mixinFunction in sourceVariable) {
       if (sourceVariable.hasOwnProperty(mixinFunction)) {
-        Graph.prototype[mixinFunction] = undefined;
+        Network.prototype[mixinFunction] = undefined;
       }
     }
   },

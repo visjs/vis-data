@@ -24,7 +24,7 @@ function Popup(container, x, y, text, style) {
       style = text;
       text = undefined;
     } else {
-      // for backwards compatibility, in case clients other than Graph are creating Popup directly
+      // for backwards compatibility, in case clients other than Network are creating Popup directly
       style = {
         fontColor: 'black',
         fontSize: 14, // px

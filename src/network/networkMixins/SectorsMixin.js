@@ -11,7 +11,7 @@
 var SectorMixin = {
 
   /**
-   * This function is only called by the setData function of the Graph object.
+   * This function is only called by the setData function of the Network object.
    * This loads the global references into the active sector. This initializes the sector.
    *
    * @private
@@ -363,7 +363,7 @@ var SectorMixin = {
    *
    * @param {String} runFunction  |   This is the NAME of a function we want to call in all active sectors
    *                              |   we dont pass the function itself because then the "this" is the window object
-   *                              |   instead of the Graph object
+   *                              |   instead of the Network object
    * @param {*} [argument]            |   Optional: arguments to pass to the runFunction
    * @private
    */
@@ -402,7 +402,7 @@ var SectorMixin = {
    *
    * @param {String} runFunction  |   This is the NAME of a function we want to call in all active sectors
    *                              |   we dont pass the function itself because then the "this" is the window object
-   *                              |   instead of the Graph object
+   *                              |   instead of the Network object
    * @param {*} [argument]        |   Optional: arguments to pass to the runFunction
    * @private
    */
@@ -431,7 +431,7 @@ var SectorMixin = {
    *
    * @param {String} runFunction  |   This is the NAME of a function we want to call in all active sectors
    *                              |   we don't pass the function itself because then the "this" is the window object
-   *                              |   instead of the Graph object
+   *                              |   instead of the Network object
    * @param {*} [argument]            |   Optional: arguments to pass to the runFunction
    * @private
    */
@@ -469,7 +469,7 @@ var SectorMixin = {
    *
    * @param {String} runFunction  |   This is the NAME of a function we want to call in all active sectors
    *                              |   we don't pass the function itself because then the "this" is the window object
-   *                              |   instead of the Graph object
+   *                              |   instead of the Network object
    * @param {*} [argument]        |   Optional: arguments to pass to the runFunction
    * @private
    */

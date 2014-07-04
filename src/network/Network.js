@@ -1,16 +1,16 @@
 /**
- * @constructor Graph
+ * @constructor Network
  * Create a graph visualization, displaying nodes and edges.
  *
- * @param {Element} container   The DOM element in which the Graph will
+ * @param {Element} container   The DOM element in which the Network will
  *                                  be created. Normally a div element.
  * @param {Object} data         An object containing parameters
  *                              {Array} nodes
  *                              {Array} edges
  * @param {Object} options      Options
  */
-function Graph (container, data, options) {
-  if (!(this instanceof Graph)) {
+function Network (container, data, options) {
+  if (!(this instanceof Network)) {
     throw new SyntaxError('Constructor must be called with the new operator');
   }
 
@@ -219,13 +219,13 @@ function Graph (container, data, options) {
   this._loadPhysicsSystem();
   // create a frame and canvas
   this._create();
-  // load the sector system.    (mandatory, fully integrated with Graph)
+  // load the sector system.    (mandatory, fully integrated with Network)
   this._loadSectorSystem();
   // load the cluster system.   (mandatory, even when not using the cluster system, there are function calls to it)
   this._loadClusterSystem();
-  // load the selection system. (mandatory, required by Graph)
+  // load the selection system. (mandatory, required by Network)
   this._loadSelectionSystem();
-  // load the selection system. (mandatory, required by Graph)
+  // load the selection system. (mandatory, required by Network)
   this._loadHierarchySystem();
 
   // apply options
@@ -311,8 +311,8 @@ function Graph (container, data, options) {
   }
 }
 
-// Extend Graph with an Emitter mixin
-Emitter(Graph.prototype);
+// Extend Network with an Emitter mixin
+Emitter(Network.prototype);
 
 /**
  * Get the script path where the vis.js library is located
@@ -321,7 +321,7 @@ Emitter(Graph.prototype);
  *                                 end with a slash.
  * @private
  */
-Graph.prototype._getScriptPath = function() {
+Network.prototype._getScriptPath = function() {
   var scripts = document.getElementsByTagName( 'script' );
 
   // find script named vis.js or vis.min.js
@@ -342,7 +342,7 @@ Graph.prototype._getScriptPath = function() {
  * Find the center position of the graph
  * @private
  */
-Graph.prototype._getRange = function() {
+Network.prototype._getRange = function() {
   var minY = 1e9, maxY = -1e9, minX = 1e9, maxX = -1e9, node;
   for (var nodeId in this.nodes) {
     if (this.nodes.hasOwnProperty(nodeId)) {
@@ -365,7 +365,7 @@ Graph.prototype._getRange = function() {
  * @returns {{x: number, y: number}}
  * @private
  */
-Graph.prototype._findCenter = function(range) {
+Network.prototype._findCenter = function(range) {
   return {x: (0.5 * (range.maxX + range.minX)),
           y: (0.5 * (range.maxY + range.minY))};
 };
@@ -376,7 +376,7 @@ Graph.prototype._findCenter = function(range) {
  *
  * @param {object} range = {minX: minX, maxX: maxX, minY: minY, maxY: maxY};
  */
-Graph.prototype._centerGraph = function(range) {
+Network.prototype._centerGraph = function(range) {
   var center = this._findCenter(range);
 
   center.x *= this.scale;
@@ -394,7 +394,7 @@ Graph.prototype._centerGraph = function(range) {
  * @param {Boolean} [initialZoom]  | zoom based on fitted formula or range, true = fitted, default = false;
  * @param {Boolean} [disableStart] | If true, start is not called.
  */
-Graph.prototype.zoomExtent = function(initialZoom, disableStart) {
+Network.prototype.zoomExtent = function(initialZoom, disableStart) {
   if (initialZoom === undefined) {
     initialZoom = false;
   }
@@ -458,7 +458,7 @@ Graph.prototype.zoomExtent = function(initialZoom, disableStart) {
  * Update the this.nodeIndices with the most recent node index list
  * @private
  */
-Graph.prototype._updateNodeIndexList = function() {
+Network.prototype._updateNodeIndexList = function() {
   this._clearNodeIndexList();
   for (var idx in this.nodes) {
     if (this.nodes.hasOwnProperty(idx)) {
@@ -478,7 +478,7 @@ Graph.prototype._updateNodeIndexList = function() {
  *                                   {Options} [options] Object with options
  * @param {Boolean} [disableStart]   | optional: disable the calling of the start function.
  */
-Graph.prototype.setData = function(data, disableStart) {
+Network.prototype.setData = function(data, disableStart) {
   if (disableStart === undefined) {
     disableStart = false;
   }
@@ -524,7 +524,7 @@ Graph.prototype.setData = function(data, disableStart) {
  * @param {Object} options
  * @param {Boolean} [initializeView] | set zoom and translation to default.
  */
-Graph.prototype.setOptions = function (options) {
+Network.prototype.setOptions = function (options) {
   if (options) {
     var prop;
     // retrieve parameter values
@@ -767,13 +767,13 @@ Graph.prototype.setOptions = function (options) {
 };
 
 /**
- * Create the main frame for the Graph.
- * This function is executed once when a Graph object is created. The frame
+ * Create the main frame for the Network.
+ * This function is executed once when a Network object is created. The frame
  * contains a canvas, and this canvas contains all objects like the axis and
  * nodes.
  * @private
  */
-Graph.prototype._create = function () {
+Network.prototype._create = function () {
   // remove all elements from the container element.
   while (this.containerElement.hasChildNodes()) {
     this.containerElement.removeChild(this.containerElement.firstChild);
@@ -826,7 +826,7 @@ Graph.prototype._create = function () {
  * Binding the keys for keyboard navigation. These functions are defined in the NavigationMixin
  * @private
  */
-Graph.prototype._createKeyBinds = function() {
+Network.prototype._createKeyBinds = function() {
   var me = this;
   this.mousetrap = mousetrap;
 
@@ -867,7 +867,7 @@ Graph.prototype._createKeyBinds = function() {
  * @return {{x: Number, y: Number}} pointer
  * @private
  */
-Graph.prototype._getPointer = function (touch) {
+Network.prototype._getPointer = function (touch) {
   return {
     x: touch.pageX - vis.util.getAbsoluteLeft(this.frame.canvas),
     y: touch.pageY - vis.util.getAbsoluteTop(this.frame.canvas)
@@ -879,7 +879,7 @@ Graph.prototype._getPointer = function (touch) {
  * @param event
  * @private
  */
-Graph.prototype._onTouch = function (event) {
+Network.prototype._onTouch = function (event) {
   this.drag.pointer = this._getPointer(event.gesture.center);
   this.drag.pinched = false;
   this.pinch.scale = this._getScale();
@@ -891,7 +891,7 @@ Graph.prototype._onTouch = function (event) {
  * handle drag start event
  * @private
  */
-Graph.prototype._onDragStart = function () {
+Network.prototype._onDragStart = function () {
   this._handleDragStart();
 };
 
@@ -902,7 +902,7 @@ Graph.prototype._onDragStart = function () {
  *
  * @private
  */
-Graph.prototype._handleDragStart = function() {
+Network.prototype._handleDragStart = function() {
   var drag = this.drag;
   var node = this._getNodeAt(drag.pointer);
   // note: drag.pointer is set in _onTouch to get the initial touch location
@@ -948,7 +948,7 @@ Graph.prototype._handleDragStart = function() {
  * handle drag event
  * @private
  */
-Graph.prototype._onDrag = function (event) {
+Network.prototype._onDrag = function (event) {
   this._handleOnDrag(event)
 };
 
@@ -959,7 +959,7 @@ Graph.prototype._onDrag = function (event) {
  *
  * @private
  */
-Graph.prototype._handleOnDrag = function(event) {
+Network.prototype._handleOnDrag = function(event) {
   if (this.drag.pinched) {
     return;
   }
@@ -1013,7 +1013,7 @@ Graph.prototype._handleOnDrag = function(event) {
  * handle drag start event
  * @private
  */
-Graph.prototype._onDragEnd = function () {
+Network.prototype._onDragEnd = function () {
   this.drag.dragging = false;
   var selection = this.drag.selection;
   if (selection) {
@@ -1029,7 +1029,7 @@ Graph.prototype._onDragEnd = function () {
  * handle tap/click event: select/unselect a node
  * @private
  */
-Graph.prototype._onTap = function (event) {
+Network.prototype._onTap = function (event) {
   var pointer = this._getPointer(event.gesture.center);
   this.pointerPosition = pointer;
   this._handleTap(pointer);
@@ -1041,7 +1041,7 @@ Graph.prototype._onTap = function (event) {
  * handle doubletap event
  * @private
  */
-Graph.prototype._onDoubleTap = function (event) {
+Network.prototype._onDoubleTap = function (event) {
   var pointer = this._getPointer(event.gesture.center);
   this._handleDoubleTap(pointer);
 };
@@ -1051,7 +1051,7 @@ Graph.prototype._onDoubleTap = function (event) {
  * handle long tap event: multi select nodes
  * @private
  */
-Graph.prototype._onHold = function (event) {
+Network.prototype._onHold = function (event) {
   var pointer = this._getPointer(event.gesture.center);
   this.pointerPosition = pointer;
   this._handleOnHold(pointer);
@@ -1062,7 +1062,7 @@ Graph.prototype._onHold = function (event) {
  *
  * @private
  */
-Graph.prototype._onRelease = function (event) {
+Network.prototype._onRelease = function (event) {
   var pointer = this._getPointer(event.gesture.center);
   this._handleOnRelease(pointer);
 };
@@ -1072,7 +1072,7 @@ Graph.prototype._onRelease = function (event) {
  * @param event
  * @private
  */
-Graph.prototype._onPinch = function (event) {
+Network.prototype._onPinch = function (event) {
   var pointer = this._getPointer(event.gesture.center);
 
   this.drag.pinched = true;
@@ -1092,7 +1092,7 @@ Graph.prototype._onPinch = function (event) {
  * @return {Number} appliedScale    scale is limited within the boundaries
  * @private
  */
-Graph.prototype._zoom = function(scale, pointer) {
+Network.prototype._zoom = function(scale, pointer) {
   if (this.constants.zoomable == true) {
     var scaleOld = this._getScale();
     if (scale < 0.00001) {
@@ -1135,7 +1135,7 @@ Graph.prototype._zoom = function(scale, pointer) {
  * @param {MouseEvent}  event
  * @private
  */
-Graph.prototype._onMouseWheel = function(event) {
+Network.prototype._onMouseWheel = function(event) {
   // retrieve delta
   var delta = 0;
   if (event.wheelDelta) { /* IE/Opera. */
@@ -1177,7 +1177,7 @@ Graph.prototype._onMouseWheel = function(event) {
  * @param  {Event} event
  * @private
  */
-Graph.prototype._onMouseMoveTitle = function (event) {
+Network.prototype._onMouseMoveTitle = function (event) {
   var gesture = util.fakeGesture(this, event);
   var pointer = this._getPointer(gesture.center);
 
@@ -1242,7 +1242,7 @@ Graph.prototype._onMouseMoveTitle = function (event) {
  * @param {{x:Number, y:Number}} pointer
  * @private
  */
-Graph.prototype._checkShowPopup = function (pointer) {
+Network.prototype._checkShowPopup = function (pointer) {
   var obj = {
     left:   this._XconvertDOMtoCanvas(pointer.x),
     top:    this._YconvertDOMtoCanvas(pointer.y),
@@ -1312,7 +1312,7 @@ Graph.prototype._checkShowPopup = function (pointer) {
  * @param {{x:Number, y:Number}} pointer
  * @private
  */
-Graph.prototype._checkHidePopup = function (pointer) {
+Network.prototype._checkHidePopup = function (pointer) {
   if (!this.popupObj || !this._getNodeAt(pointer) ) {
     this.popupObj = undefined;
     if (this.popup) {
@@ -1329,7 +1329,7 @@ Graph.prototype._checkHidePopup = function (pointer) {
  * @param {string} height  Height in pixels or percentage  (for example '400px'
  *                         or '30%')
  */
-Graph.prototype.setSize = function(width, height) {
+Network.prototype.setSize = function(width, height) {
   this.frame.style.width = width;
   this.frame.style.height = height;
 
@@ -1357,7 +1357,7 @@ Graph.prototype.setSize = function(width, height) {
  * @param {Array | DataSet | DataView} nodes         The data containing the nodes.
  * @private
  */
-Graph.prototype._setNodes = function(nodes) {
+Network.prototype._setNodes = function(nodes) {
   var oldNodesData = this.nodesData;
 
   if (nodes instanceof DataSet || nodes instanceof DataView) {
@@ -1403,7 +1403,7 @@ Graph.prototype._setNodes = function(nodes) {
  * @param {Number[] | String[]} ids
  * @private
  */
-Graph.prototype._addNodes = function(ids) {
+Network.prototype._addNodes = function(ids) {
   var id;
   for (var i = 0, len = ids.length; i < len; i++) {
     id = ids[i];
@@ -1435,7 +1435,7 @@ Graph.prototype._addNodes = function(ids) {
  * @param {Number[] | String[]} ids
  * @private
  */
-Graph.prototype._updateNodes = function(ids) {
+Network.prototype._updateNodes = function(ids) {
   var nodes = this.nodes,
       nodesData = this.nodesData;
   for (var i = 0, len = ids.length; i < len; i++) {
@@ -1467,7 +1467,7 @@ Graph.prototype._updateNodes = function(ids) {
  * @param {Number[] | String[]} ids
  * @private
  */
-Graph.prototype._removeNodes = function(ids) {
+Network.prototype._removeNodes = function(ids) {
   var nodes = this.nodes;
   for (var i = 0, len = ids.length; i < len; i++) {
     var id = ids[i];
@@ -1490,7 +1490,7 @@ Graph.prototype._removeNodes = function(ids) {
  * @private
  * @private
  */
-Graph.prototype._setEdges = function(edges) {
+Network.prototype._setEdges = function(edges) {
   var oldEdgesData = this.edgesData;
 
   if (edges instanceof DataSet || edges instanceof DataView) {
@@ -1537,7 +1537,7 @@ Graph.prototype._setEdges = function(edges) {
  * @param {Number[] | String[]} ids
  * @private
  */
-Graph.prototype._addEdges = function (ids) {
+Network.prototype._addEdges = function (ids) {
   var edges = this.edges,
       edgesData = this.edgesData;
 
@@ -1568,7 +1568,7 @@ Graph.prototype._addEdges = function (ids) {
  * @param {Number[] | String[]} ids
  * @private
  */
-Graph.prototype._updateEdges = function (ids) {
+Network.prototype._updateEdges = function (ids) {
   var edges = this.edges,
       edgesData = this.edgesData;
   for (var i = 0, len = ids.length; i < len; i++) {
@@ -1603,7 +1603,7 @@ Graph.prototype._updateEdges = function (ids) {
  * @param {Number[] | String[]} ids
  * @private
  */
-Graph.prototype._removeEdges = function (ids) {
+Network.prototype._removeEdges = function (ids) {
   var edges = this.edges;
   for (var i = 0, len = ids.length; i < len; i++) {
     var id = ids[i];
@@ -1630,7 +1630,7 @@ Graph.prototype._removeEdges = function (ids) {
  * Reconnect all edges
  * @private
  */
-Graph.prototype._reconnectEdges = function() {
+Network.prototype._reconnectEdges = function() {
   var id,
       nodes = this.nodes,
       edges = this.edges;
@@ -1658,7 +1658,7 @@ Graph.prototype._reconnectEdges = function() {
  *                        setValueRange(min, max).
  * @private
  */
-Graph.prototype._updateValueRange = function(obj) {
+Network.prototype._updateValueRange = function(obj) {
   var id;
 
   // determine the range of the objects
@@ -1688,7 +1688,7 @@ Graph.prototype._updateValueRange = function(obj) {
  * Redraw the graph with the current data
  * chart will be resized too.
  */
-Graph.prototype.redraw = function() {
+Network.prototype.redraw = function() {
   this.setSize(this.width, this.height);
   this._redraw();
 };
@@ -1697,7 +1697,7 @@ Graph.prototype.redraw = function() {
  * Redraw the graph with the current data
  * @private
  */
-Graph.prototype._redraw = function() {
+Network.prototype._redraw = function() {
   var ctx = this.frame.canvas.getContext('2d');
   // clear the canvas
   var w = this.frame.canvas.width;
@@ -1736,7 +1736,7 @@ Graph.prototype._redraw = function() {
  * @param {Number} offsetY    Vertical offset
  * @private
  */
-Graph.prototype._setTranslation = function(offsetX, offsetY) {
+Network.prototype._setTranslation = function(offsetX, offsetY) {
   if (this.translation === undefined) {
     this.translation = {
       x: 0,
@@ -1759,7 +1759,7 @@ Graph.prototype._setTranslation = function(offsetX, offsetY) {
  * @return {Object} translation    An object with parameters x and y, both a number
  * @private
  */
-Graph.prototype._getTranslation = function() {
+Network.prototype._getTranslation = function() {
   return {
     x: this.translation.x,
     y: this.translation.y
@@ -1771,7 +1771,7 @@ Graph.prototype._getTranslation = function() {
  * @param {Number} scale   Scaling factor 1.0 is unscaled
  * @private
  */
-Graph.prototype._setScale = function(scale) {
+Network.prototype._setScale = function(scale) {
   this.scale = scale;
 };
 
@@ -1780,7 +1780,7 @@ Graph.prototype._setScale = function(scale) {
  * @return {Number} scale   Scaling factor 1.0 is unscaled
  * @private
  */
-Graph.prototype._getScale = function() {
+Network.prototype._getScale = function() {
   return this.scale;
 };
 
@@ -1791,7 +1791,7 @@ Graph.prototype._getScale = function() {
  * @returns {number}
  * @private
  */
-Graph.prototype._XconvertDOMtoCanvas = function(x) {
+Network.prototype._XconvertDOMtoCanvas = function(x) {
   return (x - this.translation.x) / this.scale;
 };
 
@@ -1802,7 +1802,7 @@ Graph.prototype._XconvertDOMtoCanvas = function(x) {
  * @returns {number}
  * @private
  */
-Graph.prototype._XconvertCanvasToDOM = function(x) {
+Network.prototype._XconvertCanvasToDOM = function(x) {
   return x * this.scale + this.translation.x;
 };
 
@@ -1813,7 +1813,7 @@ Graph.prototype._XconvertCanvasToDOM = function(x) {
  * @returns {number}
  * @private
  */
-Graph.prototype._YconvertDOMtoCanvas = function(y) {
+Network.prototype._YconvertDOMtoCanvas = function(y) {
   return (y - this.translation.y) / this.scale;
 };
 
@@ -1824,7 +1824,7 @@ Graph.prototype._YconvertDOMtoCanvas = function(y) {
  * @returns {number}
  * @private
  */
-Graph.prototype._YconvertCanvasToDOM = function(y) {
+Network.prototype._YconvertCanvasToDOM = function(y) {
   return y * this.scale + this.translation.y ;
 };
 
@@ -1835,7 +1835,7 @@ Graph.prototype._YconvertCanvasToDOM = function(y) {
  * @returns {{x: number, y: number}}
  * @constructor
  */
-Graph.prototype.canvasToDOM = function(pos) {
+Network.prototype.canvasToDOM = function(pos) {
   return {x:this._XconvertCanvasToDOM(pos.x),y:this._YconvertCanvasToDOM(pos.y)};
 }
 
@@ -1845,7 +1845,7 @@ Graph.prototype.canvasToDOM = function(pos) {
  * @returns {{x: number, y: number}}
  * @constructor
  */
-Graph.prototype.DOMtoCanvas = function(pos) {
+Network.prototype.DOMtoCanvas = function(pos) {
   return {x:this._XconvertDOMtoCanvas(pos.x),y:this._YconvertDOMtoCanvas(pos.y)};
 }
 
@@ -1856,7 +1856,7 @@ Graph.prototype.DOMtoCanvas = function(pos) {
  * @param {Boolean} [alwaysShow]
  * @private
  */
-Graph.prototype._drawNodes = function(ctx,alwaysShow) {
+Network.prototype._drawNodes = function(ctx,alwaysShow) {
   if (alwaysShow === undefined) {
     alwaysShow = false;
   }
@@ -1893,7 +1893,7 @@ Graph.prototype._drawNodes = function(ctx,alwaysShow) {
  * @param {CanvasRenderingContext2D}   ctx
  * @private
  */
-Graph.prototype._drawEdges = function(ctx) {
+Network.prototype._drawEdges = function(ctx) {
   var edges = this.edges;
   for (var id in edges) {
     if (edges.hasOwnProperty(id)) {
@@ -1912,7 +1912,7 @@ Graph.prototype._drawEdges = function(ctx) {
  * @param {CanvasRenderingContext2D}   ctx
  * @private
  */
-Graph.prototype._drawControlNodes = function(ctx) {
+Network.prototype._drawControlNodes = function(ctx) {
   var edges = this.edges;
   for (var id in edges) {
     if (edges.hasOwnProperty(id)) {
@@ -1925,7 +1925,7 @@ Graph.prototype._drawControlNodes = function(ctx) {
  * Find a stable position for all nodes
  * @private
  */
-Graph.prototype._stabilize = function() {
+Network.prototype._stabilize = function() {
   if (this.constants.freezeForStabilization == true) {
     this._freezeDefinedNodes();
   }
@@ -1949,7 +1949,7 @@ Graph.prototype._stabilize = function() {
  *
  * @private
  */
-Graph.prototype._freezeDefinedNodes = function() {
+Network.prototype._freezeDefinedNodes = function() {
   var nodes = this.nodes;
   for (var id in nodes) {
     if (nodes.hasOwnProperty(id)) {
@@ -1968,7 +1968,7 @@ Graph.prototype._freezeDefinedNodes = function() {
  *
  * @private
  */
-Graph.prototype._restoreFrozenNodes = function() {
+Network.prototype._restoreFrozenNodes = function() {
   var nodes = this.nodes;
   for (var id in nodes) {
     if (nodes.hasOwnProperty(id)) {
@@ -1987,7 +1987,7 @@ Graph.prototype._restoreFrozenNodes = function() {
  * @return {boolean}      true if moving, false if non of the nodes is moving
  * @private
  */
-Graph.prototype._isMoving = function(vmin) {
+Network.prototype._isMoving = function(vmin) {
   var nodes = this.nodes;
   for (var id in nodes) {
     if (nodes.hasOwnProperty(id) && nodes[id].isMoving(vmin)) {
@@ -2004,7 +2004,7 @@ Graph.prototype._isMoving = function(vmin) {
  *
  * @private
  */
-Graph.prototype._discreteStepNodes = function() {
+Network.prototype._discreteStepNodes = function() {
   var interval = this.physicsDiscreteStepsize;
   var nodes = this.nodes;
   var nodeId;
@@ -2043,7 +2043,7 @@ Graph.prototype._discreteStepNodes = function() {
  *
  * @private
  */
-Graph.prototype._physicsTick = function() {
+Network.prototype._physicsTick = function() {
   if (!this.freezeSimulation) {
     if (this.moving) {
       this._doInAllActiveSectors("_initializeForceCalculation");
@@ -2063,7 +2063,7 @@ Graph.prototype._physicsTick = function() {
  *
  * @private
  */
-Graph.prototype._animationStep = function() {
+Network.prototype._animationStep = function() {
   // reset the timer so a new scheduled animation step can be set
   this.timer = undefined;
   // handle the keyboad movement
@@ -2077,13 +2077,11 @@ Graph.prototype._animationStep = function() {
   var maxSteps = 1;
   this._physicsTick();
   var timeRequired = Date.now() - calculationTime;
-  while (timeRequired < (this.renderTimestep - this.renderTime) && maxSteps < this.maxPhysicsTicksPerRender) {
+  while (timeRequired < 0.9*(this.renderTimestep - this.renderTime) && maxSteps < this.maxPhysicsTicksPerRender) {
     this._physicsTick();
     timeRequired = Date.now() - calculationTime;
     maxSteps++;
-
   }
-
   // start the rendering process
   var renderTime = Date.now();
   this._redraw();
@@ -2098,7 +2096,7 @@ if (typeof window !== 'undefined') {
 /**
  * Schedule a animation step with the refreshrate interval.
  */
-Graph.prototype.start = function() {
+Network.prototype.start = function() {
   if (this.moving || this.xIncrement != 0 || this.yIncrement != 0 || this.zoomIncrement != 0) {
     if (!this.timer) {
       var ua = navigator.userAgent.toLowerCase();
@@ -2132,7 +2130,7 @@ Graph.prototype.start = function() {
  *
  * @private
  */
-Graph.prototype._handleNavigation = function() {
+Network.prototype._handleNavigation = function() {
   if (this.xIncrement != 0 || this.yIncrement != 0) {
     var translation = this._getTranslation();
     this._setTranslation(translation.x+this.xIncrement, translation.y+this.yIncrement);
@@ -2150,7 +2148,7 @@ Graph.prototype._handleNavigation = function() {
 /**
  *  Freeze the _animationStep
  */
-Graph.prototype.toggleFreeze = function() {
+Network.prototype.toggleFreeze = function() {
   if (this.freezeSimulation == false) {
     this.freezeSimulation = true;
   }
@@ -2167,7 +2165,7 @@ Graph.prototype.toggleFreeze = function() {
  * @param {boolean} [disableStart]
  * @private
  */
-Graph.prototype._configureSmoothCurves = function(disableStart) {
+Network.prototype._configureSmoothCurves = function(disableStart) {
   if (disableStart === undefined) {
     disableStart = true;
   }
@@ -2199,7 +2197,7 @@ Graph.prototype._configureSmoothCurves = function(disableStart) {
  *
  * @private
  */
-Graph.prototype._createBezierNodes = function() {
+Network.prototype._createBezierNodes = function() {
   if (this.constants.smoothCurves == true) {
     for (var edgeId in this.edges) {
       if (this.edges.hasOwnProperty(edgeId)) {
@@ -2228,10 +2226,10 @@ Graph.prototype._createBezierNodes = function() {
  *
  * @private
  */
-Graph.prototype._initializeMixinLoaders = function () {
+Network.prototype._initializeMixinLoaders = function () {
   for (var mixinFunction in graphMixinLoaders) {
     if (graphMixinLoaders.hasOwnProperty(mixinFunction)) {
-      Graph.prototype[mixinFunction] = graphMixinLoaders[mixinFunction];
+      Network.prototype[mixinFunction] = graphMixinLoaders[mixinFunction];
     }
   }
 };
@@ -2239,7 +2237,7 @@ Graph.prototype._initializeMixinLoaders = function () {
 /**
  * Load the XY positions of the nodes into the dataset.
  */
-Graph.prototype.storePosition = function() {
+Network.prototype.storePosition = function() {
   var dataArray = [];
   for (var nodeId in this.nodes) {
     if (this.nodes.hasOwnProperty(nodeId)) {
@@ -2261,7 +2259,7 @@ Graph.prototype.storePosition = function() {
  * @param {Number} nodeId
  * @param {Number} [zoomLevel]
  */
-Graph.prototype.focusOnNode = function (nodeId, zoomLevel) {
+Network.prototype.focusOnNode = function (nodeId, zoomLevel) {
   if (this.nodes.hasOwnProperty(nodeId)) {
     if (zoomLevel === undefined) {
       zoomLevel = this._getScale();

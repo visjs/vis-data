@@ -8,7 +8,7 @@
  *                                to (number), label (string, color (string),
  *                                width (number), style (string),
  *                                length (number), title (string)
- * @param {Graph} graph A graph object, used to find and edge to
+ * @param {Network} graph A graph object, used to find and edge to
  *                                nodes.
  * @param {Object} constants      An object with default values for
  *                                example for the color

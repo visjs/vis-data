@@ -15,9 +15,9 @@
  *                              {string} image  An image url
  *                              {string} title  An title text, can be HTML
  *                              {anytype} group A group name or number
- * @param {Graph.Images} imagelist    A list with images. Only needed
+ * @param {Network.Images} imagelist    A list with images. Only needed
  *                                            when the node has an image
- * @param {Graph.Groups} grouplist    A list with groups. Needed for
+ * @param {Network.Groups} grouplist    A list with groups. Needed for
  *                                            retrieving group properties
  * @param {Object}               constants    An object with default values for
  *                                            example for the color

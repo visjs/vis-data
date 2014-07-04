@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>vis.js | graph documentation</title>
+  <title>vis.js | network documentation</title>
 
   <link href="css/prettify.css" type="text/css" rel="stylesheet" />
   <link href='css/style.css' type='text/css' rel='stylesheet'>
@@ -17,21 +17,21 @@
 
 <h2 id="Overview">Overview</h2>
 <p>
-  Graph is a visualization to display graphs and networks consisting of nodes
+  Graph is a visualization to display networks and networks consisting of nodes
   and edges. The visualization is easy to use and supports custom shapes,
   styles, colors, sizes, images, and more.
 </p>
 
 <p>
-  The graph visualization works smooth on any modern browser for up to a
+  The network visualization works smooth on any modern browser for up to a
   few thousand nodes and edges. To handle a larger amount of nodes, Graph
   has <a href="#Clustering">clustering</a> support.
 </p>
 
 <p>
-    Every dataset is different. Nodes can have different sizes based on content, interconnectivity can be high or low etc. Because of this, graph has a special option
+    Every dataset is different. Nodes can have different sizes based on content, interconnectivity can be high or low etc. Because of this, network has a special option
     that the user can use to explore which settings may be good for you. Use configurePhysics as described in the <u><a href="#PhysicsConfiguration">Physics</a></u> section or by
-    <u><a href="../examples/graph/25_physics_configuration.html">example 25</a></u>.
+    <u><a href="../examples/Network/25_physics_configuration.html">example 25</a></u>.
 </p>
 
 <p>
@@ -77,7 +77,7 @@
 
 <h2 id="Example">Example</h2>
 <p>
-  Here a basic graph example. Note that unlike the
+  Here a basic network example. Note that unlike the
   <a href="timeline.html">Timeline</a>, the Graph does not need the vis.css
   file.
 </p>
@@ -97,7 +97,7 @@
 
 &lt;body&gt;
 
-&lt;div id="mygraph"&gt;&lt;/div&gt;
+&lt;div id="mynetwork"&gt;&lt;/div&gt;
 
 &lt;script type="text/javascript"&gt;
   // create an array with nodes
@@ -117,8 +117,8 @@
     {from: 2, to: 5}
   ];
 
-  // create a graph
-  var container = document.getElementById('mygraph');
+  // create a network
+  var container = document.getElementById('mynetwork');
   var data= {
     nodes: nodes,
     edges: edges,
@@ -127,7 +127,7 @@
     width: '400px',
     height: '400px'
   };
-  var graph = new vis.Graph(container, data, options);
+  var network = new vis.Graph(container, data, options);
 &lt;/script&gt;
 
 &lt;/body&gt;
@@ -147,12 +147,12 @@
 
 
 The constructor of the Graph is <code>vis.Graph</code>.
-<pre class="prettyprint lang-js">var graph = new vis.Graph(container, data, options);</pre>
+<pre class="prettyprint lang-js">var network = new vis.Graph(container, data, options);</pre>
 
 The constructor accepts three parameters:
 <ul>
   <li>
-    <code>container</code> is the DOM element in which to create the graph.
+    <code>container</code> is the DOM element in which to create the network.
   </li>
   <li>
     <code>data</code> is an Object containing properties <code>nodes</code> and
@@ -207,7 +207,7 @@ var data = {
   <li>
     <span style="font-weight: bold;">A property <code>options</code></span>,
     containing an object with global options.
-    Options can be provided as third parameter in the graph constructor
+    Options can be provided as third parameter in the network constructor
     as well. Section <a href="#Configuration_Options">Configuration Options</a>
     describes the available options.
 
@@ -246,7 +246,7 @@ nodes.add([
     // ... more nodes
 ]);
 </pre>
-When using a DataSet, the graph is automatically updating to changes in the DataSet.
+When using a DataSet, the network is automatically updating to changes in the DataSet.
 
 <p>
   Nodes support the following properties:
@@ -514,7 +514,7 @@ edges.add([
     // ... more edges
 ]);
 </pre>
-When using a DataSet, the graph is automatically updating to changes in the DataSet.
+When using a DataSet, the network is automatically updating to changes in the DataSet.
 
 <p>
   Edges support the following properties:
@@ -727,11 +727,11 @@ When using a DataSet, the graph is automatically updating to changes in the Data
 <pre class="prettyprint lang-js">
 // provide data in the DOT language
 var data = {
-  dot: 'digraph {1 -> 1 -> 2; 2 -> 3; 2 -- 4; 2 -> 1 }'
+  dot: 'dinetwork {1 -> 1 -> 2; 2 -> 3; 2 -- 4; 2 -> 1 }'
 };
 
-// create a graph
-var graph = new vis.Graph(container, data);
+// create a network
+var network = new vis.Graph(container, data);
 </pre>
 
 
@@ -739,7 +739,7 @@ var graph = new vis.Graph(container, data);
 <h2 id="Configuration_options">Configuration options</h2>
 
 <p>
-  Options can be used to customize the graph. Options are defined as a JSON object.
+  Options can be used to customize the network. Options are defined as a JSON object.
   All options are optional.
 </p>
 
@@ -780,7 +780,7 @@ var options = {
         <td>Boolean</td>
         <td>false</td>
         <td>
-            Enabling this setting will create a physics configuration div above the graph. You can use this to fine tune the physics system to suit your needs.
+            Enabling this setting will create a physics configuration div above the network. You can use this to fine tune the physics system to suit your needs.
             Because of the many possible configurations, there is not a one-size-fits-all setting. By using this tool, you can adapt the physics to your dataset.
         </td>
     </tr>
@@ -818,7 +818,7 @@ var options = {
         <td>false</td>
         <td>
             With the advent of the storePosition() function, the positions of the nodes can be saved after they are stabilized. The smoothCurves require support nodes and those positions are not stored. In order
-            to speed up the initialization of the graph by using storePosition() and loading the nodes with the stored positions, the freezeForStabilization option freezes all nodes that have been supplied with
+            to speed up the initialization of the network by using storePosition() and loading the nodes with the stored positions, the freezeForStabilization option freezes all nodes that have been supplied with
             an x and y position in place during the stabilization. That way only the support nodes for the smooth curves have to stabilize, greatly speeding up the stabilization process with cached positions.
         </td>
     </tr>
@@ -838,7 +838,7 @@ var options = {
     <td>height</td>
     <td>String</td>
     <td>"400px"</td>
-    <td>The height of the graph in pixels or as a percentage.</td>
+    <td>The height of the network in pixels or as a percentage.</td>
   </tr>
 
     <tr>
@@ -861,7 +861,7 @@ var options = {
         <td>Boolean</td>
         <td>true</td>
         <td>
-            Toggle if the graph can be dragged. This will not affect the dragging of nodes.
+            Toggle if the network can be dragged. This will not affect the dragging of nodes.
         </td>
     </tr>
     <tr>
@@ -869,7 +869,7 @@ var options = {
         <td>Boolean</td>
         <td>true</td>
         <td>
-            Toggle if the nodes can be dragged. This will not affect the dragging of the graph.
+            Toggle if the nodes can be dragged. This will not affect the dragging of the network.
         </td>
     </tr>
 
@@ -902,7 +902,7 @@ var options = {
     <td>selectable</td>
     <td>Boolean</td>
     <td>true</td>
-    <td>If true, nodes in the graph can be selected by clicking them.
+    <td>If true, nodes in the network can be selected by clicking them.
       Long press can be used to select multiple nodes.</td>
   </tr>
 
@@ -910,7 +910,7 @@ var options = {
     <td>stabilize</td>
     <td>Boolean</td>
     <td>true</td>
-    <td>If true, the graph is stabilized before displaying it. If false,
+    <td>If true, the network is stabilized before displaying it. If false,
       the nodes move to a stabe position visibly in an animated way.</td>
   </tr>
 
@@ -919,21 +919,21 @@ var options = {
     <td>Number</td>
     <td>1000</td>
     <td>If stabilize is set to true, this number is the (maximum) amount of physics steps the stabilization process takes
-        before showing the result. If your simulation takes too long to stabilize, this number can be reduced. On the other hand, if your graph is not stabilized after loading, this number can be increased.</td>
+        before showing the result. If your simulation takes too long to stabilize, this number can be reduced. On the other hand, if your network is not stabilized after loading, this number can be increased.</td>
 </tr>
 
   <tr>
     <td>width</td>
     <td>String</td>
     <td>"400px"</td>
-    <td>The width of the graph in pixels or as a percentage.</td>
+    <td>The width of the network in pixels or as a percentage.</td>
   </tr>
     <tr>
         <td>zoomable</td>
         <td>Boolean</td>
         <td>true</td>
         <td>
-            Toggle if the graph can be zoomed.
+            Toggle if the network can be zoomed.
         </td>
     </tr>
 
@@ -969,7 +969,7 @@ var options = {
 
 <p>
   The following options are available for nodes. These options must be created
-  inside an object <code>nodes</code> in the graphs options object.</p>
+  inside an object <code>nodes</code> in the networks options object.</p>
 <table>
 
   <tr>
@@ -1139,7 +1139,7 @@ var options = {
 
 <p>
   The following options are available for edges. These options must be created
-  inside an object <code>edges</code> in the graphs options object.
+  inside an object <code>edges</code> in the networks options object.
 </p>
 
 <table>
@@ -1387,7 +1387,7 @@ var nodes = [
     If no options for the physics system are supplied, the Barnes-Hut method will be used with the default parameters. If you want to customize the physics system easily, you can use the configurePhysics option. <br/>
     When using the hierarchical display option, hierarchicalRepulsion is automatically used as the physics solver. Similarly, if you use the hierarchicalRepulsion physics option, hierarchical display is automatically turned on with default settings.
 
-<p class="important_note">Note: if the behaviour of your graph is not the way you want it, use configurePhysics as described <u><a href="#PhysicsConfiguration">below</a></u> or by <u><a href="../examples/graph/25_physics_configuration.html">example 25</a></u>.</p>
+<p class="important_note">Note: if the behaviour of your network is not the way you want it, use configurePhysics as described <u><a href="#PhysicsConfiguration">below</a></u> or by <u><a href="../examples/Network/25_physics_configuration.html">example 25</a></u>.</p>
 </p>
 <pre class="prettyprint">
 // These variables must be defined in an options object named physics.
@@ -1551,9 +1551,9 @@ var options = {
     </tr>
 </table>
 <h4 id="PhysicsConfiguration">Configuration:</h4>
-Every dataset is different. Nodes can have different sizes based on content, interconnectivity can be high or low etc. Because of this, graph has a special option
+Every dataset is different. Nodes can have different sizes based on content, interconnectivity can be high or low etc. Because of this, network has a special option
 that the user can use to explore which settings may be good for him or her. This is ment to be used during the development phase when you are implementing vis.js. Once you have found
-settings you are happy with, you can supply them to graph using the physics options as described above.
+settings you are happy with, you can supply them to network using the physics options as described above.
 
 On start, the default settings will be loaded. Keep in mind that selecting the hierarchical simulation mode <b>disables</b> smooth curves. These will not be enabled again afterwards.
 <pre class="prettyprint">
@@ -1563,9 +1563,9 @@ var options = {
 </pre>
 <h3 id="Data_manipulation">Data manipulation</h3>
 <p>
-    By using the data manipulation feature of the graph you can dynamically create nodes, connect nodes with edges, edit nodes or delete nodes and edges.
+    By using the data manipulation feature of the network you can dynamically create nodes, connect nodes with edges, edit nodes or delete nodes and edges.
     The toolbar is fully HTML and CSS so the user can style this to their preference. To control the behaviour of the data manipulation, users can insert custom functions
-    into the data manipulation process. For example, an injected function can show an detailed pop-up when a user wants to add a node. In <a href="../examples/graph/21_data_manipulation.html">example 21</a>,
+    into the data manipulation process. For example, an injected function can show an detailed pop-up when a user wants to add a node. In <a href="../examples/Network/21_data_manipulation.html">example 21</a>,
     two functions have been injected into the add and edit functionality. This is described in more detail in the next subsection. To correctly display the manipulation icons, the <b>vis.css</b> file must be included.
     The user is free to alter or overload the CSS classes but without them the navigation icons are not visible.
 </p>
@@ -1608,7 +1608,7 @@ var options: {
 <h4 id="Data_manipulation_custom">Data manipulation: custom functionality</h4>
 <p>
     Users can insert custom functions into the add node, edit node, connect nodes, and delete selected operations. This is done by supplying them in the options.
-    If the callback is NOT called, nothing happens. <a href="../examples/graph/21_data_manipulation.html">Example 21</a> has two working examples
+    If the callback is NOT called, nothing happens. <a href="../examples/Network/21_data_manipulation.html">Example 21</a> has two working examples
     for the add and edit functions. The data the user is supplied with in these functions has been described in the code below.
     For the add data, you can add any and all options that are accepted for node creation as described above. The same goes for edit, however only the fields described
     in the code below contain information on the selected node. The callback for connect accepts any options that are used for edge creation. Only the callback for delete selected
@@ -1680,12 +1680,12 @@ var options: {
     An code snippet from example 21 is shown below.
 </p>
 <pre class="prettyprint">
-graph.on("resize", function(params) {console.log(params.width,params.height)});
+network.on("resize", function(params) {console.log(params.width,params.height)});
 </pre>
 
 <h3 id="Clustering">Clustering</h3>
 <p>
-  The graph now supports dynamic clustering of nodes. This allows a user to view a very large dataset (> 50.000 nodes) without
+  The network now supports dynamic clustering of nodes. This allows a user to view a very large dataset (> 50.000 nodes) without
   sacrificing performance. When loading a large dataset, the nodes are clustered initially (this may take a small while) to have a
   responsive visualization to work with. The clustering is both outside-in and inside-out. Outside-in means that nodes with only one
   connection will be contained, or clustered, in the node it is connected to. Inside-out clustering first determines which nodes are hubs.
@@ -1863,7 +1863,7 @@ var options: {
     <td>At every clustering session, Graph will check if the difference between cluster levels is
         acceptable. When a cluster is formed when zooming out, that is one cluster level.
         If you zoom out further and it encompasses more nodes, that is another level. For example:
-        If the highest level of your graph at any given time is 3, nodes that have not clustered or
+        If the highest level of your network at any given time is 3, nodes that have not clustered or
         have clustered only once will join their neighbour with the lowest cluster level.</td>
   </tr>
 </table>
@@ -1885,8 +1885,8 @@ var options: {
 
 <h3 id="Keyboard_navigation">Keyboard navigation</h3>
 <p>
-  The graph can be navigated using shortcut keys.
-  The default state for the keyboard navigation is <b>off</b>. The predefined keys can be found in the example <a href="../examples/graph/20_navigation.html">20_navigation.html</a>.
+  The network can be navigated using shortcut keys.
+  The default state for the keyboard navigation is <b>off</b>. The predefined keys can be found in the example <a href="../examples/Network/20_navigation.html">20_navigation.html</a>.
 </p>
 
 <pre class="prettyprint">
@@ -1939,9 +1939,9 @@ var options: {
 
 <h3 id="Hierarchical_layout">Hierarchical layout</h3>
 <p>
-    The graph can be used to display nodes in a hierarchical way. This can be determined automatically, based on the amount of edges connected to each node, or defined by the user.
+    The network can be used to display nodes in a hierarchical way. This can be determined automatically, based on the amount of edges connected to each node, or defined by the user.
     If the user wants to manually determine the hierarchy, each node has to be supplied with a level (from 0 being heighest to n). The automatic method
-    is shown in <a href="../examples/graph/23_hierarchical_layout.html">example 23</a> and the user-defined method is shown in <a href="../examples/graph/24_hierarchical_layout_userdefined.html">example 24</a>.
+    is shown in <a href="../examples/Network/23_hierarchical_layout.html">example 23</a> and the user-defined method is shown in <a href="../examples/Network/24_hierarchical_layout_userdefined.html">example 24</a>.
     This layout method does not support smooth curves or clustering. It automatically turns these features off.
 </p>
 
@@ -2001,7 +2001,7 @@ var options: {
         <td>direction</td>
         <td>String</td>
         <td>UD</td>
-        <td>This defines the direction the graph is drawn in. The supported directions are: Up-Down (UD), Down-Up (DU), Left-Right (LR) and Right-Left (RL).
+        <td>This defines the direction the network is drawn in. The supported directions are: Up-Down (UD), Down-Up (DU), Left-Right (LR) and Right-Left (RL).
             These need to be supplied by the acronyms in parentheses.</td>
     </tr>
 </table>
@@ -2155,19 +2155,19 @@ var options: {
         <td>storePosition()</td>
         <td>none</td>
         <td>This will put the X and Y positions of all nodes in the dataset. It will also include allowedToMoveX and allowedToMoveY with the correct values.
-            You can use this to stablize your graph once, then save the positions in a database so the next time you load the nodes, stabilization will be near instantaneous.
+            You can use this to stablize your network once, then save the positions in a database so the next time you load the nodes, stabilization will be near instantaneous.
         </td>
     </tr>
     <tr>
         <td>DOMtoCanvas(pos)</td>
         <td>object</td>
-        <td>This function converts DOM coordinates to coordinates on the canvas. Input and output are in the form of {x:xpos,y:ypos}. The DOM values are relative to the graph container.
+        <td>This function converts DOM coordinates to coordinates on the canvas. Input and output are in the form of {x:xpos,y:ypos}. The DOM values are relative to the network container.
         </td>
     </tr>
     <tr>
         <td>canvasToDOM(pos)</td>
         <td>object</td>
-        <td>This function converts canvas coordinates to coordinates on the DOM. Input and output are in the form of {x:xpos,y:ypos}. The DOM values are relative to the graph container.
+        <td>This function converts canvas coordinates to coordinates on the DOM. Input and output are in the form of {x:xpos,y:ypos}. The DOM values are relative to the network container.
         </td>
     </tr>
   <tr>
@@ -2185,7 +2185,7 @@ var options: {
   <tr>
     <td>redraw()</td>
     <td>none</td>
-    <td>Redraw the graph. Useful when the layout of the webpage changed.</td>
+    <td>Redraw the network. Useful when the layout of the webpage changed.</td>
   </tr>
 
   <tr>
@@ -2202,7 +2202,7 @@ var options: {
   <tr>
     <td>setOptions(options)</td>
     <td>none</td>
-    <td>Set options for the graph. The available options are described in
+    <td>Set options for the network. The available options are described in
       the section <a href="#Configuration_options">Configuration Options</a>.
     </td>
   </tr>
@@ -2213,7 +2213,7 @@ var options: {
         <td>Select nodes.
             <code>selection</code> is an array with ids of nodes to be selected.
             The array <code>selection</code> can contain zero or multiple ids.
-            Example usage: <code>graph.selectNodes([3, 5]);</code> will select
+            Example usage: <code>network.selectNodes([3, 5]);</code> will select
             nodes with id 3 and 5. The highlisghEdges boolean can be used to automatically select the edges connected to the node.
         </td>
     </tr>
@@ -2223,7 +2223,7 @@ var options: {
         <td>Select Edges.
             <code>selection</code> is an array with ids of edges to be selected.
             The array <code>selection</code> can contain zero or multiple ids.
-            Example usage: <code>graph.selectEdges([3, 5]);</code> will select
+            Example usage: <code>network.selectEdges([3, 5]);</code> will select
             edges with id 3 and 5.
         </td>
     </tr>
@@ -2233,7 +2233,7 @@ var options: {
     <td>Select nodes [deprecated].
         <code>selection</code> is an array with ids of nodes to be selected.
         The array <code>selection</code> can contain zero or multiple ids.
-        Example usage: <code>graph.setSelection([3, 5]);</code> will select
+        Example usage: <code>network.setSelection([3, 5]);</code> will select
         nodes with id 3 and 5.
     </td>
 </tr>
@@ -2249,7 +2249,7 @@ var options: {
     <tr>
         <td>zoomExtent()</td>
         <td>none</td>
-        <td>Scales the graph so all the nodes are in center view.</td>
+        <td>Scales the network so all the nodes are in center view.</td>
     </tr>
 
 </table>
@@ -2265,7 +2265,7 @@ var options: {
 </p>
 
 <pre class="prettyprint lang-js">
-graph.on('select', function (properties) {
+network.on('select', function (properties) {
   alert('selected nodes: ' + properties.nodes);
 });
 </pre>
@@ -2280,12 +2280,12 @@ function onSelect (properties) {
 }
 
 // add event listener
-graph.on('select', onSelect);
+network.on('select', onSelect);
 
 // do stuff...
 
 // remove event listener
-graph.off('select', onSelect);
+network.off('select', onSelect);
 </pre>
 
 
@@ -2364,7 +2364,7 @@ graph.off('select', onSelect);
     </tr>
     <tr>
         <td>stabilized</td>
-        <td>Fired when the graph has been stabilized after initialization. This event can be used to trigger the .storePosition() function after stabilization.</td>
+        <td>Fired when the network has been stabilized after initialization. This event can be used to trigger the .storePosition() function after stabilization.</td>
         <td>
             <ul>
                 <li><code>iterations</code>: number of iterations used to stabilize</li>
@@ -2373,14 +2373,14 @@ graph.off('select', onSelect);
     </tr>
     <tr>
         <td>viewChanged</td>
-        <td>Fired when the view has changed. This is when the graph has moved or zoomed.</td>
+        <td>Fired when the view has changed. This is when the network has moved or zoomed.</td>
         <td>
             none
         </td>
     </tr>
     <tr>
         <td>zoom</td>
-        <td>Fired when the graph has zoomed.  This event can be used to trigger the .storePosition() function after stabilization.</td>
+        <td>Fired when the network has zoomed.  This event can be used to trigger the .storePosition() function after stabilization.</td>
         <td>
             <ul>
                 <li><code>direction: </code> "+" or "-" </li>

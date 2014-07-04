@@ -34,7 +34,7 @@ div.graph-manipulation-closeDiv {
     margin-left:590px;
     background-position: 0px 0px;
     background-repeat:no-repeat;
-    background-image: url("img/graph/cross.png");
+    background-image: url("img/network/cross.png");
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -74,7 +74,7 @@ span.graph-manipulationUI:active {
 }
 
 span.graph-manipulationUI.back {
-    background-image: url("img/graph/backIcon.png");
+    background-image: url("img/network/backIcon.png");
 }
 
 span.graph-manipulationUI.none:hover {
@@ -93,11 +93,11 @@ span.graph-manipulationUI.notification{
 }
 
 span.graph-manipulationUI.add {
-    background-image: url("img/graph/addNodeIcon.png");
+    background-image: url("img/network/addNodeIcon.png");
 }
 
 span.graph-manipulationUI.edit {
-    background-image: url("img/graph/editIcon.png");
+    background-image: url("img/network/editIcon.png");
 }
 
 span.graph-manipulationUI.edit.editmode {
@@ -108,11 +108,11 @@ span.graph-manipulationUI.edit.editmode {
 }
 
 span.graph-manipulationUI.connect {
-    background-image: url("img/graph/connectIcon.png");
+    background-image: url("img/network/connectIcon.png");
 }
 
 span.graph-manipulationUI.delete {
-    background-image: url("img/graph/deleteIcon.png");
+    background-image: url("img/network/deleteIcon.png");
 }
 /* top right bottom left */
 span.graph-manipulationLabel {
