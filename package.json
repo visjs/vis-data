@@ -2,6 +2,8 @@
   "name": "vis-data",
   "version": "5.0.0",
   "description": "Manage unstructured data using DataSet. Add, update, and remove data, and listen for changes in the data.",
+  "main": "dist/umd.js",
+  "module": "dist/esm.js",
   "homepage": "http://visjs.org/",
   "license": "(Apache-2.0 OR MIT)",
   "repository": {
@@ -24,7 +26,6 @@
     "network",
     "browser"
   ],
-  "main": "index.js",
   "scripts": {
     "test": "mocha --exit --require @babel/register",
     "test-cov": "nyc --reporter=lcov mocha --exit --require @babel/register",
@@ -61,8 +62,6 @@
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-uglify": "^6.0.2",
     "sinon": "^4.0.1",
     "test-console": "^1.0.0",
     "uglify-js": "^3.6.0",
