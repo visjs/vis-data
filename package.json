@@ -1,6 +1,6 @@
 {
   "name": "vis-data",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Manage unstructured data using DataSet. Add, update, and remove data, and listen for changes in the data.",
   "main": "dist/umd.js",
   "module": "dist/esm.js",

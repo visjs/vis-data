@@ -4,8 +4,8 @@
  * 
  * Manage unstructured data using DataSet. Add, update, and remove data, and listen for changes in the data.
  * 
- * @version 5.0.0
- * @date    2019-07-12T21:26:17Z
+ * @version 6.0.0
+ * @date    2019-07-12T21:27:54Z
  * 
  * @copyright (c) 2011-2017 Almende B.V, http://almende.com
  * @copyright (c) 2018-2019 visjs contributors, https://github.com/visjs
