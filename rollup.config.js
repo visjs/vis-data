@@ -10,9 +10,9 @@ import genHeader from './lib/header';
 const genSourceMap = false;
 
 export default [{
-	input: 'index-dataview.js',
+	input: 'index.js',
 	output: {
-		file: 'dist/vis-dataview.min.js',
+		file: 'dist/vis-data.min.js',
 		name: 'vis',
 		exports: 'named',
 		format: 'umd',
@@ -27,6 +27,6 @@ export default [{
 		uglify({
 			sourcemap: genSourceMap
 		}),
-		banner(genHeader('dataview'))
+		banner(genHeader('data'))
 	]
 }]
