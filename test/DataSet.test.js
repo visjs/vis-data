@@ -1,7 +1,7 @@
 var assert = require('assert');
 
-var DataSet = require('../lib/DataSet');
-var Queue = require('../lib/Queue');
+var DataSet = require('../src').DataSet;
+var Queue = require('../src').Queue;
 
 // TODO: test the source code immediately, but this is ES6
 
