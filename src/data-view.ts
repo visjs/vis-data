@@ -20,8 +20,16 @@ import {
 import { DataSet } from './data-set'
 import { DataSetPart } from './data-set-part'
 
-export interface DataViewOptions<Item, T extends string> {
-  fieldId?: T
+/**
+ * Data view options.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
+export interface DataViewOptions<Item, IdProp extends string> {
+  /** The name of the property in the item that will contain it's id. */
+  fieldId?: IdProp
+  /** If present will be used to filter the items.  */
   filter?: (item: Item) => boolean
 }
 
@@ -29,6 +37,9 @@ export interface DataViewOptions<Item, T extends string> {
  * DataView
  *
  * A data view offers a filtered view on a data set or on other data view.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
  */
 export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id'>
   extends DataSetPart<Item, IdProp>

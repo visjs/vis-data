@@ -15,7 +15,10 @@ type EventSubscribers<Item, IdProp extends string> = {
 }
 
 /**
- * [DataSet] code that can be reused in [DataView] or other similar implementations of [DataInterface].
+ * [[DataSet]] code that can be reused in [[DataView]] or other similar implementations of [[DataInterface]].
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
  */
 export abstract class DataSetPart<Item, IdProp extends string>
   implements Pick<DataInterface<Item, IdProp>, 'on' | 'off'> {

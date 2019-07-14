@@ -21,10 +21,14 @@ import {
 import { Queue, QueueOptions } from './queue'
 import { DataSetPart } from './data-set-part'
 
-/** Initial DataSet configuration object. */
-export interface DataSetInitialOptions<T extends string> {
-  /** The name of the property in items that will contain it's id. */
-  fieldId?: T
+/**
+ * Initial DataSet configuration object.
+ *
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
+export interface DataSetInitialOptions<IdProp extends string> {
+  /** The name of the property in the item that will contain it's id. */
+  fieldId?: IdProp
   /** An object map to enforce property types. */
   type?: TypeMap
   /** Queue configuration object or false if no queue should be used. */
@@ -43,6 +47,9 @@ export interface DataSetOptions {
  * - add/remove/update data,
  * - trigger events upon changes in the data,
  * - import/export data in various data formats.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
  */
 export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'>
   extends DataSetPart<Item, IdProp>
@@ -300,7 +307,6 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     first?: DataInterfaceGetOptions<Item> | Id | Id[],
     second?: DataInterfaceGetOptions<Item>
   ): null | FullItem<Item, IdProp> | FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>> {
-    // @TODO: I highly doubt this is supposed to return DataSet.
     // @TODO: Woudn't it be better to split this into multiple methods?
 
     // parse the arguments
@@ -551,6 +557,8 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @param item - The item whose fields should be filtered.
    * @param fields - The names of the fields that will be kept.
    *
+   * @typeparam K - Field name type.
+   *
    * @returns The item without any additional fields.
    */
   private _filterFields<K extends string>(
@@ -578,6 +586,8 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * @param items - Items to be sorted in place.
    * @param order - A field name or custom sort function.
+   *
+   * @typeparam T - The type of the items in the items array.
    */
   private _sort<T>(items: T[], order: DataInterfaceOrder<T>): void {
     if (typeof order === 'string') {
@@ -747,7 +757,6 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @returns Unordered array containing all distinct values. Items without specified property are ignored.
    */
   public distinct<T extends string>(prop: T): unknown[] {
-    // @TODO: Can the type be inferred?
     const data = this._data
     const itemIds = Object.keys(data)
     const values: unknown[] = []

@@ -1,6 +1,8 @@
 import { DataSet } from './data-set'
 
-export type ValueOf<T> = T[keyof T]
+type ValueOf<T> = T[keyof T]
+
+/** Available types for enforcing property types. */
 export type Types =
   | 'boolean'
   | 'Boolean'
@@ -28,9 +30,18 @@ export function isId(value: unknown): value is Id {
   return typeof value === 'string' || typeof value === 'number'
 }
 
-/** An item that may ([[Id]]) or may not (absent, undefined or null) have an id property. */
+/**
+ * An item that may ([[Id]]) or may not (absent, undefined or null) have an id property.
+ *
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export type PartItem<IdProp extends string> = Partial<Record<IdProp, OptId>>
-/** An item that has a property containing an id. */
+/**
+ * An item that has a property containing an id.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export type FullItem<Item extends PartItem<IdProp>, IdProp extends string> = Item &
   Record<IdProp, Id>
 /**
@@ -38,6 +49,9 @@ export type FullItem<Item extends PartItem<IdProp>, IdProp extends string> = Ite
  *
  * @param item - The item to be tested.
  * @param idProp - Name of the id property.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
  *
  * @returns True if this value is a [[FullItem]], false otherwise.
  */
@@ -73,26 +87,46 @@ export interface RemoveEventPayload<Item, IdProp extends string> {
   oldData: FullItem<Item, IdProp>[]
 }
 
-/** Map of event payload types (event name → payload). */
+/**
+ * Map of event payload types (event name → payload).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export interface EventPayloads<Item, IdProp extends string> {
   add: [AddEventPayload | null, string | number | null]
   update: [UpdateEventPayload<Item, IdProp> | null, string | number | null]
   remove: [RemoveEventPayload<Item, IdProp> | null, string | number | null]
 }
-/** Map of event payload types including any event (event name → payload). */
+/**
+ * Map of event payload types including any event (event name → payload).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export interface EventPayloadsWithAny<Item, IdProp extends string>
   extends EventPayloads<Item, IdProp> {
   '*': ValueOf<EventPayloads<Item, IdProp>>
 }
 
-/** Map of event callback types (event name → callback). */
+/**
+ * Map of event callback types (event name → callback).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export type EventCallbacks<Item, IdProp extends string> = {
   [Name in keyof EventPayloads<Item, IdProp>]: (
     name: Name,
     ...args: EventPayloads<Item, IdProp>[Name]
   ) => void
 }
-/** Map of event callback types including any event (event name → callback). */
+/**
+ * Map of event callback types including any event (event name → callback).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export interface EventCallbacksWithAny<Item, IdProp extends string>
   extends EventCallbacks<Item, IdProp> {
   '*': <EN extends EventName>(
@@ -113,10 +147,16 @@ export type TypeMap = Record<string, Types>
  * Data interface order parameter.
  * - A string value determines which property will be used for sorting (using < and > operators).
  * - A function will be used the same way as in Array.sort.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceOrder<Item> = keyof Item | ((a: Item, b: Item) => number)
 
-/** Data interface get options (return type independent). */
+/**
+ * Data interface get options (return type independent).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export interface DataInterfaceGetOptionsBase<Item> {
   /** If present only selected properties of the items will be returned.  */
   fields?: string[]
@@ -128,31 +168,55 @@ export interface DataInterfaceGetOptionsBase<Item> {
   type?: TypeMap
 }
 
-/** Data interface get options (default). */
+/**
+ * Data interface get options (default).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export interface DataInterfaceGetOptionsDefault<Item> extends DataInterfaceGetOptionsBase<Item> {
   /** Items return type (null or single item for one id, array of items for array of ids). */
   returnType?: undefined
 }
-/** Data interface get options (array). */
+/**
+ * Data interface get options (array).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export interface DataInterfaceGetOptionsArray<Item> extends DataInterfaceGetOptionsBase<Item> {
   /** Items will be returned as an array. */
   returnType: 'Array'
 }
-/** Data interface get options (default or array). */
+/**
+ * Data interface get options (default or array).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export type DataInterfaceGetOptionsDefaultOrArray<Item> =
   | DataInterfaceGetOptionsDefault<Item>
   | DataInterfaceGetOptionsArray<Item>
-/** Data interface get options (object). */
+/**
+ * Data interface get options (object).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export interface DataInterfaceGetOptionsObject<Item> extends DataInterfaceGetOptionsBase<Item> {
   /** Items will be returned as an object map (id → item). */
   returnType: 'Object'
 }
-/** Data interface get options (array or object). */
+/**
+ * Data interface get options (array or object).
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export type DataInterfaceGetOptions<Item> =
   | DataInterfaceGetOptionsDefaultOrArray<Item>
   | DataInterfaceGetOptionsObject<Item>
 
-/** Data interface get ids options. */
+/**
+ * Data interface get ids options.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export interface DataInterfaceGetIdsOptions<Item> {
   /** If present will be used to filter the items.  */
   filter?: (item: Item) => boolean
@@ -162,7 +226,11 @@ export interface DataInterfaceGetIdsOptions<Item> {
   type?: TypeMap
 }
 
-/** Data interface for each options.  */
+/**
+ * Data interface for each options.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ */
 export interface DataInterfaceForEachOptions<Item> {
   /** If present only selected properties of the items will be returned.  */
   fields?: string[]
@@ -174,7 +242,12 @@ export interface DataInterfaceForEachOptions<Item> {
   type?: TypeMap
 }
 
-/** Data interface map oprions. */
+/**
+ * Data interface map oprions.
+ *
+ * @typeparam Original - The original item type in the data.
+ * @typeparam Mapped - The type after mapping.
+ */
 export interface DataInterfaceMapOptions<Original, Mapped> {
   /** If present only selected properties of the items will be returned.  */
   fields?: string[]
@@ -186,17 +259,46 @@ export interface DataInterfaceMapOptions<Original, Mapped> {
   type?: TypeMap
 }
 
+/**
+ * Common interface for data sets and data view.
+ *
+ * @typeparam Item - Item type that may or may not have an id.
+ * @typeparam IdProp - Name of the property that contains the id.
+ */
 export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends string = 'id'> {
   /** The number of items. */
   length: number
 
-  // @TODO: WithAny breaks some code.
+  /**
+   * Add an event listener to a single event.
+   *
+   * @param event - Event name.
+   * @param callback - Callback method.
+   */
   on<Name extends EventName>(event: Name, callback: EventCallbacks<Item, IdProp>[Name]): void
+  /**
+   * Add an event listener to a single or all events.
+   *
+   * @param event - Event name, * stands for all events.
+   * @param callback - Callback method.
+   */
   on<Name extends EventNameWithAny>(
     event: Name,
     callback: EventCallbacksWithAny<Item, IdProp>[Name]
   ): void
+  /**
+   * Remove an event listener from a single event.
+   *
+   * @param event - Event name.
+   * @param callback - Callback method.
+   */
   off<Name extends EventName>(event: Name, callback: EventCallbacks<Item, IdProp>[Name]): void
+  /**
+   * Remove an event listener from a single or all events.
+   *
+   * @param event - Event name, * stands for all events.
+   * @param callback - Callback method.
+   */
   off<Name extends EventNameWithAny>(
     event: Name,
     callback: EventCallbacksWithAny<Item, IdProp>[Name]

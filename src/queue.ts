@@ -5,10 +5,14 @@ export interface QueueOptions {
   /** Maximum number of entries in the queue, default is no limit. */
   max?: number
 }
-/** Queue extending options. */
-export interface QueueExtendOptions<K> {
+/**
+ * Queue extending options.
+ *
+ * @typeparam T - The type of method names to be replaced by queued versions.
+ */
+export interface QueueExtendOptions<T> {
   /** A list with method names of the methods on the object to be replaced with queued ones. */
-  replace: K[]
+  replace: T[]
   /** When provided, the queue will be flushed automatically after an inactivity of this delay in milliseconds. Default value is null. */
   delay?: number
   /** When the queue exceeds the given maximum number of entries, the queue is flushed automatically. Default value of max is Infinity. */
@@ -39,7 +43,11 @@ interface QueueExtended<T> {
   }[]
 }
 
-/** A queue. */
+/**
+ * A queue.
+ *
+ * @typeparam T - The type of method names to be replaced by queued versions.
+ */
 export class Queue<T = never> {
   /** Delay in milliseconds. If defined the queue will be periodically flushed. */
   public delay: null | number
