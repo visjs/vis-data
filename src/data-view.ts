@@ -58,7 +58,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
    * @param data - The instance containing data (directly or indirectly).
    * @param options - Options to configure this data view.
    */
-  public constructor(data: DataInterface<Item, IdProp>, options: DataViewOptions<Item, IdProp>) {
+  public constructor(data: DataInterface<Item, IdProp>, options?: DataViewOptions<Item, IdProp>) {
     super()
 
     this._options = options || {}
