@@ -858,7 +858,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
       converted = { ...raw }
     }
 
-    if (!converted[this._idProp]) {
+    if (converted[this._idProp] == null) {
       converted[this._idProp] = (raw as any).id
     }
 
