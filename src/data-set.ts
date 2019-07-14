@@ -74,7 +74,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @param data - An initial set of items for the new instance.
    * @param options - DataSet configuration.
    */
-  public constructor(data: Item[], options: DataSetInitialOptions<IdProp>)
+  public constructor(data: Item[], options?: DataSetInitialOptions<IdProp>)
   /**
    * Construct a new DataSet.
    *
