@@ -9,11 +9,11 @@ import genHeader from './lib/header'
 // CommonJS because Babel is not 100 % ESM.
 
 const babelConfingBase = {
-  extensions: ['.mts', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
+  extensions: ['.ts', '.js'],
   runtimeHelpers: true,
 }
 const resolveConfig = {
-  extensions: [...babelConfingBase.extensions, '.json', '.node'],
+  extensions: [...babelConfingBase.extensions, '.json'],
 }
 const bannerConfig = genHeader('data')
 const typescriptConfig = {
