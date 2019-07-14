@@ -41,7 +41,7 @@ export default [
       file: 'dist/umd.js',
       format: 'umd',
       exports: 'named',
-      name: 'visData',
+      name: 'vis',
     },
     plugins: [
       resolve(resolveConfig),
