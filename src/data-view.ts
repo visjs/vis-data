@@ -22,7 +22,7 @@ import { DataSetPart } from './data-set-part'
 
 export interface DataViewOptions<Item, T extends string> {
   fieldId?: T
-  filter: (item: Item) => boolean
+  filter?: (item: Item) => boolean
 }
 
 /**
@@ -231,9 +231,11 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
     const viewOptions: DataInterfaceGetOptions<Item> = Object.assign({}, this._options, options)
 
     // create a combined filter method when needed
-    if (this._options.filter && options && options.filter) {
+    const thisFilter = this._options.filter
+    const optionsFilter = options && options.filter
+    if (thisFilter && optionsFilter) {
       viewOptions.filter = (item): boolean => {
-        return this._options.filter(item) && options.filter(item)
+        return thisFilter(item) && optionsFilter(item)
       }
     }
 
@@ -280,7 +282,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
     if (this._data) {
       const defaultFilter = this._options.filter
       const optionsFilter = options && options.filter
-      let filter: (item: Item) => boolean
+      let filter: undefined | ((item: Item) => boolean)
 
       if (optionsFilter) {
         if (defaultFilter) {
