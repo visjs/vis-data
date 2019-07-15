@@ -2,7 +2,7 @@ export {
   DataInterface,
   DataInterfaceGetIdsOptions,
   DataInterfaceGetOptions,
-  DataInterfaceGetOptionsDefaultOrArray,
+  DataInterfaceGetOptionsArray,
   DataInterfaceGetOptionsObject,
   DataInterfaceMapOptions,
   DataInterfaceOrder,

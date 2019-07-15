@@ -2,7 +2,19 @@ import { DataSet } from './data-set'
 
 type ValueOf<T> = T[keyof T]
 
-/** Available types for enforcing property types. */
+/**
+ * Available types for enforcing property types.
+ *
+ * | Name    | Description                             | Examples                                                  |
+ * |---------|-----------------------------------------|-----------------------------------------------------------|
+ * | Boolean | A JavaScript Boolean                    | `true`, `false`                                           |
+ * | Number  | A JavaScript Number                     | `32`, `2.4`                                               |
+ * | String  | A JavaScript String                     | `"hello world"`, `"2013-06-28"`                           |
+ * | Date    | A JavaScript Date object                | `new Date()`, `new Date(2013, 5, 28)`, `new Date(13723    |
+ * | Moment  | A Moment object, created with moment.js | `moment()`, `moment('2013-06-28')`                        |
+ * | ISODate | A string containing an ISO Date         | `new Date().toISOString()`, `"2013-06-27T22:00:00.000Z"`  |
+ * | ASPDate | A string containing an ASP Date         | `"/Date(1372370400000)/"`, `"/Date(1198908717056-0700)/"` |
+ */
 export type Types =
   | 'boolean'
   | 'Boolean'
@@ -15,9 +27,9 @@ export type Types =
   | 'ASPDate'
   | 'Moment'
 
-/** Valid id type.  */
+/** Valid id type. */
 export type Id = number | string
-/** Nullable id type.  */
+/** Nullable id type. */
 export type OptId = undefined | null | Id
 /**
  * Determine whether a value can be used as an id.
@@ -75,6 +87,7 @@ export interface UpdateEventPayload<Item, IdProp extends string> {
   oldData: FullItem<Item, IdProp>[]
   /**
    * Items as they are now.
+   *
    * @deprecated Just get the data from the data set or data view.
    */
   data: FullItem<Item, IdProp>[]
@@ -94,9 +107,9 @@ export interface RemoveEventPayload<Item, IdProp extends string> {
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface EventPayloads<Item, IdProp extends string> {
-  add: [AddEventPayload | null, string | number | null]
-  update: [UpdateEventPayload<Item, IdProp> | null, string | number | null]
-  remove: [RemoveEventPayload<Item, IdProp> | null, string | number | null]
+  add: AddEventPayload
+  update: UpdateEventPayload<Item, IdProp>
+  remove: RemoveEventPayload<Item, IdProp>
 }
 /**
  * Map of event payload types including any event (event name → payload).
@@ -115,11 +128,33 @@ export interface EventPayloadsWithAny<Item, IdProp extends string>
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
-export type EventCallbacks<Item, IdProp extends string> = {
-  [Name in keyof EventPayloads<Item, IdProp>]: (
-    name: Name,
-    ...args: EventPayloads<Item, IdProp>[Name]
-  ) => void
+export interface EventCallbacks<Item, IdProp extends string> {
+  /**
+   * @param name - The name of the event ([[EventName]]).
+   * @param payload - Data about the items affected by this event.
+   * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
+   */
+  add(name: 'add', payload: AddEventPayload | null, senderId?: Id | null): void
+  /**
+   * @param name - The name of the event ([[EventName]]).
+   * @param payload - Data about the items affected by this event.
+   * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
+   */
+  update(
+    name: 'update',
+    payload: UpdateEventPayload<Item, IdProp> | null,
+    senderId?: Id | null
+  ): void
+  /**
+   * @param name - The name of the event ([[EventName]]).
+   * @param payload - Data about the items affected by this event.
+   * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
+   */
+  remove(
+    name: 'remove',
+    payload: RemoveEventPayload<Item, IdProp> | null,
+    senderId?: Id | null
+  ): void
 }
 /**
  * Map of event callback types including any event (event name → callback).
@@ -129,19 +164,24 @@ export type EventCallbacks<Item, IdProp extends string> = {
  */
 export interface EventCallbacksWithAny<Item, IdProp extends string>
   extends EventCallbacks<Item, IdProp> {
-  '*': <EN extends EventName>(
-    event: EN,
-    payload: EventPayloads<Item, IdProp>[EN][0],
-    senderId: EventPayloads<Item, IdProp>[EN][1]
-  ) => void
+  /**
+   * @param name - The name of the event ([[EventName]]).
+   * @param payload - Data about the items affected by this event.
+   * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
+   */
+  '*'<N extends keyof EventCallbacks<Item, IdProp>>(
+    name: N,
+    payload: EventPayloads<Item, IdProp>[N],
+    senderId?: Id | null
+  ): void
 }
 
 /** Available event names. */
 export type EventName = keyof EventPayloads<never, ''>
 /** Available event names and '*' to listen for all. */
-export type EventNameWithAny = EventName | '*'
+export type EventNameWithAny = keyof EventPayloadsWithAny<never, ''>
 
-/** Maps property name to a type. */
+/** Maps property name to their types. */
 export type TypeMap = Record<string, Types>
 /**
  * Data interface order parameter.
@@ -158,44 +198,27 @@ export type DataInterfaceOrder<Item> = keyof Item | ((a: Item, b: Item) => numbe
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsBase<Item> {
-  /** If present only selected properties of the items will be returned.  */
-  fields?: string[]
-  /** If present will be used to filter the items.  */
+  /** An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items. */
+  fields?: string[] | Record<string, string>
+  /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
   filter?: (item: Item) => boolean
-  /** If present the items will be sorted using this comparator.  */
+  /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>
-  /** If present the properties of items will be coerced to the requested types.  */
+  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
   type?: TypeMap
 }
 
 /**
- * Data interface get options (default).
- *
- * @typeParam Item - Item type that may or may not have an id.
- */
-export interface DataInterfaceGetOptionsDefault<Item> extends DataInterfaceGetOptionsBase<Item> {
-  /** Items return type (null or single item for one id, array of items for array of ids). */
-  returnType?: undefined
-}
-/**
- * Data interface get options (array).
+ * Data interface get options (returns a single item or an array).
  *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsArray<Item> extends DataInterfaceGetOptionsBase<Item> {
-  /** Items will be returned as an array. */
-  returnType: 'Array'
+  /** Items will be returned as a single item (if invoked with an id) or an array of items (if invoked with an array of ids). */
+  returnType?: undefined | 'Array'
 }
 /**
- * Data interface get options (default or array).
- *
- * @typeParam Item - Item type that may or may not have an id.
- */
-export type DataInterfaceGetOptionsDefaultOrArray<Item> =
-  | DataInterfaceGetOptionsDefault<Item>
-  | DataInterfaceGetOptionsArray<Item>
-/**
- * Data interface get options (object).
+ * Data interface get options (returns an object).
  *
  * @typeParam Item - Item type that may or may not have an id.
  */
@@ -204,12 +227,12 @@ export interface DataInterfaceGetOptionsObject<Item> extends DataInterfaceGetOpt
   returnType: 'Object'
 }
 /**
- * Data interface get options (array or object).
+ * Data interface get options (returns single item, an array or object).
  *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceGetOptions<Item> =
-  | DataInterfaceGetOptionsDefaultOrArray<Item>
+  | DataInterfaceGetOptionsArray<Item>
   | DataInterfaceGetOptionsObject<Item>
 
 /**
@@ -218,11 +241,11 @@ export type DataInterfaceGetOptions<Item> =
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetIdsOptions<Item> {
-  /** If present will be used to filter the items.  */
+  /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
   filter?: (item: Item) => boolean
-  /** If present the items will be sorted using this comparator.  */
+  /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>
-  /** If present the properties of items will be coerced to the requested types.  */
+  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
   type?: TypeMap
 }
 
@@ -232,13 +255,13 @@ export interface DataInterfaceGetIdsOptions<Item> {
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceForEachOptions<Item> {
-  /** If present only selected properties of the items will be returned.  */
-  fields?: string[]
-  /** If present will be used to filter the items.  */
+  /** An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items. */
+  fields?: string[] | Record<string, string>
+  /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
   filter?: (item: Item) => boolean
-  /** If present the items will be sorted using this comparator.  */
+  /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>
-  /** If present the properties of items will be coerced to the requested types.  */
+  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
   type?: TypeMap
 }
 
@@ -249,13 +272,13 @@ export interface DataInterfaceForEachOptions<Item> {
  * @typeParam Mapped - The type after mapping.
  */
 export interface DataInterfaceMapOptions<Original, Mapped> {
-  /** If present only selected properties of the items will be returned.  */
-  fields?: string[]
-  /** If present will be used to filter the items.  */
+  /** An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items. */
+  fields?: string[] | Record<string, string>
+  /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
   filter?: (item: Original) => boolean
-  /** If present the items will be sorted using this comparator.  */
+  /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Mapped>
-  /** If present the properties of items will be coerced to the requested types.  */
+  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
   type?: TypeMap
 }
 
@@ -270,39 +293,70 @@ export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends str
   length: number
 
   /**
-   * Add an event listener to a single event.
+   * Add a universal event listener.
+   *
+   * @remarks The `*` event is triggered when any of the events `add`, `update`, and `remove` occurs.
    *
    * @param event - Event name.
-   * @param callback - Callback method.
+   * @param callback - Callback function.
    */
-  on<Name extends EventName>(event: Name, callback: EventCallbacks<Item, IdProp>[Name]): void
+  on(event: '*', callback: EventCallbacksWithAny<Item, IdProp>['*']): void
   /**
-   * Add an event listener to a single or all events.
+   * Add an `add` event listener.
    *
-   * @param event - Event name, * stands for all events.
-   * @param callback - Callback method.
-   */
-  on<Name extends EventNameWithAny>(
-    event: Name,
-    callback: EventCallbacksWithAny<Item, IdProp>[Name]
-  ): void
-  /**
-   * Remove an event listener from a single event.
+   * @remarks The `add` event is triggered when an item or a set of items is added, or when an item is updated while not yet existing.
    *
    * @param event - Event name.
-   * @param callback - Callback method.
+   * @param callback - Callback function.
    */
-  off<Name extends EventName>(event: Name, callback: EventCallbacks<Item, IdProp>[Name]): void
+  on(event: 'add', callback: EventCallbacksWithAny<Item, IdProp>['add']): void
   /**
-   * Remove an event listener from a single or all events.
+   * Add a `remove` event listener.
    *
-   * @param event - Event name, * stands for all events.
-   * @param callback - Callback method.
+   * @remarks The `remove` event is triggered when an item or a set of items is removed.
+   *
+   * @param event - Event name.
+   * @param callback - Callback function.
    */
-  off<Name extends EventNameWithAny>(
-    event: Name,
-    callback: EventCallbacksWithAny<Item, IdProp>[Name]
-  ): void
+  on(event: 'remove', callback: EventCallbacksWithAny<Item, IdProp>['remove']): void
+  /**
+   * Add an `update` event listener.
+   *
+   * @remarks The `update` event is triggered when an existing item or a set of existing items is updated.
+   *
+   * @param event - Event name.
+   * @param callback - Callback function.
+   */
+  on(event: 'update', callback: EventCallbacksWithAny<Item, IdProp>['update']): void
+
+  /**
+   * Remove a universal event listener.
+   *
+   * @param event - Event name.
+   * @param callback - Callback function.
+   */
+  off(event: '*', callback: EventCallbacksWithAny<Item, IdProp>['*']): void
+  /**
+   * Remove an `add` event listener.
+   *
+   * @param event - Event name.
+   * @param callback - Callback function.
+   */
+  off(event: 'add', callback: EventCallbacksWithAny<Item, IdProp>['add']): void
+  /**
+   * Remove a `remove` event listener.
+   *
+   * @param event - Event name.
+   * @param callback - Callback function.
+   */
+  off(event: 'remove', callback: EventCallbacksWithAny<Item, IdProp>['remove']): void
+  /**
+   * Remove an `update` event listener.
+   *
+   * @param event - Event name.
+   * @param callback - Callback function.
+   */
+  off(event: 'update', callback: EventCallbacksWithAny<Item, IdProp>['update']): void
 
   /**
    * Get all the items.
@@ -317,7 +371,7 @@ export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends str
    *
    * @returns An array containing requested items.
    */
-  get(options: DataInterfaceGetOptionsDefaultOrArray<Item>): FullItem<Item, IdProp>[]
+  get(options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[]
   /**
    * Get all the items.
    *
@@ -352,7 +406,7 @@ export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends str
    *
    * @returns The item or null if the id doesn't correspond to any item.
    */
-  get(id: Id, options: DataInterfaceGetOptionsDefaultOrArray<Item>): null | FullItem<Item, IdProp>
+  get(id: Id, options: DataInterfaceGetOptionsArray<Item>): null | FullItem<Item, IdProp>
   /**
    * Get one item.
    *
@@ -390,7 +444,7 @@ export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends str
    *
    * @returns An array of found items (ids that do not correspond to any item are omitted).
    */
-  get(ids: Id[], options: DataInterfaceGetOptionsDefaultOrArray<Item>): FullItem<Item, IdProp>[]
+  get(ids: Id[], options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[]
   /**
    * Get multiple items.
    *

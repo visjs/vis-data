@@ -6,7 +6,7 @@ import {
   DataInterfaceForEachOptions,
   DataInterfaceGetIdsOptions,
   DataInterfaceGetOptions,
-  DataInterfaceGetOptionsDefaultOrArray,
+  DataInterfaceGetOptionsArray,
   DataInterfaceGetOptionsObject,
   DataInterfaceMapOptions,
   DataInterfaceOrder,
@@ -44,7 +44,12 @@ export interface DataSetInitialOptions<IdProp extends string> {
 }
 /** DataSet configuration object. */
 export interface DataSetOptions {
-  /** Queue configuration object or false if no queue should be used. */
+  /**
+   * Queue configuration object or false if no queue should be used.
+   *
+   * - If false and there was a queue before it will be flushed and then removed.
+   * - If [[QueueOptions]] the existing queue will be reconfigured or a new queue will be created.
+   */
   queue?: QueueOptions | false
 }
 
@@ -185,7 +190,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   /**
    * Set new options.
    *
-   * @param options - The options.
+   * @param options - The new options.
    */
   public setOptions(options?: DataSetOptions): void {
     if (options && options.queue !== undefined) {
@@ -238,7 +243,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * @throws When an item with the same id as any of the added items already exists.
    */
-  public add(data: Item | Item[], senderId?: string): (string | number)[] {
+  public add(data: Item | Item[], senderId?: Id | null): (string | number)[] {
     const addedIds: Id[] = []
     let id: Id
 
@@ -296,7 +301,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * @throws When the supplied data is neither an item nor an array of items.
    */
-  public update(data: Item | Item[], senderId?: string): Id[] {
+  public update(data: Item | Item[], senderId?: Id | null): Id[] {
     const addedIds: Id[] = []
     const updatedIds: Id[] = []
     const oldData: FullItem<Item, IdProp>[] = []
@@ -357,7 +362,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   /** @inheritdoc */
   public get(): FullItem<Item, IdProp>[]
   /** @inheritdoc */
-  public get(options: DataInterfaceGetOptionsDefaultOrArray<Item>): FullItem<Item, IdProp>[]
+  public get(options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[]
   /** @inheritdoc */
   public get(options: DataInterfaceGetOptionsObject<Item>): Record<Id, FullItem<Item, IdProp>>
   /** @inheritdoc */
@@ -367,10 +372,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   /** @inheritdoc */
   public get(id: Id): null | FullItem<Item, IdProp>
   /** @inheritdoc */
-  public get(
-    id: Id,
-    options: DataInterfaceGetOptionsDefaultOrArray<Item>
-  ): null | FullItem<Item, IdProp>
+  public get(id: Id, options: DataInterfaceGetOptionsArray<Item>): null | FullItem<Item, IdProp>
   /** @inheritdoc */
   public get(
     id: Id,
@@ -384,10 +386,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   /** @inheritdoc */
   public get(ids: Id[]): FullItem<Item, IdProp>[]
   /** @inheritdoc */
-  public get(
-    ids: Id[],
-    options: DataInterfaceGetOptionsDefaultOrArray<Item>
-  ): FullItem<Item, IdProp>[]
+  public get(ids: Id[], options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[]
   /** @inheritdoc */
   public get(
     ids: Id[],
@@ -649,10 +648,11 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
 
   private _filterFields<K extends string>(item: null, fields: K[]): null
   private _filterFields<K extends string>(item: Record<K, unknown>, fields: K[]): Record<K, unknown>
+  private _filterFields<K extends string>(item: Record<K, unknown>, fields: Record<K, string>): any
   private _filterFields<K extends string>(
     item: Record<K, unknown>,
-    fields: Record<K, unknown>
-  ): Record<K, unknown>
+    fields: K[] | Record<K, string>
+  ): any
   /**
    * Filter the fields of an item.
    *
@@ -738,7 +738,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * @returns The ids of the removed items.
    */
-  public remove(id: Id | Item | (Id | Item)[], senderId?: string): Id[] {
+  public remove(id: Id | Item | (Id | Item)[], senderId?: Id | null): Id[] {
     const removedIds: Id[] = []
     const removedItems: FullItem<Item, IdProp>[] = []
 
@@ -802,7 +802,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * @returns removedIds - The ids of all removed items.
    */
-  public clear(senderId?: string): Id[] {
+  public clear(senderId?: Id | null): Id[] {
     const ids = Object.keys(this._data)
     const items: FullItem<Item, IdProp>[] = []
 
@@ -871,7 +871,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   }
 
   public distinct<T extends keyof Item>(prop: T): Item[T][]
-  public distinct<T extends string>(prop: T): unknown[]
+  public distinct(prop: string): unknown[]
   /**
    * Find all distinct values of a specified field
    *

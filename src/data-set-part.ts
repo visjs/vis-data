@@ -6,6 +6,8 @@ import {
   EventNameWithAny,
   RemoveEventPayload,
   UpdateEventPayload,
+  Id,
+  EventPayloads,
 } from './data-interface'
 
 type EventSubscribers<Item, IdProp extends string> = {
@@ -33,18 +35,18 @@ export abstract class DataSetPart<Item, IdProp extends string>
 
   protected _trigger(
     event: 'add',
-    payload: AddEventPayload | null,
-    senderId?: string | number | null | undefined
+    payload: EventPayloads<Item, IdProp>['add'] | null,
+    senderId?: Id | null
   ): void
   protected _trigger(
     event: 'update',
-    payload: UpdateEventPayload<Item, IdProp> | null,
-    senderId?: string | number | null | undefined
+    payload: EventPayloads<Item, IdProp>['update'] | null,
+    senderId?: Id | null
   ): void
   protected _trigger(
     event: 'remove',
-    payload: RemoveEventPayload<Item, IdProp> | null,
-    senderId?: string | number | null | undefined
+    payload: EventPayloads<Item, IdProp>['remove'] | null,
+    senderId?: Id | null
   ): void
   /**
    * Trigger an event
@@ -60,21 +62,16 @@ export abstract class DataSetPart<Item, IdProp extends string>
       | UpdateEventPayload<Item, IdProp>
       | RemoveEventPayload<Item, IdProp>
       | null,
-    senderId?: string | number | null | undefined
+    senderId?: Id | null
   ): void {
-    // @TODO: Is this necessary?
-    // Type checking error will happen anyway.
     if ((event as string) === '*') {
       throw new Error('Cannot trigger event *')
     }
 
-    let subscribers: EventSubscribers<Item, IdProp>[Name][] = []
-    if (event in this._subscribers) {
-      subscribers = subscribers.concat(this._subscribers[event])
-    }
-    if ('*' in this._subscribers) {
-      subscribers = subscribers.concat(this._subscribers['*'])
-    }
+    const subscribers: EventSubscribers<Item, IdProp>[Name][] = [
+      ...this._subscribers[event],
+      ...this._subscribers['*'],
+    ]
 
     for (let i = 0, len = subscribers.length; i < len; i++) {
       const subscriber = subscribers[i]
@@ -84,6 +81,14 @@ export abstract class DataSetPart<Item, IdProp extends string>
     }
   }
 
+  /** @inheritdoc */
+  public on(event: '*', callback: EventCallbacksWithAny<Item, IdProp>['*']): void
+  /** @inheritdoc */
+  public on(event: 'add', callback: EventCallbacksWithAny<Item, IdProp>['add']): void
+  /** @inheritdoc */
+  public on(event: 'remove', callback: EventCallbacksWithAny<Item, IdProp>['remove']): void
+  /** @inheritdoc */
+  public on(event: 'update', callback: EventCallbacksWithAny<Item, IdProp>['update']): void
   /**
    * Subscribe to an event, add an event listener.
    *
@@ -99,11 +104,21 @@ export abstract class DataSetPart<Item, IdProp extends string>
     })
   }
 
+  /** @inheritdoc */
+  public off(event: '*', callback: EventCallbacksWithAny<Item, IdProp>['*']): void
+  /** @inheritdoc */
+  public off(event: 'add', callback: EventCallbacksWithAny<Item, IdProp>['add']): void
+  /** @inheritdoc */
+  public off(event: 'remove', callback: EventCallbacksWithAny<Item, IdProp>['remove']): void
+  /** @inheritdoc */
+  public off(event: 'update', callback: EventCallbacksWithAny<Item, IdProp>['update']): void
   /**
    * Unsubscribe from an event, remove an event listener.
    *
+   * @remarks If the same callback was subscribed more than once **all** occurences will be removed.
+   *
    * @param event - Event name.
-   * @param callback - Callback method. If the same callback was subscribed more than once **all** occurences will be removed.
+   * @param callback - Callback method.
    */
   public off<Name extends EventNameWithAny>(
     event: Name,

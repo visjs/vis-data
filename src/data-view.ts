@@ -2,7 +2,7 @@ import {
   DataInterface,
   DataInterfaceGetIdsOptions,
   DataInterfaceGetOptions,
-  DataInterfaceGetOptionsDefaultOrArray,
+  DataInterfaceGetOptionsArray,
   DataInterfaceGetOptionsObject,
   DataInterfaceMapOptions,
   EventCallbacksWithAny,
@@ -168,7 +168,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   /** @inheritdoc */
   public get(): FullItem<Item, IdProp>[]
   /** @inheritdoc */
-  public get(options: DataInterfaceGetOptionsDefaultOrArray<Item>): FullItem<Item, IdProp>[]
+  public get(options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[]
   /** @inheritdoc */
   public get(options: DataInterfaceGetOptionsObject<Item>): Record<Id, FullItem<Item, IdProp>>
   /** @inheritdoc */
@@ -180,7 +180,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   /** @inheritdoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptionsDefaultOrArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>
   ): null | FullItem<Item, IdProp>
   /** @inheritdoc */
   public get(
@@ -197,7 +197,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   /** @inheritdoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptionsDefaultOrArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>
   ): FullItem<Item, IdProp>[]
   /** @inheritdoc */
   public get(
@@ -361,8 +361,8 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
    */
   private _onEvent<EN extends EventName>(
     event: EN,
-    params: EventPayloads<Item, IdProp>[EN][0],
-    senderId: EventPayloads<Item, IdProp>[EN][1]
+    params: EventPayloads<Item, IdProp>[EN],
+    senderId?: Id | null
   ): void {
     if (!params || !params.items || !this._data) {
       return
