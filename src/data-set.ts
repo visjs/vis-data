@@ -21,6 +21,12 @@ import {
 import { Queue, QueueOptions } from './queue'
 import { DataSetPart } from './data-set-part'
 
+type DeepPartial<T> = T extends any[] | Function | Node
+  ? T
+  : T extends object
+  ? { [key in keyof T]?: DeepPartial<T[key]> }
+  : T
+
 /**
  * Initial DataSet configuration object.
  *
@@ -301,14 +307,14 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * @throws When the supplied data is neither an item nor an array of items.
    */
-  public update(data: Item | Item[], senderId?: Id | null): Id[] {
+  public update(data: DeepPartial<Item> | DeepPartial<Item>[], senderId?: Id | null): Id[] {
     const addedIds: Id[] = []
     const updatedIds: Id[] = []
     const oldData: FullItem<Item, IdProp>[] = []
     const updatedData: FullItem<Item, IdProp>[] = []
     const idProp = this._idProp
 
-    const addOrUpdate = (item: Item): void => {
+    const addOrUpdate = (item: DeepPartial<Item>): void => {
       const origId: OptId = item[idProp]
       if (origId != null && this._data[origId]) {
         const fullItem = item as FullItem<Item, IdProp> // it has an id, therefore it is a fullitem
@@ -320,7 +326,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
         oldData.push(oldItem)
       } else {
         // add new item
-        const id = this._addItem(item)
+        const id = this._addItem(item as any)
         addedIds.push(id)
       }
     }
