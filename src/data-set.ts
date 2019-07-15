@@ -27,11 +27,19 @@ import { DataSetPart } from './data-set-part'
  * @typeparam IdProp - Name of the property that contains the id.
  */
 export interface DataSetInitialOptions<IdProp extends string> {
-  /** The name of the property in the item that will contain it's id. */
+  /**
+   * The name of the field containing the id of the items. When data is fetched from a server which uses some specific field to identify items, this field name can be specified in the DataSet using the option `fieldId`. For example [CouchDB](http://couchdb.apache.org/) uses the field `'_id'` to identify documents.
+   */
   fieldId?: IdProp
-  /** An object map to enforce property types. */
+  /**
+   * An object containing field names as key, and data types as value. By default, the type of the properties of items are left unchanged. Item properties can be normalized by specifying a field type. This is useful for example to automatically convert stringified dates coming from a server into JavaScript Date objects. The available data types are listed in [[TypeMap]].
+   */
   type?: TypeMap
-  /** Queue configuration object or false if no queue should be used. */
+  /**
+   * Queue data changes ('add', 'update', 'remove') and flush them at once. The queue can be flushed manually by calling `DataSet.flush()`, or can be flushed after a configured delay or maximum number of entries.
+   *
+   * When queue is true, a queue is created with default options. Options can be specified by providing an object.
+   */
   queue?: QueueOptions | false
 }
 /** DataSet configuration object. */
@@ -41,12 +49,64 @@ export interface DataSetOptions {
 }
 
 /**
- * DataSet
+ * # DataSet
  *
- * A data set can:
- * - add/remove/update data,
- * - trigger events upon changes in the data,
- * - import/export data in various data formats.
+ * Vis.js comes with a flexible DataSet, which can be used to hold and manipulate unstructured data and listen for changes in the data. The DataSet is key/value based. Data items can be added, updated and removed from the DataSet, and one can subscribe to changes in the DataSet. The data in the DataSet can be filtered and ordered, and fields (like dates) can be converted to a specific type. Data can be normalized when appending it to the DataSet as well.
+ *
+ * ## Example
+ *
+ * The following example shows how to use a DataSet.
+ *
+ * ```javascript
+ * // create a DataSet
+ * var options = {};
+ * var data = new vis.DataSet(options);
+ *
+ * // add items
+ * // note that the data items can contain different properties and data formats
+ * data.add([
+ *   {id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true},
+ *   {id: 2, text: 'item 2', date: '2013-06-23', group: 2},
+ *   {id: 3, text: 'item 3', date: '2013-06-25', group: 2},
+ *   {id: 4, text: 'item 4'}
+ * ]);
+ *
+ * // subscribe to any change in the DataSet
+ * data.on('*', function (event, properties, senderId) {
+ *   console.log('event', event, properties);
+ * });
+ *
+ * // update an existing item
+ * data.update({id: 2, group: 1});
+ *
+ * // remove an item
+ * data.remove(4);
+ *
+ * // get all ids
+ * var ids = data.getIds();
+ * console.log('ids', ids);
+ *
+ * // get a specific item
+ * var item1 = data.get(1);
+ * console.log('item1', item1);
+ *
+ * // retrieve a filtered subset of the data
+ * var items = data.get({
+ *   filter: function (item) {
+ *     return item.group == 1;
+ *   }
+ * });
+ * console.log('filtered items', items);
+ *
+ * // retrieve formatted items
+ * var items = data.get({
+ *   fields: ['id', 'date'],
+ *   type: {
+ *     date: 'ISODate'
+ *   }
+ * });
+ * console.log('formatted items', items);
+ * ```
  *
  * @typeparam Item - Item type that may or may not have an id.
  * @typeparam IdProp - Name of the property that contains the id.
@@ -151,13 +211,32 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   }
 
   /**
-   * Add data.
-   * Adding an item will fail when there already is an item with the same id.
+   * Add a data item or an array with items.
+   *
+   * After the items are added to the DataSet, the DataSet will trigger an event `add`. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
+   *
+   * ## Example
+   *
+   * ```javascript
+   * // create a DataSet
+   * const data = new vis.DataSet()
+   *
+   * // add items
+   * const ids = data.add([
+   *   { id: 1, text: 'item 1' },
+   *   { id: 2, text: 'item 2' },
+   *   { text: 'item without an id' }
+   * ])
+   *
+   * console.log(ids) // [1, 2, '<UUIDv4>']
+   * ```
    *
    * @param data - Items to be added (ids will be generated if missing).
    * @param senderId - Sender id.
    *
    * @returns addedIds - Array with the ids (generated if not present) of the added items.
+   *
+   * @throws When an item with the same id as any of the added items already exists.
    */
   public add(data: Item | Item[], senderId?: string): (string | number)[] {
     const addedIds: Id[] = []
@@ -187,12 +266,35 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   /**
    * Update existing items. When an item does not exist, it will be created
    *
+   * The provided properties will be merged in the existing item. When an item does not exist, it will be created.
+   *
+   * After the items are updated, the DataSet will trigger an event `add` for the added items, and an event `update`. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
+   *
+   * ## Example
+   *
+   * ```javascript
+   * // create a DataSet
+   * const data = new vis.DataSet([
+   *   { id: 1, text: 'item 1' },
+   *   { id: 2, text: 'item 2' },
+   *   { id: 3, text: 'item 3' }
+   * ])
+   *
+   * // update items
+   * const ids = data.update([
+   *   { id: 2, text: 'item 2 (updated)' },
+   *   { id: 4, text: 'item 4 (new)' }
+   * ])
+   *
+   * console.log(ids) // [2, 4]
+   * ```
+   *
    * @param data - Items to be updated (if the id is already present) or added (if the id is missing).
    * @param senderId - Sender id.
    *
    * @returns updatedIds - The ids of the added (these may be newly generated if there was no id in the item from the data) or updated items.
    *
-   * @throws Unknown Datatype
+   * @throws When the supplied data is neither an item nor an array of items.
    */
   public update(data: Item | Item[], senderId?: string): Id[] {
     const addedIds: Id[] = []
@@ -610,7 +712,26 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   }
 
   /**
-   * Remove an object by reference or by id.
+   * Remove an item or multiple items by “reference” (only the id is used) or by id.
+   *
+   * The method ignores removal of non-existing items, and returns an array containing the ids of the items which are actually removed from the DataSet.
+   *
+   * After the items are removed, the DataSet will trigger an event `remove` for the removed items. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
+   *
+   * ## Example
+   * ```javascript
+   * // create a DataSet
+   * const data = new vis.DataSet([
+   *   { id: 1, text: 'item 1' },
+   *   { id: 2, text: 'item 2' },
+   *   { id: 3, text: 'item 3' }
+   * ])
+   *
+   * // remove items
+   * const ids = data.remove([2, { id: 3 }, 4])
+   *
+   * console.log(ids) // [2, 3]
+   * ```
    *
    * @param id - One or more items or ids of items to be removed.
    * @param senderId - Sender id.
@@ -658,7 +779,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     if (isId(id)) {
       ident = id
     } else if (id && typeof id === 'object') {
-      ident = id[this._idProp] // look for the identifier field using _fieldId
+      ident = id[this._idProp] // look for the identifier field using ._idProp
     }
 
     // do the removing if the item is found
@@ -673,7 +794,9 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   }
 
   /**
-   * Clear the data.
+   * Clear the entire data set.
+   *
+   * After the items are removed, the [[DataSet]] will trigger an event `remove` for all removed items. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
    *
    * @param senderId - Sender id.
    *

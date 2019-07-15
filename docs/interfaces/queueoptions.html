@@ -1064,15 +1064,15 @@ img { max-width: 100%; }
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="delay" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagOptional">Optional</span> delay</h3>
-				<div class="tsd-signature tsd-kind-icon">delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+				<div class="tsd-signature tsd-kind-icon">delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/915cdeb/src/queue.ts#L4">queue.ts:4</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/queue.ts#L4">queue.ts:4</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Delay in milliseconds, default is none.</p>
+						<p>The queue will be flushed automatically after an inactivity of this delay in milliseconds. By default there is no automatic flushing (<code>null</code>).</p>
 					</div>
 				</div>
 			</section>
@@ -1082,12 +1082,12 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">max<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/915cdeb/src/queue.ts#L6">queue.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/queue.ts#L6">queue.ts:6</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Maximum number of entries in the queue, default is no limit.</p>
+						<p>When the queue exceeds the given maximum number of entries, the queue is flushed automatically. Default value is <code>Infinity</code>.</p>
 					</div>
 				</div>
 			</section>

@@ -1,8 +1,8 @@
 /** Queue configuration object. */
 export interface QueueOptions {
-  /** Delay in milliseconds, default is none. */
-  delay?: number
-  /** Maximum number of entries in the queue, default is no limit. */
+  /** The queue will be flushed automatically after an inactivity of this delay in milliseconds. By default there is no automatic flushing (`null`). */
+  delay?: null | number
+  /** When the queue exceeds the given maximum number of entries, the queue is flushed automatically. Default value is `Infinity`. */
   max?: number
 }
 /**

@@ -131,7 +131,7 @@ export interface EventCallbacksWithAny<Item, IdProp extends string>
   extends EventCallbacks<Item, IdProp> {
   '*': <EN extends EventName>(
     event: EN,
-    params: EventPayloads<Item, IdProp>[EN][0],
+    payload: EventPayloads<Item, IdProp>[EN][0],
     senderId: EventPayloads<Item, IdProp>[EN][1]
   ) => void
 }

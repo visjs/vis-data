@@ -1084,12 +1084,12 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">field<wbr>Id<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">IdProp</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/915cdeb/src/data-set.ts#L31">data-set.ts:31</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-set.ts#L33">data-set.ts:33</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The name of the property in the item that will contain it&#39;s id.</p>
+						<p>The name of the field containing the id of the items. When data is fetched from a server which uses some specific field to identify items, this field name can be specified in the DataSet using the option <code>fieldId</code>. For example <a href="http://couchdb.apache.org/">CouchDB</a> uses the field <code>&#39;_id&#39;</code> to identify documents.</p>
 					</div>
 				</div>
 			</section>
@@ -1099,13 +1099,14 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="queueoptions.html" class="tsd-signature-type">QueueOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/915cdeb/src/data-set.ts#L35">data-set.ts:35</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-set.ts#L43">data-set.ts:43</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Queue configuration object or false if no queue should be used.</p>
+						<p>Queue data changes (&#39;add&#39;, &#39;update&#39;, &#39;remove&#39;) and flush them at once. The queue can be flushed manually by calling <code>DataSet.flush()</code>, or can be flushed after a configured delay or maximum number of entries.</p>
 					</div>
+					<p>When queue is true, a queue is created with default options. Options can be specified by providing an object.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -1114,12 +1115,12 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../globals.html#typemap" class="tsd-signature-type">TypeMap</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/915cdeb/src/data-set.ts#L33">data-set.ts:33</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-set.ts#L37">data-set.ts:37</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An object map to enforce property types.</p>
+						<p>An object containing field names as key, and data types as value. By default, the type of the properties of items are left unchanged. Item properties can be normalized by specifying a field type. This is useful for example to automatically convert stringified dates coming from a server into JavaScript Date objects. The available data types are listed in <a href="../globals.html#typemap">TypeMap</a>.</p>
 					</div>
 				</div>
 			</section>
