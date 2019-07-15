@@ -27,16 +27,55 @@ import { DataSetPart } from './data-set-part'
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface DataViewOptions<Item, IdProp extends string> {
-  /** The name of the property in the item that will contain it's id. */
+  /**
+   * The name of the field containing the id of the items. When data is fetched from a server which uses some specific field to identify items, this field name can be specified in the DataSet using the option `fieldId`. For example [CouchDB](http://couchdb.apache.org/) uses the field `'_id'` to identify documents.
+   */
   fieldId?: IdProp
-  /** If present will be used to filter the items.  */
+  /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
   filter?: (item: Item) => boolean
 }
 
 /**
  * DataView
  *
- * A data view offers a filtered view on a data set or on other data view.
+ * A DataView offers a filtered and/or formatted view on a DataSet. One can subscribe to changes in a DataView, and easily get filtered or formatted data without having to specify filters and field types all the time.
+ *
+ * ## Example
+ * ```javascript
+ * // create a DataSet
+ * var data = new vis.DataSet();
+ * data.add([
+ *   {id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true},
+ *   {id: 2, text: 'item 2', date: '2013-06-23', group: 2},
+ *   {id: 3, text: 'item 3', date: '2013-06-25', group: 2},
+ *   {id: 4, text: 'item 4'}
+ * ]);
+ *
+ * // create a DataView
+ * // the view will only contain items having a property group with value 1,
+ * // and will only output fields id, text, and date.
+ * var view = new vis.DataView(data, {
+ *   filter: function (item) {
+ *     return (item.group == 1);
+ *   },
+ *   fields: ['id', 'text', 'date']
+ * });
+ *
+ * // subscribe to any change in the DataView
+ * view.on('*', function (event, properties, senderId) {
+ *   console.log('event', event, properties);
+ * });
+ *
+ * // update an item in the data set
+ * data.update({id: 2, group: 1});
+ *
+ * // get all ids in the view
+ * var ids = view.getIds();
+ * console.log('ids', ids); // will output [1, 2]
+ *
+ * // get all items in the view
+ * var items = view.get();
+ * ```
  *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
@@ -178,10 +217,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   /** @inheritdoc */
   public get(id: Id): null | FullItem<Item, IdProp>
   /** @inheritdoc */
-  public get(
-    id: Id,
-    options: DataInterfaceGetOptionsArray<Item>
-  ): null | FullItem<Item, IdProp>
+  public get(id: Id, options: DataInterfaceGetOptionsArray<Item>): null | FullItem<Item, IdProp>
   /** @inheritdoc */
   public get(
     id: Id,
@@ -195,10 +231,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   /** @inheritdoc */
   public get(ids: Id[]): FullItem<Item, IdProp>[]
   /** @inheritdoc */
-  public get(
-    ids: Id[],
-    options: DataInterfaceGetOptionsArray<Item>
-  ): FullItem<Item, IdProp>[]
+  public get(ids: Id[], options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[]
   /** @inheritdoc */
   public get(
     ids: Id[],
