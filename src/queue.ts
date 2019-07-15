@@ -60,7 +60,7 @@ export class Queue<T = never> {
     context?: unknown
   }[] = []
 
-  private _timeout: ReturnType<typeof setTimeout> | undefined = undefined
+  private _timeout: ReturnType<typeof setTimeout> | null = null
   private _extended: null | QueueExtended<T> = null
 
   /**
@@ -215,6 +215,7 @@ export class Queue<T = never> {
     // flush after a period of inactivity when a delay is configured
     if (this._timeout != null) {
       clearTimeout(this._timeout)
+      this._timeout = null
     }
     if (this.queue.length > 0 && typeof this.delay === 'number') {
       this._timeout = setTimeout((): void => {
