@@ -33,14 +33,14 @@ export function isId(value: unknown): value is Id {
 /**
  * An item that may ([[Id]]) or may not (absent, undefined or null) have an id property.
  *
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export type PartItem<IdProp extends string> = Partial<Record<IdProp, OptId>>
 /**
  * An item that has a property containing an id.
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export type FullItem<Item extends PartItem<IdProp>, IdProp extends string> = Item &
   Record<IdProp, Id>
@@ -50,8 +50,8 @@ export type FullItem<Item extends PartItem<IdProp>, IdProp extends string> = Ite
  * @param item - The item to be tested.
  * @param idProp - Name of the id property.
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  *
  * @returns True if this value is a [[FullItem]], false otherwise.
  */
@@ -90,8 +90,8 @@ export interface RemoveEventPayload<Item, IdProp extends string> {
 /**
  * Map of event payload types (event name → payload).
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface EventPayloads<Item, IdProp extends string> {
   add: [AddEventPayload | null, string | number | null]
@@ -101,8 +101,8 @@ export interface EventPayloads<Item, IdProp extends string> {
 /**
  * Map of event payload types including any event (event name → payload).
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface EventPayloadsWithAny<Item, IdProp extends string>
   extends EventPayloads<Item, IdProp> {
@@ -112,8 +112,8 @@ export interface EventPayloadsWithAny<Item, IdProp extends string>
 /**
  * Map of event callback types (event name → callback).
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export type EventCallbacks<Item, IdProp extends string> = {
   [Name in keyof EventPayloads<Item, IdProp>]: (
@@ -124,8 +124,8 @@ export type EventCallbacks<Item, IdProp extends string> = {
 /**
  * Map of event callback types including any event (event name → callback).
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface EventCallbacksWithAny<Item, IdProp extends string>
   extends EventCallbacks<Item, IdProp> {
@@ -148,14 +148,14 @@ export type TypeMap = Record<string, Types>
  * - A string value determines which property will be used for sorting (using < and > operators).
  * - A function will be used the same way as in Array.sort.
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceOrder<Item> = keyof Item | ((a: Item, b: Item) => number)
 
 /**
  * Data interface get options (return type independent).
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsBase<Item> {
   /** If present only selected properties of the items will be returned.  */
@@ -171,7 +171,7 @@ export interface DataInterfaceGetOptionsBase<Item> {
 /**
  * Data interface get options (default).
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsDefault<Item> extends DataInterfaceGetOptionsBase<Item> {
   /** Items return type (null or single item for one id, array of items for array of ids). */
@@ -180,7 +180,7 @@ export interface DataInterfaceGetOptionsDefault<Item> extends DataInterfaceGetOp
 /**
  * Data interface get options (array).
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsArray<Item> extends DataInterfaceGetOptionsBase<Item> {
   /** Items will be returned as an array. */
@@ -189,7 +189,7 @@ export interface DataInterfaceGetOptionsArray<Item> extends DataInterfaceGetOpti
 /**
  * Data interface get options (default or array).
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceGetOptionsDefaultOrArray<Item> =
   | DataInterfaceGetOptionsDefault<Item>
@@ -197,7 +197,7 @@ export type DataInterfaceGetOptionsDefaultOrArray<Item> =
 /**
  * Data interface get options (object).
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsObject<Item> extends DataInterfaceGetOptionsBase<Item> {
   /** Items will be returned as an object map (id → item). */
@@ -206,7 +206,7 @@ export interface DataInterfaceGetOptionsObject<Item> extends DataInterfaceGetOpt
 /**
  * Data interface get options (array or object).
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceGetOptions<Item> =
   | DataInterfaceGetOptionsDefaultOrArray<Item>
@@ -215,7 +215,7 @@ export type DataInterfaceGetOptions<Item> =
 /**
  * Data interface get ids options.
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetIdsOptions<Item> {
   /** If present will be used to filter the items.  */
@@ -229,7 +229,7 @@ export interface DataInterfaceGetIdsOptions<Item> {
 /**
  * Data interface for each options.
  *
- * @typeparam Item - Item type that may or may not have an id.
+ * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceForEachOptions<Item> {
   /** If present only selected properties of the items will be returned.  */
@@ -245,8 +245,8 @@ export interface DataInterfaceForEachOptions<Item> {
 /**
  * Data interface map oprions.
  *
- * @typeparam Original - The original item type in the data.
- * @typeparam Mapped - The type after mapping.
+ * @typeParam Original - The original item type in the data.
+ * @typeParam Mapped - The type after mapping.
  */
 export interface DataInterfaceMapOptions<Original, Mapped> {
   /** If present only selected properties of the items will be returned.  */
@@ -262,8 +262,8 @@ export interface DataInterfaceMapOptions<Original, Mapped> {
 /**
  * Common interface for data sets and data view.
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends string = 'id'> {
   /** The number of items. */

@@ -8,7 +8,7 @@ export interface QueueOptions {
 /**
  * Queue extending options.
  *
- * @typeparam T - The type of method names to be replaced by queued versions.
+ * @typeParam T - The type of method names to be replaced by queued versions.
  */
 export interface QueueExtendOptions<T> {
   /** A list with method names of the methods on the object to be replaced with queued ones. */
@@ -35,8 +35,8 @@ type QueueCallEntry =
       context: unknown
     }
 
-interface QueueExtended<T> {
-  object: T
+interface QueueExtended<O> {
+  object: O
   methods: {
     name: string
     original: unknown
@@ -46,7 +46,7 @@ interface QueueExtended<T> {
 /**
  * A queue.
  *
- * @typeparam T - The type of method names to be replaced by queued versions.
+ * @typeParam T - The type of method names to be replaced by queued versions.
  */
 export class Queue<T = never> {
   /** Delay in milliseconds. If defined the queue will be periodically flushed. */
@@ -101,11 +101,11 @@ export class Queue<T = never> {
    *
    * @returns The created queue.
    */
-  public static extend<T extends { flush?: () => void }, K extends string>(
-    object: T,
+  public static extend<O extends { flush?: () => void }, K extends string>(
+    object: O,
     options: QueueExtendOptions<K>
-  ): Queue<T> {
-    const queue = new Queue<T>(options)
+  ): Queue<O> {
+    const queue = new Queue<O>(options)
 
     if (object.flush !== undefined) {
       throw new Error('Target object already has a property flush')
@@ -114,7 +114,7 @@ export class Queue<T = never> {
       queue.flush()
     }
 
-    const methods: QueueExtended<T>['methods'] = [
+    const methods: QueueExtended<O>['methods'] = [
       {
         name: 'flush',
         original: undefined,

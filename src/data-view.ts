@@ -23,8 +23,8 @@ import { DataSetPart } from './data-set-part'
 /**
  * Data view options.
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface DataViewOptions<Item, IdProp extends string> {
   /** The name of the property in the item that will contain it's id. */
@@ -38,8 +38,8 @@ export interface DataViewOptions<Item, IdProp extends string> {
  *
  * A data view offers a filtered view on a data set or on other data view.
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id'>
   extends DataSetPart<Item, IdProp>

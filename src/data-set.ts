@@ -24,7 +24,7 @@ import { DataSetPart } from './data-set-part'
 /**
  * Initial DataSet configuration object.
  *
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface DataSetInitialOptions<IdProp extends string> {
   /**
@@ -108,8 +108,8 @@ export interface DataSetOptions {
  * console.log('formatted items', items);
  * ```
  *
- * @typeparam Item - Item type that may or may not have an id.
- * @typeparam IdProp - Name of the property that contains the id.
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
  */
 export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'>
   extends DataSetPart<Item, IdProp>
@@ -659,7 +659,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @param item - The item whose fields should be filtered.
    * @param fields - The names of the fields that will be kept.
    *
-   * @typeparam K - Field name type.
+   * @typeParam K - Field name type.
    *
    * @returns The item without any additional fields.
    */
@@ -689,7 +689,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @param items - Items to be sorted in place.
    * @param order - A field name or custom sort function.
    *
-   * @typeparam T - The type of the items in the items array.
+   * @typeParam T - The type of the items in the items array.
    */
   private _sort<T>(items: T[], order: DataInterfaceOrder<T>): void {
     if (typeof order === 'string') {
