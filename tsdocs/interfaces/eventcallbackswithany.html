@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DataInterfaceGetOptionsBase | vis-data</title>
+	<title>EventCallbacksWithAny | vis-data</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -934,25 +934,8 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="datainterfacegetoptionsarray.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Array</a>
 		</li>
-		<li class="current tsd-kind-interface tsd-has-type-parameter">
-			<a href="datainterfacegetoptionsbase.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Base</a>
-			<ul>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="datainterfacegetoptionsbase.html#fields" class="tsd-kind-icon">fields</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="datainterfacegetoptionsbase.html#filter" class="tsd-kind-icon">filter</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="datainterfacegetoptionsbase.html#order" class="tsd-kind-icon">order</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="datainterfacegetoptionsbase.html#type" class="tsd-kind-icon">type</a>
-				</li>
-			</ul>
-		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
-			<a href="datainterfacegetoptionsdefault.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Default</a>
+			<a href="datainterfacegetoptionsbase.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Base</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="datainterfacegetoptionsobject.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Object</a>
@@ -970,7 +953,24 @@ img { max-width: 100%; }
 			<a href="dataviewoptions.html" class="tsd-kind-icon">Data<wbr>View<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
+			<a href="eventcallbacks.html" class="tsd-kind-icon">Event<wbr>Callbacks</a>
+		</li>
+		<li class="current tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventcallbackswithany.html" class="tsd-kind-icon">Event<wbr>Callbacks<wbr>With<wbr>Any</a>
+			<ul>
+				<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+					<a href="eventcallbackswithany.html#_" class="tsd-kind-icon">*</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a href="eventcallbackswithany.html#add" class="tsd-kind-icon">add</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a href="eventcallbackswithany.html#remove" class="tsd-kind-icon">remove</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a href="eventcallbackswithany.html#update" class="tsd-kind-icon">update</a>
+				</li>
+			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventpayloads.html" class="tsd-kind-icon">Event<wbr>Payloads</a>
@@ -994,13 +994,7 @@ img { max-width: 100%; }
 			<a href="../globals.html#datainterfacegetoptions" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-			<a href="../globals.html#datainterfacegetoptionsdefaultorarray" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Default<wbr>OrArray</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 			<a href="../globals.html#datainterfaceorder" class="tsd-kind-icon">Data<wbr>Interface<wbr>Order</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-			<a href="../globals.html#eventcallbacks" class="tsd-kind-icon">Event<wbr>Callbacks</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../globals.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
@@ -1039,7 +1033,7 @@ img { max-width: 100%; }
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Data interface get options (return type independent).</p>
+					<p>Map of event callback types including any event (event name → callback).</p>
 				</div>
 			</div>
 		</section>
@@ -1054,22 +1048,24 @@ img { max-width: 100%; }
 						</div>
 					</div>
 				</li>
+				<li>
+					<h4>IdProp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Name of the property that contains the id.</p>
+						</div>
+					</div>
+				</li>
 			</ul>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">DataInterfaceGetOptionsBase</span>
+					<a href="eventcallbacks.html" class="tsd-signature-type">EventCallbacks</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span>
 					<ul class="tsd-hierarchy">
 						<li>
-							<a href="datainterfacegetoptionsdefault.html" class="tsd-signature-type">DataInterfaceGetOptionsDefault</a>
-						</li>
-						<li>
-							<a href="datainterfacegetoptionsarray.html" class="tsd-signature-type">DataInterfaceGetOptionsArray</a>
-						</li>
-						<li>
-							<a href="datainterfacegetoptionsobject.html" class="tsd-signature-type">DataInterfaceGetOptionsObject</a>
+							<span class="target">EventCallbacksWithAny</span>
 						</li>
 					</ul>
 				</li>
@@ -1080,78 +1076,187 @@ img { max-width: 100%; }
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Properties</h3>
+						<h3>Methods</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="datainterfacegetoptionsbase.html#fields" class="tsd-kind-icon">fields</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="datainterfacegetoptionsbase.html#filter" class="tsd-kind-icon">filter</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="datainterfacegetoptionsbase.html#order" class="tsd-kind-icon">order</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="datainterfacegetoptionsbase.html#type" class="tsd-kind-icon">type</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="eventcallbackswithany.html#_" class="tsd-kind-icon">*</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="eventcallbackswithany.html#add" class="tsd-kind-icon">add</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="eventcallbackswithany.html#remove" class="tsd-kind-icon">remove</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="eventcallbackswithany.html#update" class="tsd-kind-icon">update</a></li>
 						</ul>
 					</section>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Properties</h2>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="fields" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> fields</h3>
-				<div class="tsd-signature tsd-kind-icon">fields<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-interface.ts#L162">data-interface.ts:162</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>If present only selected properties of the items will be returned.</p>
-					</div>
-				</div>
+			<h2>Methods</h2>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+				<a name="_" class="tsd-anchor"></a>
+				<h3>*</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+					<li class="tsd-signature tsd-kind-icon">*&lt;N&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">N</span>, payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventPayloads&lt;Item, IdProp&gt;[N]</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L172">data-interface.ts:172</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-type-parameters-title">Type parameters</h4>
+						<ul class="tsd-type-parameters">
+							<li>
+								<h4>N<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof EventCallbacks&lt;Item, IdProp&gt;</span></h4>
+							</li>
+						</ul>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>name: <span class="tsd-signature-type">N</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The name of the event (<a href="../globals.html#eventname">EventName</a>).</p>
+								</div>
+							</li>
+							<li>
+								<h5>payload: <span class="tsd-signature-type">EventPayloads&lt;Item, IdProp&gt;[N]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Data about the items affected by this event.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> senderId: <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be <code>null</code>.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="filter" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
-				<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-interface.ts#L164">data-interface.ts:164</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>If present will be used to filter the items.</p>
-					</div>
-				</div>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+				<a name="add" class="tsd-anchor"></a>
+				<h3>add</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"add"</span>, payload<span class="tsd-signature-symbol">: </span><a href="addeventpayload.html" class="tsd-signature-type">AddEventPayload</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<p>Inherited from <a href="eventcallbacks.html">EventCallbacks</a>.<a href="eventcallbacks.html#add">add</a></p>
+							<ul>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L137">data-interface.ts:137</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>name: <span class="tsd-signature-type">"add"</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The name of the event (<a href="../globals.html#eventname">EventName</a>).</p>
+								</div>
+							</li>
+							<li>
+								<h5>payload: <a href="addeventpayload.html" class="tsd-signature-type">AddEventPayload</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Data about the items affected by this event.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> senderId: <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be <code>null</code>.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="order" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> order</h3>
-				<div class="tsd-signature tsd-kind-icon">order<span class="tsd-signature-symbol">:</span> <a href="../globals.html#datainterfaceorder" class="tsd-signature-type">DataInterfaceOrder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-interface.ts#L166">data-interface.ts:166</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>If present the items will be sorted using this comparator.</p>
-					</div>
-				</div>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+				<a name="remove" class="tsd-anchor"></a>
+				<h3>remove</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<li class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"remove"</span>, payload<span class="tsd-signature-symbol">: </span><a href="removeeventpayload.html" class="tsd-signature-type">RemoveEventPayload</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<p>Inherited from <a href="eventcallbacks.html">EventCallbacks</a>.<a href="eventcallbacks.html#remove">remove</a></p>
+							<ul>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L153">data-interface.ts:153</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>name: <span class="tsd-signature-type">"remove"</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The name of the event (<a href="../globals.html#eventname">EventName</a>).</p>
+								</div>
+							</li>
+							<li>
+								<h5>payload: <a href="removeeventpayload.html" class="tsd-signature-type">RemoveEventPayload</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Data about the items affected by this event.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> senderId: <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be <code>null</code>.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="type" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
-				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../globals.html#typemap" class="tsd-signature-type">TypeMap</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-interface.ts#L168">data-interface.ts:168</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>If present the properties of items will be coerced to the requested types.</p>
-					</div>
-				</div>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+				<a name="update" class="tsd-anchor"></a>
+				<h3>update</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"update"</span>, payload<span class="tsd-signature-symbol">: </span><a href="updateeventpayload.html" class="tsd-signature-type">UpdateEventPayload</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<p>Inherited from <a href="eventcallbacks.html">EventCallbacks</a>.<a href="eventcallbacks.html#update">update</a></p>
+							<ul>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L143">data-interface.ts:143</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>name: <span class="tsd-signature-type">"update"</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The name of the event (<a href="../globals.html#eventname">EventName</a>).</p>
+								</div>
+							</li>
+							<li>
+								<h5>payload: <a href="updateeventpayload.html" class="tsd-signature-type">UpdateEventPayload</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Data about the items affected by this event.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> senderId: <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be <code>null</code>.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
 		</section>
 		<footer class="with-border-bottom">

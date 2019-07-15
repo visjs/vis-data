@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AddEventPayload | vis-data</title>
+	<title>QueueExtendOptions | vis-data</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -919,13 +919,8 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class tsd-has-type-parameter">
 			<a href="../classes/queue.html" class="tsd-kind-icon">Queue</a>
 		</li>
-		<li class="current tsd-kind-interface">
+		<li class=" tsd-kind-interface">
 			<a href="addeventpayload.html" class="tsd-kind-icon">Add<wbr>Event<wbr>Payload</a>
-			<ul>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="addeventpayload.html#items" class="tsd-kind-icon">items</a>
-				</li>
-			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="datainterface.html" class="tsd-kind-icon">Data<wbr>Interface</a>
@@ -943,9 +938,6 @@ img { max-width: 100%; }
 			<a href="datainterfacegetoptionsbase.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Base</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
-			<a href="datainterfacegetoptionsdefault.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Default</a>
-		</li>
-		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="datainterfacegetoptionsobject.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Object</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
@@ -961,6 +953,9 @@ img { max-width: 100%; }
 			<a href="dataviewoptions.html" class="tsd-kind-icon">Data<wbr>View<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
+			<a href="eventcallbacks.html" class="tsd-kind-icon">Event<wbr>Callbacks</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventcallbackswithany.html" class="tsd-kind-icon">Event<wbr>Callbacks<wbr>With<wbr>Any</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
@@ -969,8 +964,19 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventpayloadswithany.html" class="tsd-kind-icon">Event<wbr>Payloads<wbr>With<wbr>Any</a>
 		</li>
-		<li class=" tsd-kind-interface tsd-has-type-parameter">
+		<li class="current tsd-kind-interface tsd-has-type-parameter">
 			<a href="queueextendoptions.html" class="tsd-kind-icon">Queue<wbr>Extend<wbr>Options</a>
+			<ul>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="queueextendoptions.html#delay" class="tsd-kind-icon">delay</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="queueextendoptions.html#max" class="tsd-kind-icon">max</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="queueextendoptions.html#replace" class="tsd-kind-icon">replace</a>
+				</li>
+			</ul>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="queueoptions.html" class="tsd-kind-icon">Queue<wbr>Options</a>
@@ -985,13 +991,7 @@ img { max-width: 100%; }
 			<a href="../globals.html#datainterfacegetoptions" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-			<a href="../globals.html#datainterfacegetoptionsdefaultorarray" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Default<wbr>OrArray</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 			<a href="../globals.html#datainterfaceorder" class="tsd-kind-icon">Data<wbr>Interface<wbr>Order</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-			<a href="../globals.html#eventcallbacks" class="tsd-kind-icon">Event<wbr>Callbacks</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../globals.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
@@ -1030,15 +1030,28 @@ img { max-width: 100%; }
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Add event payload.</p>
+					<p>Queue extending options.</p>
 				</div>
 			</div>
+		</section>
+		<section class="tsd-panel tsd-type-parameters">
+			<h3>Type parameters</h3>
+			<ul class="tsd-type-parameters">
+				<li>
+					<h4>T</h4>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The type of method names to be replaced by queued versions.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">AddEventPayload</span>
+					<span class="target">QueueExtendOptions</span>
 				</li>
 			</ul>
 		</section>
@@ -1049,7 +1062,9 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="addeventpayload.html#items" class="tsd-kind-icon">items</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="queueextendoptions.html#delay" class="tsd-kind-icon">delay</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="queueextendoptions.html#max" class="tsd-kind-icon">max</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="queueextendoptions.html#replace" class="tsd-kind-icon">replace</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1058,17 +1073,47 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="items" class="tsd-anchor"></a>
-				<h3>items</h3>
-				<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">[]</span></div>
+				<a name="delay" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> delay</h3>
+				<div class="tsd-signature tsd-kind-icon">delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-interface.ts#L68">data-interface.ts:68</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/queue.ts#L17">queue.ts:17</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Ids of added items.</p>
+						<p>When provided, the queue will be flushed automatically after an inactivity of this delay in milliseconds. Default value is null.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="max" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> max</h3>
+				<div class="tsd-signature tsd-kind-icon">max<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/queue.ts#L19">queue.ts:19</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>When the queue exceeds the given maximum number of entries, the queue is flushed automatically. Default value of max is Infinity.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="replace" class="tsd-anchor"></a>
+				<h3>replace</h3>
+				<div class="tsd-signature tsd-kind-icon">replace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/queue.ts#L15">queue.ts:15</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A list with method names of the methods on the object to be replaced with queued ones.</p>
 					</div>
 				</div>
 			</section>

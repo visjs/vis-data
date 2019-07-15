@@ -4,6 +4,6 @@
     "excludePrivate": true,
     "listInvalidSymbolLinks": true,
     "mode": "file",
-    "out": "./docs",
+    "out": "./tsdocs",
     "theme": "minimal"
 }

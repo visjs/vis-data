@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DataSetOptions | vis-data</title>
+	<title>EventPayloadsWithAny | vis-data</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -938,9 +938,6 @@ img { max-width: 100%; }
 			<a href="datainterfacegetoptionsbase.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Base</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
-			<a href="datainterfacegetoptionsdefault.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Default</a>
-		</li>
-		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="datainterfacegetoptionsobject.html" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Object</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
@@ -949,16 +946,14 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="datasetinitialoptions.html" class="tsd-kind-icon">Data<wbr>Set<wbr>Initial<wbr>Options</a>
 		</li>
-		<li class="current tsd-kind-interface">
+		<li class=" tsd-kind-interface">
 			<a href="datasetoptions.html" class="tsd-kind-icon">Data<wbr>Set<wbr>Options</a>
-			<ul>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="datasetoptions.html#queue" class="tsd-kind-icon">queue</a>
-				</li>
-			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="dataviewoptions.html" class="tsd-kind-icon">Data<wbr>View<wbr>Options</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-has-type-parameter">
+			<a href="eventcallbacks.html" class="tsd-kind-icon">Event<wbr>Callbacks</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventcallbackswithany.html" class="tsd-kind-icon">Event<wbr>Callbacks<wbr>With<wbr>Any</a>
@@ -966,8 +961,22 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventpayloads.html" class="tsd-kind-icon">Event<wbr>Payloads</a>
 		</li>
-		<li class=" tsd-kind-interface tsd-has-type-parameter">
+		<li class="current tsd-kind-interface tsd-has-type-parameter">
 			<a href="eventpayloadswithany.html" class="tsd-kind-icon">Event<wbr>Payloads<wbr>With<wbr>Any</a>
+			<ul>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="eventpayloadswithany.html#_" class="tsd-kind-icon">*</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a href="eventpayloadswithany.html#add" class="tsd-kind-icon">add</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a href="eventpayloadswithany.html#remove" class="tsd-kind-icon">remove</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a href="eventpayloadswithany.html#update" class="tsd-kind-icon">update</a>
+				</li>
+			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-has-type-parameter">
 			<a href="queueextendoptions.html" class="tsd-kind-icon">Queue<wbr>Extend<wbr>Options</a>
@@ -985,13 +994,7 @@ img { max-width: 100%; }
 			<a href="../globals.html#datainterfacegetoptions" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-			<a href="../globals.html#datainterfacegetoptionsdefaultorarray" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<wbr>Default<wbr>OrArray</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 			<a href="../globals.html#datainterfaceorder" class="tsd-kind-icon">Data<wbr>Interface<wbr>Order</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-			<a href="../globals.html#eventcallbacks" class="tsd-kind-icon">Event<wbr>Callbacks</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../globals.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
@@ -1030,15 +1033,41 @@ img { max-width: 100%; }
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>DataSet configuration object.</p>
+					<p>Map of event payload types including any event (event name → payload).</p>
 				</div>
 			</div>
+		</section>
+		<section class="tsd-panel tsd-type-parameters">
+			<h3>Type parameters</h3>
+			<ul class="tsd-type-parameters">
+				<li>
+					<h4>Item</h4>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Item type that may or may not have an id.</p>
+						</div>
+					</div>
+				</li>
+				<li>
+					<h4>IdProp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Name of the property that contains the id.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">DataSetOptions</span>
+					<a href="eventpayloads.html" class="tsd-signature-type">EventPayloads</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span>
+					<ul class="tsd-hierarchy">
+						<li>
+							<span class="target">EventPayloadsWithAny</span>
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</section>
@@ -1049,7 +1078,10 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="datasetoptions.html#queue" class="tsd-kind-icon">queue</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventpayloadswithany.html#_" class="tsd-kind-icon">*</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="eventpayloadswithany.html#add" class="tsd-kind-icon">add</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="eventpayloadswithany.html#remove" class="tsd-kind-icon">remove</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="eventpayloadswithany.html#update" class="tsd-kind-icon">update</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1058,19 +1090,47 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="queue" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> queue</h3>
-				<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="queueoptions.html" class="tsd-signature-type">QueueOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
+				<a name="_" class="tsd-anchor"></a>
+				<h3>*</h3>
+				<div class="tsd-signature tsd-kind-icon">*<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ValueOf</span><span class="tsd-signature-symbol">&lt;</span><a href="eventpayloads.html" class="tsd-signature-type">EventPayloads</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/0c02a19/src/data-set.ts#L48">data-set.ts:48</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L122">data-interface.ts:122</a></li>
 					</ul>
 				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Queue configuration object or false if no queue should be used.</p>
-					</div>
-				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<a name="add" class="tsd-anchor"></a>
+				<h3>add</h3>
+				<div class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">:</span> <a href="addeventpayload.html" class="tsd-signature-type">AddEventPayload</a></div>
+				<aside class="tsd-sources">
+					<p>Inherited from <a href="eventpayloads.html">EventPayloads</a>.<a href="eventpayloads.html#add">add</a></p>
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L110">data-interface.ts:110</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<a name="remove" class="tsd-anchor"></a>
+				<h3>remove</h3>
+				<div class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">:</span> <a href="removeeventpayload.html" class="tsd-signature-type">RemoveEventPayload</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from <a href="eventpayloads.html">EventPayloads</a>.<a href="eventpayloads.html#remove">remove</a></p>
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L112">data-interface.ts:112</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<a name="update" class="tsd-anchor"></a>
+				<h3>update</h3>
+				<div class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">:</span> <a href="updateeventpayload.html" class="tsd-signature-type">UpdateEventPayload</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from <a href="eventpayloads.html">EventPayloads</a>.<a href="eventpayloads.html#update">update</a></p>
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/b9bdf60/src/data-interface.ts#L111">data-interface.ts:111</a></li>
+					</ul>
+				</aside>
 			</section>
 		</section>
 		<footer class="with-border-bottom">
