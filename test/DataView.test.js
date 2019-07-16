@@ -1,7 +1,7 @@
 var assert = require('assert');
 
-var DataSet = require('../lib/DataSet');
-var DataView = require('../lib/DataView');
+var DataSet = require('../src').DataSet;
+var DataView = require('../src').DataView;
 // TODO: test the source code immediately, but this is ES6
 
 // TODO: improve DataView tests, split up in one test per function

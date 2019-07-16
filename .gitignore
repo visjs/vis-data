@@ -1,6 +1,7 @@
 # npm files
 node_modules
 npm-debug.log
+vis-data-*.tgz
 
 # ide or system files
 .idea
@@ -16,4 +17,5 @@ npm-debug.log
 gen/
 .nyc_output/
 coverage/
-package-lock.json
+.rpt2_cache
+dist

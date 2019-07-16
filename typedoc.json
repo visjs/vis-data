@@ -1,0 +1,9 @@
+{
+    "excludeExternals": true,
+    "excludeNotExported": true,
+    "excludePrivate": true,
+    "listInvalidSymbolLinks": true,
+    "mode": "file",
+    "out": "./tsdocs",
+    "theme": "minimal"
+}

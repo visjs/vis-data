@@ -10,7 +10,7 @@ This module is part of the [visjs project](https://github.com/visjs)
 
 ## License
 
-Copyright (C) 2010-2018 Almende B.V. and Contributors
+Copyright (C) 2010-2019 Almende B.V. and Contributors
 
 Vis.js is dual licensed under both
 
