@@ -42,8 +42,8 @@
     "lint": "eslint '{src,test}/**/*.{m,}{j,t}s{x,}'",
     "postinstall": "opencollective postinstall",
     "preparepublish": "npm run contributors:update",
-    "test": "BABEL_ENV=test mocha -r ./babel.mocha.js 'test/**/*.test.{j,t}s'",
-    "test-cov": "BABEL_ENV=test nyc --reporter=lcov mocha -r ./babel.mocha.js 'test/**/*.test.{j,t}s'",
+    "test": "BABEL_ENV=test mocha",
+    "test-cov": "BABEL_ENV=test-cov nyc mocha",
     "type-check": "tsc --noemit",
     "watch": "rollup --watch --config rollup.config.js",
     "watch-dev": "npm run watch-dev"
@@ -64,6 +64,7 @@
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.12.0",
     "@typescript-eslint/parser": "^1.12.0",
+    "babel-plugin-istanbul": "^5.1.4",
     "chai": "^4.2.0",
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
