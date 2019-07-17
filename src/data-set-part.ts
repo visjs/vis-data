@@ -35,17 +35,17 @@ export abstract class DataSetPart<Item, IdProp extends string>
 
   protected _trigger(
     event: 'add',
-    payload: EventPayloads<Item, IdProp>['add'] | null,
+    payload: EventPayloads<Item, IdProp>['add'],
     senderId?: Id | null
   ): void
   protected _trigger(
     event: 'update',
-    payload: EventPayloads<Item, IdProp>['update'] | null,
+    payload: EventPayloads<Item, IdProp>['update'],
     senderId?: Id | null
   ): void
   protected _trigger(
     event: 'remove',
-    payload: EventPayloads<Item, IdProp>['remove'] | null,
+    payload: EventPayloads<Item, IdProp>['remove'],
     senderId?: Id | null
   ): void
   /**
@@ -57,11 +57,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
    */
   protected _trigger<Name extends EventName>(
     event: Name,
-    payload:
-      | AddEventPayload
-      | UpdateEventPayload<Item, IdProp>
-      | RemoveEventPayload<Item, IdProp>
-      | null,
+    payload: EventPayloads<Item, IdProp>[Name],
     senderId?: Id | null
   ): void {
     if ((event as string) === '*') {
