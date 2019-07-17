@@ -88,8 +88,7 @@
   },
   "collective": {
     "type": "opencollective",
-    "url": "https://opencollective.com/visjs",
-    "logo": "https://opencollective.com/opencollective/logo.txt"
+    "url": "https://opencollective.com/visjs"
   },
   "contributors": [
     "jos <wjosdejong@gmail.com>",
