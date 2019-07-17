@@ -35,6 +35,13 @@ describe('Data part edge cases', function(): void {
           dp.off('add', (): void => {})
         }, 'Callbacks that are not registered shoudn‘t cause problems.').to.not.throw()
       })
+
+      it('callbacks shoudn’t have access to this', function(): void {
+        dp.on('add', function(this: any): void {
+          expect(this).to.be.undefined
+        })
+        ;(dp as any)._trigger('add', {})
+      })
     })
   })
 })

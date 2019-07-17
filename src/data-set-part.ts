@@ -63,7 +63,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
     }
 
     ;[...this._subscribers[event], ...this._subscribers['*']].forEach((subscriber): void => {
-      subscriber(event, payload, senderId != null ? senderId : null)
+      subscriber.call(null, event, payload, senderId != null ? senderId : null)
     })
   }
 
