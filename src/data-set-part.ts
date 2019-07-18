@@ -1,19 +1,14 @@
 import {
-  AddEventPayload,
   DataInterface,
   EventCallbacksWithAny,
   EventName,
   EventNameWithAny,
-  RemoveEventPayload,
-  UpdateEventPayload,
   Id,
   EventPayloads,
 } from './data-interface'
 
 type EventSubscribers<Item, IdProp extends string> = {
-  [Name in keyof EventCallbacksWithAny<Item, IdProp>]: {
-    callback: any
-  }
+  [Name in keyof EventCallbacksWithAny<Item, IdProp>]: (...args: any[]) => void
 }
 
 /**
@@ -35,17 +30,17 @@ export abstract class DataSetPart<Item, IdProp extends string>
 
   protected _trigger(
     event: 'add',
-    payload: EventPayloads<Item, IdProp>['add'] | null,
+    payload: EventPayloads<Item, IdProp>['add'],
     senderId?: Id | null
   ): void
   protected _trigger(
     event: 'update',
-    payload: EventPayloads<Item, IdProp>['update'] | null,
+    payload: EventPayloads<Item, IdProp>['update'],
     senderId?: Id | null
   ): void
   protected _trigger(
     event: 'remove',
-    payload: EventPayloads<Item, IdProp>['remove'] | null,
+    payload: EventPayloads<Item, IdProp>['remove'],
     senderId?: Id | null
   ): void
   /**
@@ -57,28 +52,16 @@ export abstract class DataSetPart<Item, IdProp extends string>
    */
   protected _trigger<Name extends EventName>(
     event: Name,
-    payload:
-      | AddEventPayload
-      | UpdateEventPayload<Item, IdProp>
-      | RemoveEventPayload<Item, IdProp>
-      | null,
+    payload: EventPayloads<Item, IdProp>[Name],
     senderId?: Id | null
   ): void {
     if ((event as string) === '*') {
       throw new Error('Cannot trigger event *')
     }
 
-    const subscribers: EventSubscribers<Item, IdProp>[Name][] = [
-      ...this._subscribers[event],
-      ...this._subscribers['*'],
-    ]
-
-    for (let i = 0, len = subscribers.length; i < len; i++) {
-      const subscriber = subscribers[i]
-      if (subscriber.callback) {
-        subscriber.callback(event, payload, senderId != null ? senderId : null)
-      }
-    }
+    ;[...this._subscribers[event], ...this._subscribers['*']].forEach((subscriber): void => {
+      subscriber.call(null, event, payload, senderId != null ? senderId : null)
+    })
   }
 
   /** @inheritdoc */
@@ -92,6 +75,8 @@ export abstract class DataSetPart<Item, IdProp extends string>
   /**
    * Subscribe to an event, add an event listener.
    *
+   * @remarks Non-function callbacks are ignored.
+   *
    * @param event - Event name.
    * @param callback - Callback method.
    */
@@ -99,9 +84,10 @@ export abstract class DataSetPart<Item, IdProp extends string>
     event: Name,
     callback: EventCallbacksWithAny<Item, IdProp>[Name]
   ): void {
-    this._subscribers[event].push({
-      callback: callback,
-    })
+    if (typeof callback === 'function') {
+      this._subscribers[event].push(callback)
+    }
+    // @TODO: Maybe throw for invalid callbacks?
   }
 
   /** @inheritdoc */
@@ -125,7 +111,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
     callback: EventCallbacksWithAny<Item, IdProp>[Name]
   ): void {
     this._subscribers[event] = this._subscribers[event].filter(
-      (listener): boolean => listener.callback !== callback
+      (subscriber): boolean => subscriber !== callback
     )
   }
 
