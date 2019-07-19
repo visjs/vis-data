@@ -40,7 +40,7 @@
     "contributors:update": "git-authors-cli",
     "fix": "npm run lint -- --fix",
     "lint": "eslint '{src,test}/**/*.{m,}{j,t}s{x,}'",
-    "postinstall": "opencollective postinstall",
+    "postinstall": "opencollective postinstall || exit 0",
     "preparepublish": "npm run contributors:update",
     "test": "BABEL_ENV=test mocha",
     "test-cov": "BABEL_ENV=test-cov nyc mocha",
