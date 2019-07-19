@@ -36,7 +36,7 @@ describe('DataSet', function () {
 
     // get filtered fields only
     var sort = function (a, b) {
-      return a.id > b.id;
+      return a.id - b.id;
     };
 
     assert.deepEqual(data.get({
@@ -394,12 +394,12 @@ describe('DataSet', function () {
       // on
       dataset.on('update', inc);
       var id = dataset.add({_id: 1, content: 'Item 1', start: new Date(now.valueOf())});
-      dataset.update({id: id, content: 'beep boop'});
+      dataset.update({id: id[0], content: 'beep boop'});
       assert.equal(count, 1);
       // off
       dataset.off('update', inc);
       id = dataset.add({_id: 1, content: 'Item 1', start: new Date(now.valueOf())});
-      dataset.update({id: id, content: 'beep boop'});
+      dataset.update({id: id[0], content: 'beep boop'});
       assert.equal(count, 1);
     });
   });
