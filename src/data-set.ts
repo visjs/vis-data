@@ -131,7 +131,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   public length: number
 
   private _options: DataSetInitialOptions<IdProp>
-  private _data: Record<Id, FullItem<Item, IdProp>>
+  private _data: Map<Id, FullItem<Item, IdProp>>
   private _idProp: IdProp
   private _type: TypeMap
   private _queue?: Queue<this>
@@ -165,7 +165,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     }
 
     this._options = options || {}
-    this._data = Object.create({}) // map with data indexed by id
+    this._data = new Map() // map with data indexed by id
     this.length = 0 // number of items in the DataSet
     this._idProp = this._options.fieldId || ('id' as IdProp) // name of the field containing id
     this._type = {} // internal field types (NOTE: this can differ from this._options.type)
@@ -316,9 +316,9 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
 
     const addOrUpdate = (item: DeepPartial<Item>): void => {
       const origId: OptId = item[idProp]
-      if (origId != null && this._data[origId]) {
+      if (origId != null && this._data.has(origId)) {
         const fullItem = item as FullItem<Item, IdProp> // it has an id, therefore it is a fullitem
-        const oldItem = Object.assign({}, this._data[origId])
+        const oldItem = Object.assign({}, this._data.get(origId))
         // update item
         const id = this._updateItem(fullItem)
         updatedIds.push(id)
@@ -472,7 +472,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
       }
     } else {
       // return all items
-      itemIds = Object.keys(this._data)
+      itemIds = [...this._data.keys()]
       for (let i = 0, len = itemIds.length; i < len; i++) {
         itemId = itemIds[i]
         item = this._getItem(itemId, type)
@@ -527,7 +527,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     const filter = options && options.filter
     const order = options && options.order
     const type = (options && options.type) || this._options.type
-    const itemIds = Object.keys(data)
+    const itemIds = [...data.keys()]
     const ids: Id[] = []
     let item: FullItem<Item, IdProp>
     let items: FullItem<Item, IdProp>[]
@@ -567,7 +567,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
         items = []
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i]
-          items.push(data[id])
+          items.push(data.get(id)!)
         }
 
         this._sort(items, order)
@@ -579,7 +579,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
         // create unordered list
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i]
-          item = data[id]
+          item = data.get(id)!
           ids.push(item[this._idProp])
         }
       }
@@ -601,7 +601,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     const filter = options && options.filter
     const type = (options && options.type) || this._options.type
     const data = this._data
-    const itemIds = Object.keys(data)
+    const itemIds = [...data.keys()]
 
     if (options && options.order) {
       // execute forEach on ordered list
@@ -633,7 +633,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     const type = (options && options.type) || this._options.type
     const mappedItems: T[] = []
     const data = this._data
-    const itemIds = Object.keys(data)
+    const itemIds = [...data.keys()]
 
     // convert and filter items
     for (let i = 0, len = itemIds.length; i < len; i++) {
@@ -789,9 +789,9 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     }
 
     // do the removing if the item is found
-    if (ident != null && this._data[ident]) {
-      const item = this._data[ident]
-      delete this._data[ident]
+    if (ident != null && this._data.has(ident)) {
+      const item = this._data.get(ident) || null
+      this._data.delete(ident)
       --this.length
       return item
     }
@@ -809,14 +809,14 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @returns removedIds - The ids of all removed items.
    */
   public clear(senderId?: Id | null): Id[] {
-    const ids = Object.keys(this._data)
+    const ids = [...this._data.keys()]
     const items: FullItem<Item, IdProp>[] = []
 
     for (let i = 0, len = ids.length; i < len; i++) {
-      items.push(this._data[ids[i]])
+      items.push(this._data.get(ids[i])!)
     }
 
-    this._data = {}
+    this._data.clear()
     this.length = 0
 
     this._trigger('remove', { items: ids, oldData: items }, senderId)
@@ -832,22 +832,18 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @returns Item containing max value, or null if no items.
    */
   public max(field: keyof Item): Item | null {
-    const data = this._data
-    const itemIds = Object.keys(data)
     let max = null
     let maxField = null
 
-    for (let i = 0, len = itemIds.length; i < len; i++) {
-      const id = itemIds[i]
-      const item = data[id]
-      const itemField = (item as any)[field]
-      if (itemField != null && (maxField == null || itemField > maxField)) {
+    for (const item of this._data.values()) {
+      const itemField = item[field]
+      if (typeof itemField === 'number' && (maxField == null || itemField > maxField)) {
         max = item
         maxField = itemField
       }
     }
 
-    return max
+    return max || null
   }
 
   /**
@@ -858,22 +854,18 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    * @returns Item containing min value, or null if no items.
    */
   public min(field: keyof Item): Item | null {
-    const data = this._data
-    const itemIds = Object.keys(data)
     let min = null
     let minField = null
 
-    for (let i = 0, len = itemIds.length; i < len; i++) {
-      const id = itemIds[i]
-      const item = data[id]
-      const itemField = (item as any)[field]
-      if (itemField != null && (minField == null || itemField < minField)) {
+    for (const item of this._data.values()) {
+      const itemField = item[field]
+      if (typeof itemField === 'number' && (minField == null || itemField < minField)) {
         min = item
         minField = itemField
       }
     }
 
-    return min
+    return min || null
   }
 
   public distinct<T extends keyof Item>(prop: T): Item[T][]
@@ -887,14 +879,14 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    */
   public distinct<T extends string>(prop: T): unknown[] {
     const data = this._data
-    const itemIds = Object.keys(data)
+    const itemIds = [...data.keys()]
     const values: unknown[] = []
     const fieldType = (this._options.type && this._options.type[prop]) || null
     let count = 0
 
     for (let i = 0, len = itemIds.length; i < len; i++) {
       const id = itemIds[i]
-      const item = data[id]
+      const item = data.get(id)
       const value = (item as any)[prop]
       let exists = false
       for (let j = 0; j < count; j++) {
@@ -930,7 +922,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
 
     if (id != null) {
       // check whether this id is already taken
-      if (this._data[id]) {
+      if (this._data.has(id)) {
         // item already exists
         throw new Error('Cannot add item: item with id ' + id + ' already exists')
       }
@@ -947,8 +939,8 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
       const fieldType = this._type[field] // type may be undefined
       d[field] = convert((item as any)[field], fieldType)
     }
-    this._data[id] = d
-    this.length++
+    this._data.set(id, d)
+    ++this.length
 
     return id
   }
@@ -966,7 +958,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   private _getItem(id: Id, types?: TypeMap): any {
     // @TODO: I have no idea how to type this.
     // get the item from the dataset
-    const raw = this._data[id]
+    const raw = this._data.get(id)
     if (!raw) {
       return null
     }
@@ -1007,7 +999,7 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     if (id == null) {
       throw new Error('Cannot update item: item has no id (item: ' + JSON.stringify(item) + ')')
     }
-    const d = this._data[id]
+    const d = this._data.get(id)
     if (!d) {
       // item doesn't exist
       throw new Error('Cannot update item: no item with id ' + id + ' found')

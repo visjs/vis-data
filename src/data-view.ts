@@ -88,7 +88,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   private listener: EventCallbacksWithAny<Item, IdProp>['*']
 
   private _data!: DataInterface<Item, IdProp> // constructor → setData
-  private _ids: Record<Id, true> = {} // ids of the items currently in memory (just contains a boolean true)
+  private _ids: Set<Id> = new Set() // ids of the items currently in memory (just contains a boolean true)
   private _options: DataViewOptions<Item, IdProp>
 
   /**
@@ -126,7 +126,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
       const ids = this._data.getIds({ filter: this._options.filter })
       const items = this._data.get(ids)
 
-      this._ids = {}
+      this._ids.clear()
       this.length = 0
       this._trigger('remove', { items: ids, oldData: items })
     }
@@ -138,7 +138,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
       const ids = this._data.getIds({ filter: this._options.filter })
       for (let i = 0, len = ids.length; i < len; i++) {
         const id = ids[i]
-        this._ids[id] = true
+        this._ids.add(id)
       }
       this.length = ids.length
       this._trigger('add', { items: ids })
@@ -160,7 +160,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
     const ids = this._data.getIds({
       filter: this._options.filter,
     })
-    const oldIds = Object.keys(this._ids) as Id[]
+    const oldIds = [...this._ids]
     const newIds: Record<Id, boolean> = {}
     const addedIds: Id[] = []
     const removedIds: Id[] = []
@@ -170,9 +170,9 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
     for (let i = 0, len = ids.length; i < len; i++) {
       const id = ids[i]
       newIds[id] = true
-      if (!this._ids[id]) {
+      if (!this._ids.has(id)) {
         addedIds.push(id)
-        this._ids[id] = true
+        this._ids.add(id)
       }
     }
 
@@ -189,7 +189,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
       } else if (!newIds[id]) {
         removedIds.push(id)
         removedItems.push(item)
-        delete this._ids[id]
+        this._ids.delete(id)
       }
     }
 
@@ -416,7 +416,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
           const id = ids[i]
           const item = this.get(id)
           if (item) {
-            this._ids[id] = true
+            this._ids.add(id)
             addedIds.push(id)
           }
         }
@@ -431,17 +431,17 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
           const item = this.get(id)
 
           if (item) {
-            if (this._ids[id]) {
+            if (this._ids.has(id)) {
               updatedIds.push(id)
               updatedItems.push((params as UpdateEventPayload<Item, IdProp>).data[i])
               oldItems.push((params as UpdateEventPayload<Item, IdProp>).oldData[i])
             } else {
-              this._ids[id] = true
+              this._ids.add(id)
               addedIds.push(id)
             }
           } else {
-            if (this._ids[id]) {
-              delete this._ids[id]
+            if (this._ids.has(id)) {
+              this._ids.delete(id)
               removedIds.push(id)
               removedItems.push((params as UpdateEventPayload<Item, IdProp>).oldData[i])
             } else {
@@ -456,8 +456,8 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
         // filter the ids of the removed items
         for (let i = 0, len = ids.length; i < len; i++) {
           const id = ids[i]
-          if (this._ids[id]) {
-            delete this._ids[id]
+          if (this._ids.has(id)) {
+            this._ids.delete(id)
             removedIds.push(id)
             removedItems.push((params as RemoveEventPayload<Item, IdProp>).oldData[i])
           }
