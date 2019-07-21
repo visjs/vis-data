@@ -85,11 +85,11 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   implements DataInterface<Item, IdProp> {
   /** @inheritdoc */
   public length: number = 0
-  private listener: EventCallbacksWithAny<Item, IdProp>['*']
+  private readonly _listener: EventCallbacksWithAny<Item, IdProp>['*']
 
   private _data!: DataInterface<Item, IdProp> // constructor → setData
-  private _ids: Set<Id> = new Set() // ids of the items currently in memory (just contains a boolean true)
-  private _options: DataViewOptions<Item, IdProp>
+  private readonly _ids: Set<Id> = new Set() // ids of the items currently in memory (just contains a boolean true)
+  private readonly _options: DataViewOptions<Item, IdProp>
 
   /**
    * Create a DataView.

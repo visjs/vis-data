@@ -54,7 +54,7 @@ export class Queue<T = never> {
   /** Maximum number of entries in the queue before it will be flushed. */
   public max: number
 
-  private _queue: {
+  private readonly _queue: {
     fn: Function
     args?: unknown[]
     context?: unknown

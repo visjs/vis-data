@@ -130,10 +130,10 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   /** @inheritdoc */
   public length: number
 
-  private _options: DataSetInitialOptions<IdProp>
-  private _data: Map<Id, FullItem<Item, IdProp>>
-  private _idProp: IdProp
-  private _type: TypeMap
+  private readonly _options: DataSetInitialOptions<IdProp>
+  private readonly _data: Map<Id, FullItem<Item, IdProp>>
+  private readonly _idProp: IdProp
+  private readonly _type: TypeMap
   private _queue?: Queue<this>
 
   public constructor()
