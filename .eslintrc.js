@@ -55,6 +55,11 @@ module.exports = {
       },
     ],
 
+    '@typescript-eslint/member-naming': [
+      'error',
+      { private: '^_', protected: '^_', public: '^[^_]' },
+    ],
+
     '@typescript-eslint/prefer-readonly': 'error',
 
     // Not yet

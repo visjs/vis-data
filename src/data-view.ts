@@ -102,7 +102,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
 
     this._options = options || {}
 
-    this.listener = this._onEvent.bind(this)
+    this._listener = this._onEvent.bind(this)
 
     this.setData(data)
   }
@@ -119,7 +119,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
     if (this._data) {
       // unsubscribe from current dataset
       if (this._data.off) {
-        this._data.off('*', this.listener)
+        this._data.off('*', this._listener)
       }
 
       // trigger a remove of all items in memory
@@ -148,7 +148,7 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
 
     // subscribe to new dataset
     if (this._data.on) {
-      this._data.on('*', this.listener)
+      this._data.on('*', this._listener)
     }
   }
 
