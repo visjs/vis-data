@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+
 import {
   DataInterface,
   EventCallbacksWithAny,
   EventName,
   EventNameWithAny,
-  Id,
   EventPayloads,
+  Id,
 } from './data-interface'
 
 type EventSubscribers<Item, IdProp extends string> = {

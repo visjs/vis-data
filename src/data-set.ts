@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
+
 import { uuid4 } from 'vis-uuid'
 import { convert } from 'vis-util'
 

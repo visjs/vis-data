@@ -1,5 +1,6 @@
 import {
   DataInterface,
+  DataInterfaceForEachOptions,
   DataInterfaceGetIdsOptions,
   DataInterfaceGetOptions,
   DataInterfaceGetOptionsArray,
@@ -14,7 +15,6 @@ import {
   RemoveEventPayload,
   UpdateEventPayload,
   isId,
-  DataInterfaceForEachOptions,
 } from './data-interface'
 
 import { DataSet } from './data-set'

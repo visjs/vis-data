@@ -7,6 +7,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'prettier/@typescript-eslint',
@@ -15,6 +16,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2019,
+    project: './tsconfig.json',
   },
   plugins: ['prettier'],
   rules: {
@@ -55,12 +57,27 @@ module.exports = {
       },
     ],
 
+    'sort-imports': [
+      'error',
+      {
+        ignoreCase: false,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      },
+    ],
     '@typescript-eslint/member-naming': [
       'error',
       { private: '^_', protected: '^_', public: '^[^_]' },
     ],
 
+    '@typescript-eslint/member-ordering': 'error',
+    '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+    '@typescript-eslint/no-useless-constructor': 'error',
+    '@typescript-eslint/prefer-includes': 'error',
     '@typescript-eslint/prefer-readonly': 'error',
+    '@typescript-eslint/prefer-regexp-exec': 'error',
+    // '@typescript-eslint/require-await': 'error',
 
     // Not yet
     '@typescript-eslint/no-explicit-any': 'off',
