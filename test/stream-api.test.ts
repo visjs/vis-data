@@ -183,6 +183,28 @@ const testStreamAPI = function(
       expect(stream.reduce(reduceStub, 0)).to.equal(2)
     })
   })
+
+  describe('Combinations', function(): void {
+    it('Filter → Map → Reduce', function(): void {
+      const reduceStub = stub()
+      reduceStub.withArgs(0, { id: 7 }, 7).returns(1)
+      reduceStub.withArgs(1, { id: 10 }, 10).returns(2)
+      reduceStub.throws('Invalid callback input.')
+
+      const stream = createDataStream([
+        [7, { id: 7 }],
+        [13, { id: 13 }],
+        [10, { id: 10 }],
+        [3, { id: 3 }],
+      ])
+      const filteredSum = stream
+        .filter((_, id): boolean => +id % 2 !== 0)
+        .map((item): number => item.id)
+        .reduce((acc, val): number => acc + val, 0)
+
+      expect(filteredSum).to.equal(23)
+    })
+  })
 }
 
 describe('Stream API', function(): void {
