@@ -1,4 +1,5 @@
 import { DataSet } from './data-set'
+import { DataStream } from './data-stream'
 
 type ValueOf<T> = T[keyof T]
 
@@ -514,4 +515,13 @@ export interface DataInterface<Item extends PartItem<IdProp>, IdProp extends str
    * @returns The mapped items.
    */
   map<T>(callback: (item: Item, id: Id) => T, options?: DataInterfaceMapOptions<Item, T>): T[]
+
+  /**
+   * Stream.
+   *
+   * @param ids - Ids of the items to be included in this stream (missing are ignored), all if omitted.
+   *
+   * @returns The data stream for this data set.
+   */
+  stream(ids?: Iterable<Id>): DataStream<Item>
 }

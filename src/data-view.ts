@@ -19,6 +19,7 @@ import {
 
 import { DataSet } from './data-set'
 import { DataSetPart } from './data-set-part'
+import { DataStream } from './data-stream'
 
 /**
  * Data view options.
@@ -383,6 +384,11 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
   /** @inheritdoc */
   public getDataSet(): DataSet<Item, IdProp> {
     return this._data.getDataSet()
+  }
+
+  /** @inheritdoc */
+  public stream(ids?: Iterable<Id>): DataStream<Item> {
+    return this._data.stream(ids || this._ids.keys())
   }
 
   /**

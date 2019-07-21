@@ -22,6 +22,7 @@ import {
 
 import { Queue, QueueOptions } from './queue'
 import { DataSetPart } from './data-set-part'
+import { DataStream } from './data-stream'
 
 type DeepPartial<T> = T extends any[] | Function | Node
   ? T
@@ -1014,5 +1015,23 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     }
 
     return id
+  }
+
+  /** @inheritdoc */
+  public stream(ids?: Iterable<Id>): DataStream<Item> {
+    if (ids) {
+      const data = this._data
+      const generator = function*(): IterableIterator<[Id, Item]> {
+        for (const id of ids) {
+          const item = data.get(id)
+          if (item != null) {
+            yield [id, item]
+          }
+        }
+      }
+      return new DataStream<Item>(generator())
+    } else {
+      return new DataStream(this._data.entries())
+    }
   }
 }
