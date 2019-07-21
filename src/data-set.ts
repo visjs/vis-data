@@ -136,11 +136,10 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   private readonly _type: TypeMap
   private _queue?: Queue<this>
 
-  public constructor()
   /**
    * @param options - DataSet configuration.
    */
-  public constructor(options: DataSetInitialOptions<IdProp>)
+  public constructor(options?: DataSetInitialOptions<IdProp>)
   /**
    * @param data - An initial set of items for the new instance.
    * @param options - DataSet configuration.
@@ -654,7 +653,6 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
 
   private _filterFields<K extends string>(item: null, fields: K[]): null
   private _filterFields<K extends string>(item: Record<K, unknown>, fields: K[]): Record<K, unknown>
-  private _filterFields<K extends string>(item: Record<K, unknown>, fields: Record<K, string>): any
   private _filterFields<K extends string>(
     item: Record<K, unknown>,
     fields: K[] | Record<K, string>
