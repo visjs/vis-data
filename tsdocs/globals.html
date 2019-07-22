@@ -985,6 +985,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 			<a href="globals.html#datainterfaceorder" class="tsd-kind-icon">Data<wbr>Interface<wbr>Order</a>
 		</li>
+		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+			<a href="globals.html#deeppartial" class="tsd-kind-icon">Deep<wbr>Partial</a>
+		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="globals.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
 		</li>
@@ -1008,6 +1011,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="globals.html#types" class="tsd-kind-icon">Types</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+			<a href="globals.html#updateitem" class="tsd-kind-icon">Update<wbr>Item</a>
 		</li>
 		<li class=" tsd-kind-function tsd-has-type-parameter">
 			<a href="globals.html#isfullitem" class="tsd-kind-icon">is<wbr>Full<wbr>Item</a>
@@ -1085,6 +1091,7 @@ img { max-width: 100%; }
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#datainterfacegetoptions" class="tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options</a></li>
 							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#datainterfaceorder" class="tsd-kind-icon">Data<wbr>Interface<wbr>Order</a></li>
+							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#deeppartial" class="tsd-kind-icon">Deep<wbr>Partial</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#eventnamewithany" class="tsd-kind-icon">Event<wbr>Name<wbr>With<wbr>Any</a></li>
 							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#fullitem" class="tsd-kind-icon">Full<wbr>Item</a></li>
@@ -1093,6 +1100,7 @@ img { max-width: 100%; }
 							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#partitem" class="tsd-kind-icon">Part<wbr>Item</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#typemap" class="tsd-kind-icon">Type<wbr>Map</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#types" class="tsd-kind-icon">Types</a></li>
+							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#updateitem" class="tsd-kind-icon">Update<wbr>Item</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -1113,7 +1121,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Data<wbr>Interface<wbr>Get<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="interfaces/datainterfacegetoptionsarray.html" class="tsd-signature-type">DataInterfaceGetOptionsArray</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/datainterfacegetoptionsobject.html" class="tsd-signature-type">DataInterfaceGetOptionsObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L235">data-interface.ts:235</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L263">data-interface.ts:263</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1128,7 +1136,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Data<wbr>Interface<wbr>Order<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof Item</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L194">data-interface.ts:194</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L212">data-interface.ts:212</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1141,13 +1149,28 @@ img { max-width: 100%; }
 					</div>
 				</div>
 			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+				<a name="deeppartial" class="tsd-anchor"></a>
+				<h3>Deep<wbr>Partial</h3>
+				<div class="tsd-signature tsd-kind-icon">Deep<wbr>Partial<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DeepPartial&lt;T&gt;</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L49">data-interface.ts:49</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Make an object deeply partial.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="eventname" class="tsd-anchor"></a>
 				<h3>Event<wbr>Name</h3>
 				<div class="tsd-signature tsd-kind-icon">Event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof EventPayloads&lt;never, &quot;&quot;&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L181">data-interface.ts:181</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L199">data-interface.ts:199</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1162,7 +1185,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Event<wbr>Name<wbr>With<wbr>Any<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof EventPayloadsWithAny&lt;never, &quot;&quot;&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L183">data-interface.ts:183</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L201">data-interface.ts:201</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1177,7 +1200,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Full<wbr>Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">, </span><a href="globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L58">data-interface.ts:58</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L67">data-interface.ts:67</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1192,7 +1215,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L32">data-interface.ts:32</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L32">data-interface.ts:32</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1207,7 +1230,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Opt<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="globals.html#id" class="tsd-signature-type">Id</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L34">data-interface.ts:34</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L34">data-interface.ts:34</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1222,7 +1245,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Part<wbr>Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">, </span><a href="globals.html#optid" class="tsd-signature-type">OptId</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L51">data-interface.ts:51</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L60">data-interface.ts:60</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1237,7 +1260,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Type<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="globals.html#types" class="tsd-signature-type">Types</a><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L186">data-interface.ts:186</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L204">data-interface.ts:204</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1252,7 +1275,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"boolean"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Boolean"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"number"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Number"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"string"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"String"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Date"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"ISODate"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"ASPDate"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Moment"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L19">data-interface.ts:19</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L19">data-interface.ts:19</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1305,6 +1328,21 @@ img { max-width: 100%; }
 					</tbody></table>
 				</div>
 			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+				<a name="updateitem" class="tsd-anchor"></a>
+				<h3>Update<wbr>Item</h3>
+				<div class="tsd-signature tsd-kind-icon">Update<wbr>Item<span class="tsd-signature-symbol">:</span> <a href="globals.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">, </span><a href="globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">&gt;</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L75">data-interface.ts:75</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An item that has a property containing an id and optionally other properties of given item type.</p>
+					</div>
+				</div>
+			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Functions</h2>
@@ -1318,7 +1356,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L71">data-interface.ts:71</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L89">data-interface.ts:89</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1371,7 +1409,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/a8459fc/src/data-interface.ts#L42">data-interface.ts:42</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-interface.ts#L42">data-interface.ts:42</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
