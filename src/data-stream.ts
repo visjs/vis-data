@@ -181,4 +181,19 @@ export class DataStream<Item> {
     }
     return accumulator
   }
+
+  /**
+   * Sort the items.
+   *
+   * @param callback - Item comparator.
+   *
+   * @returns A new stream with sorted items.
+   */
+  public sort(callback: (itemA: Item, itemB: Item, idA: Id, idB: Id) => number): DataStream<Item> {
+    return new DataStream(
+      [...this._pairs].sort(([idA, itemA], [idB, itemB]): number =>
+        callback(itemA, itemB, idA, idB)
+      )
+    )
+  }
 }

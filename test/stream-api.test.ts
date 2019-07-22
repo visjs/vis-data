@@ -182,6 +182,70 @@ const testStreamAPI = function(
 
       expect(stream.reduce(reduceStub, 0)).to.equal(2)
     })
+
+    describe('Sort', function(): void {
+      it('No items', function(): void {
+        const sortSpy = spy()
+
+        const stream = createDataStream([])
+
+        expect([...stream.sort(sortSpy)]).to.deep.equal([])
+        expect(
+          sortSpy.callCount,
+          'There are no items, so the callback shouldn‘t be called.'
+        ).to.equal(0)
+      })
+
+      it('8 sorted items', function(): void {
+        const stream = createDataStream([
+          [1, { id: 1 }],
+          [2, { id: 2 }],
+          [3, { id: 3 }],
+          [4, { id: 4 }],
+          [5, { id: 5 }],
+          [6, { id: 6 }],
+          [7, { id: 7 }],
+          [8, { id: 8 }],
+        ])
+
+        expect([...stream.sort((_a, _b, idA, idB): number => +idA - +idB)]).to.deep.equal([
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+          { id: 4 },
+          { id: 5 },
+          { id: 6 },
+          { id: 7 },
+          { id: 8 },
+        ])
+      })
+
+      it('8 unsorted items', function(): void {
+        const stream = createDataStream([
+          [5, { value: 43, id: 5 }],
+          [4, { value: -12, id: 4 }],
+          [6, { value: 6, id: 6 }],
+          [8, { value: 1, id: 8 }],
+          [7, { value: 20, id: 7 }],
+          [3, { value: 3, id: 3 }],
+          [2, { value: 3, id: 2 }],
+          [1, { value: Math.PI, id: 1 }],
+        ])
+
+        expect([
+          ...stream.sort((a, b, idA, idB): number => a.value - b.value || +idA - +idB),
+        ]).to.deep.equal([
+          { value: -12, id: 4 },
+          { value: 1, id: 8 },
+          { value: 3, id: 2 },
+          { value: 3, id: 3 },
+          { value: Math.PI, id: 1 },
+          { value: 6, id: 6 },
+          { value: 20, id: 7 },
+          { value: 43, id: 5 },
+        ])
+      })
+    })
   })
 
   describe('Combinations', function(): void {
