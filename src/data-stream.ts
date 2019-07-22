@@ -5,7 +5,7 @@ import { Id } from './data-interface'
  *
  * @typeparam Item - The item type this stream is going to work with.
  */
-export class DataStream<Item> {
+export class DataStream<Item> implements Iterable<Item> {
   /**
    * Create a new data stream.
    *
@@ -13,11 +13,10 @@ export class DataStream<Item> {
    */
   public constructor(private readonly _pairs: Iterable<[Id, Item]>) {}
 
-  public [Symbol.iterator](): IterableIterator<Item>
   /**
    * Get the ES compatible iterator.
    */
-  public *[Symbol.iterator](): IterableIterator<Item> {
+  public *[Symbol.iterator](): Iterator<Item> {
     for (const [, item] of this._pairs) {
       yield item
     }
@@ -51,14 +50,15 @@ export class DataStream<Item> {
    */
   public filter(callback: (item: Item, id: Id) => boolean): DataStream<Item> {
     const pairs = this._pairs
-    const generator = function*(): IterableIterator<[Id, Item]> {
-      for (const [id, item] of pairs) {
-        if (callback(item, id)) {
-          yield [id, item]
+    return new DataStream<Item>({
+      *[Symbol.iterator](): IterableIterator<[Id, Item]> {
+        for (const [id, item] of pairs) {
+          if (callback(item, id)) {
+            yield [id, item]
+          }
         }
-      }
-    }
-    return new DataStream<Item>(generator())
+      },
+    })
   }
 
   /**
@@ -101,12 +101,13 @@ export class DataStream<Item> {
    */
   public map<Mapped>(callback: (item: Item, id: Id) => Mapped): DataStream<Mapped> {
     const pairs = this._pairs
-    const generator = function*(): IterableIterator<[Id, Mapped]> {
-      for (const [id, item] of pairs) {
-        yield [id, callback(item, id)]
-      }
-    }
-    return new DataStream<Mapped>(generator())
+    return new DataStream<Mapped>({
+      *[Symbol.iterator](): IterableIterator<[Id, Mapped]> {
+        for (const [id, item] of pairs) {
+          yield [id, callback(item, id)]
+        }
+      },
+    })
   }
 
   /**

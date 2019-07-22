@@ -1119,17 +1119,21 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   public stream(ids?: Iterable<Id>): DataStream<Item> {
     if (ids) {
       const data = this._data
-      const generator = function*(): IterableIterator<[Id, Item]> {
-        for (const id of ids) {
-          const item = data.get(id)
-          if (item != null) {
-            yield [id, item]
+
+      return new DataStream<Item>({
+        *[Symbol.iterator](): IterableIterator<[Id, Item]> {
+          for (const id of ids) {
+            const item = data.get(id)
+            if (item != null) {
+              yield [id, item]
+            }
           }
-        }
-      }
-      return new DataStream<Item>(generator())
+        },
+      })
     } else {
-      return new DataStream(this._data.entries())
+      return new DataStream({
+        [Symbol.iterator]: this._data.entries.bind(this._data),
+      })
     }
   }
 }

@@ -388,7 +388,11 @@ export class DataView<Item extends PartItem<IdProp>, IdProp extends string = 'id
 
   /** @inheritdoc */
   public stream(ids?: Iterable<Id>): DataStream<Item> {
-    return this._data.stream(ids || this._ids.keys())
+    return this._data.stream(
+      ids || {
+        [Symbol.iterator]: this._ids.keys.bind(this._ids),
+      }
+    )
   }
 
   /**
