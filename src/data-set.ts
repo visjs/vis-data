@@ -42,6 +42,9 @@ export interface DataSetInitialOptions<IdProp extends string> {
   fieldId?: IdProp
   /**
    * An object containing field names as key, and data types as value. By default, the type of the properties of items are left unchanged. Item properties can be normalized by specifying a field type. This is useful for example to automatically convert stringified dates coming from a server into JavaScript Date objects. The available data types are listed in [[TypeMap]].
+   *
+   * @remarks
+   * **Warning**: There is no TypeScript support for this.
    */
   type?: TypeMap
   /**
@@ -277,8 +280,9 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
   }
 
   /**
-   * Update existing items. When an item does not exist, it will be created
+   * Update existing items. When an item does not exist, it will be created.
    *
+   * @remarks
    * The provided properties will be merged in the existing item. When an item does not exist, it will be created.
    *
    * After the items are updated, the DataSet will trigger an event `add` for the added items, and an event `update`. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
@@ -301,6 +305,9 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
    *
    * console.log(ids) // [2, 4]
    * ```
+   *
+   * ## Warning for TypeScript users
+   * This method may introduce partial items into the data set. Use add or updateOnly instead for better type safety.
    *
    * @param data - Items to be updated (if the id is already present) or added (if the id is missing).
    * @param senderId - Sender id.

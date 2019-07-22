@@ -199,13 +199,23 @@ export type DataInterfaceOrder<Item> = keyof Item | ((a: Item, b: Item) => numbe
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsBase<Item> {
-  /** An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items. */
+  /**
+   * An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items.
+   *
+   * @remarks
+   * **Warning**: There is no TypeScript support for this.
+   */
   fields?: string[] | Record<string, string>
   /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
   filter?: (item: Item) => boolean
   /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>
-  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
+  /**
+   * An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa.
+   *
+   * @remarks
+   * **Warning**: There is no TypeScript support for this.
+   */
   type?: TypeMap
 }
 
