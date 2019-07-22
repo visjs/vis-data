@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
 
 import { uuid4 } from 'vis-uuid'
-import { convert } from 'vis-util'
+import { convert, deepExtend } from 'vis-util'
 
 import {
   DataInterface,
@@ -12,23 +12,20 @@ import {
   DataInterfaceGetOptionsObject,
   DataInterfaceMapOptions,
   DataInterfaceOrder,
+  DeepPartial,
+  EventPayloads,
   FullItem,
   Id,
   OptId,
   PartItem,
   TypeMap,
+  UpdateItem,
   isId,
 } from './data-interface'
 
 import { Queue, QueueOptions } from './queue'
 import { DataSetPart } from './data-set-part'
 import { DataStream } from './data-stream'
-
-type DeepPartial<T> = T extends any[] | Function | Node
-  ? T
-  : T extends object
-  ? { [key in keyof T]?: DeepPartial<T[key]> }
-  : T
 
 /**
  * Initial DataSet configuration object.
@@ -372,6 +369,100 @@ export class DataSet<Item extends PartItem<IdProp>, IdProp extends string = 'id'
     }
 
     return addedIds.concat(updatedIds)
+  }
+
+  /**
+   * Update existing items. When an item does not exist, an error will be thrown.
+   *
+   * @remarks
+   * The provided properties will be deeply merged into the existing item.
+   * When an item does not exist (id not present in the data set or absent), an error will be thrown and nothing will be changed.
+   *
+   * After the items are updated, the DataSet will trigger an event `update`.
+   * When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
+   *
+   * ## Example
+   *
+   * ```javascript
+   * // create a DataSet
+   * const data = new vis.DataSet([
+   *   { id: 1, text: 'item 1' },
+   *   { id: 2, text: 'item 2' },
+   *   { id: 3, text: 'item 3' },
+   * ])
+   *
+   * // update items
+   * const ids = data.update([
+   *   { id: 2, text: 'item 2 (updated)' }, // works
+   *   // { id: 4, text: 'item 4 (new)' }, // would throw
+   *   // { text: 'item 4 (new)' }, // would also throw
+   * ])
+   *
+   * console.log(ids) // [2]
+   * ```
+   *
+   * @param data - Updates (the id and optionally other props) to the items in this data set.
+   * @param senderId - Sender id.
+   *
+   * @returns updatedIds - The ids of the updated items.
+   *
+   * @throws When the supplied data is neither an item nor an array of items, when the ids are missing.
+   */
+  public updateOnly(
+    data: UpdateItem<Item, IdProp> | UpdateItem<Item, IdProp>[],
+    senderId?: Id | null
+  ): Id[] {
+    if (!Array.isArray(data)) {
+      data = [data]
+    }
+
+    const updateEventData = data
+      .map((update): {
+        oldData: FullItem<Item, IdProp>
+        update: UpdateItem<Item, IdProp>
+      } => {
+        const oldData = this._data.get(update[this._idProp])
+        if (oldData == null) {
+          throw new Error('Updating non-existent items is not allowed.')
+        }
+        return { oldData, update }
+      })
+      .map(({ oldData, update }): {
+        id: Id
+        oldData: FullItem<Item, IdProp>
+        updatedData: FullItem<Item, IdProp>
+      } => {
+        const id = oldData[this._idProp]
+        const updatedData = deepExtend(deepExtend({}, oldData), update)
+
+        this._data.set(id, updatedData)
+
+        return {
+          id,
+          oldData: oldData,
+          updatedData,
+        }
+      })
+
+    if (updateEventData.length) {
+      const props: EventPayloads<Item, IdProp>['update'] = {
+        items: updateEventData.map((value): Id => value.id),
+        oldData: updateEventData.map((value): FullItem<Item, IdProp> => value.oldData),
+        data: updateEventData.map((value): FullItem<Item, IdProp> => value.updatedData),
+      }
+      // TODO: remove deprecated property 'data' some day
+      //Object.defineProperty(props, 'data', {
+      //  'get': (function() {
+      //    console.warn('Property data is deprecated. Use DataSet.get(ids) to retrieve the new data, use the oldData property on this object to get the old data');
+      //    return updatedData;
+      //  }).bind(this)
+      //});
+      this._trigger('update', props, senderId)
+
+      return props.items
+    } else {
+      return []
+    }
   }
 
   /** @inheritdoc */

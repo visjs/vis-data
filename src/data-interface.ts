@@ -44,6 +44,15 @@ export function isId(value: unknown): value is Id {
 }
 
 /**
+ * Make an object deeply partial.
+ */
+export type DeepPartial<T> = T extends any[] | Function | Node
+  ? T
+  : T extends object
+  ? { [key in keyof T]?: DeepPartial<T[key]> }
+  : T
+
+/**
  * An item that may ([[Id]]) or may not (absent, undefined or null) have an id property.
  *
  * @typeParam IdProp - Name of the property that contains the id.
@@ -57,6 +66,15 @@ export type PartItem<IdProp extends string> = Partial<Record<IdProp, OptId>>
  */
 export type FullItem<Item extends PartItem<IdProp>, IdProp extends string> = Item &
   Record<IdProp, Id>
+/**
+ * An item that has a property containing an id and optionally other properties of given item type.
+ *
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
+ */
+export type UpdateItem<Item extends PartItem<IdProp>, IdProp extends string> = DeepPartial<Item> &
+  Record<IdProp, Id>
+
 /**
  * Test whether an item has an id (is [[FullItem]]).
  *
