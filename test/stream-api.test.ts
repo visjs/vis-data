@@ -220,22 +220,32 @@ const testStreamAPI = function(
         ])
       })
 
-      it('8 unsorted items', function(): void {
+      it('14 unsorted items', function(): void {
         const stream = createDataStream([
-          [5, { value: 43, id: 5 }],
-          [4, { value: -12, id: 4 }],
-          [6, { value: 6, id: 6 }],
-          [8, { value: 1, id: 8 }],
-          [7, { value: 20, id: 7 }],
-          [3, { value: 3, id: 3 }],
-          [2, { value: 3, id: 2 }],
           [1, { value: Math.PI, id: 1 }],
+          [12, { value: 0, id: 12 }],
+          [6, { value: 6, id: 6 }],
+          [11, { value: 0, id: 11 }],
+          [9, { value: Number.MAX_SAFE_INTEGER, id: 9 }],
+          [14, { value: Number.MAX_VALUE, id: 14 }],
+          [7, { value: 20, id: 7 }],
+          [2, { value: 3, id: 2 }],
+          [3, { value: 3, id: 3 }],
+          [4, { value: -12, id: 4 }],
+          [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
+          [5, { value: 43, id: 5 }],
+          [13, { value: Number.MIN_VALUE, id: 13 }],
+          [8, { value: 1, id: 8 }],
         ])
 
         expect([
           ...stream.sort((a, b, idA, idB): number => a.value - b.value || +idA - +idB),
         ]).to.deep.equal([
+          { value: Number.MIN_SAFE_INTEGER, id: 10 },
           { value: -12, id: 4 },
+          { value: 0, id: 11 },
+          { value: 0, id: 12 },
+          { value: Number.MIN_VALUE, id: 13 },
           { value: 1, id: 8 },
           { value: 3, id: 2 },
           { value: 3, id: 3 },
@@ -243,6 +253,8 @@ const testStreamAPI = function(
           { value: 6, id: 6 },
           { value: 20, id: 7 },
           { value: 43, id: 5 },
+          { value: Number.MAX_SAFE_INTEGER, id: 9 },
+          { value: Number.MAX_VALUE, id: 14 },
         ])
       })
     })
