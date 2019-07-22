@@ -42,9 +42,12 @@
     "lint": "eslint '{src,test}/**/*.{m,}{j,t}s{x,}'",
     "postinstall": "opencollective postinstall || exit 0",
     "preparepublish": "npm run contributors:update",
+    "prepublishOnly": "npm run test && npm run type-check && npm run lint",
+    "preversion": "npm run test && npm run type-check && npm run lint",
     "test": "BABEL_ENV=test mocha",
     "test-cov": "BABEL_ENV=test-cov nyc mocha",
     "type-check": "tsc --noemit",
+    "version": "npm run build:docs && git add tsdocs && npm run contributors:update && git add package.json",
     "watch": "rollup --watch --config rollup.config.js",
     "watch-dev": "npm run watch-dev"
   },
