@@ -1,6 +1,6 @@
 {
   "name": "vis-data",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "Manage unstructured data using DataSet. Add, update, and remove data, and listen for changes in the data.",
   "homepage": "http://visjs.org/",
   "license": "(Apache-2.0 OR MIT)",
