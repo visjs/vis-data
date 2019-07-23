@@ -113,13 +113,13 @@ const testStreamAPI = function(
 
       it('With data', function(): void {
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
-        expect([...stream]).to.deep.equal([{ id: 7 }, { id: 10 }])
+        expect([...stream]).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]])
       })
 
       it('Two times with data', function(): void {
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
-        expect([...stream]).to.deep.equal([{ id: 7 }, { id: 10 }])
-        expect([...stream]).to.deep.equal([{ id: 7 }, { id: 10 }])
+        expect([...stream]).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]])
+        expect([...stream]).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]])
       })
     })
 
@@ -127,8 +127,8 @@ const testStreamAPI = function(
       it('Empty', function(): void {
         const fofSpy = spy()
         const { stream } = createDataStream([] as any)
-        for (const item of stream) {
-          fofSpy(item)
+        for (const pair of stream) {
+          fofSpy(pair)
         }
         expect(fofSpy.callCount).to.equal(0)
       })
@@ -137,33 +137,38 @@ const testStreamAPI = function(
         const fofSpy = spy()
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
-        for (const item of stream) {
-          fofSpy(item)
+        for (const pair of stream) {
+          fofSpy(pair)
         }
 
         expect(fofSpy.callCount).to.equal(2)
 
         expect(
           fofSpy.getCalls().map((call): any => call.args[0])
-        ).to.deep.equal([{ id: 7 }, { id: 10 }])
+        ).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]])
       })
 
       it('Two times with data', function(): void {
         const fofSpy = spy()
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
-        for (const item of stream) {
-          fofSpy(item)
+        for (const pair of stream) {
+          fofSpy(pair)
         }
-        for (const item of stream) {
-          fofSpy(item)
+        for (const pair of stream) {
+          fofSpy(pair)
         }
 
         expect(fofSpy.callCount).to.equal(4)
 
         expect(
           fofSpy.getCalls().map((call): any => call.args[0])
-        ).to.deep.equal([{ id: 7 }, { id: 10 }, { id: 7 }, { id: 10 }])
+        ).to.deep.equal([
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+        ])
       })
     })
   })
@@ -181,16 +186,16 @@ const testStreamAPI = function(
         const cached = stream.cache()
 
         expect([...stream]).to.deep.equal([
-          { id: 3 },
-          { id: 7 },
-          { id: 10 },
-          { id: 13 },
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
         ])
         expect([...cached]).to.deep.equal([
-          { id: 3 },
-          { id: 7 },
-          { id: 10 },
-          { id: 13 },
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
         ])
       })
 
@@ -209,10 +214,10 @@ const testStreamAPI = function(
 
         expect([...stream]).to.have.lengthOf(2)
         expect([...cached]).to.deep.equal([
-          { id: 3 },
-          { id: 7 },
-          { id: 10 },
-          { id: 13 },
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
         ])
       })
 
@@ -230,16 +235,16 @@ const testStreamAPI = function(
         update(13, { id: 13, value: -13 })
 
         expect([...stream]).to.deep.equal([
-          { id: 3, value: -3 },
-          { id: 7, value: 7 },
-          { id: 10, value: 10 },
-          { id: 13, value: -13 },
+          [3, { id: 3, value: -3 }],
+          [7, { id: 7, value: 7 }],
+          [10, { id: 10, value: 10 }],
+          [13, { id: 13, value: -13 }],
         ])
         expect([...cached]).to.deep.equal([
-          { id: 3, value: 3 },
-          { id: 7, value: 7 },
-          { id: 10, value: 10 },
-          { id: 13, value: 13 },
+          [3, { id: 3, value: 3 }],
+          [7, { id: 7, value: 7 }],
+          [10, { id: 10, value: 10 }],
+          [13, { id: 13, value: 13 }],
         ])
       })
     })
@@ -298,7 +303,7 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
-        expect([...stream.filter(filterStub)]).to.deep.equal([{ id: 7 }])
+        expect([...stream.filter(filterStub)]).to.deep.equal([[7, { id: 7 }]])
       })
 
       testReuse({
@@ -336,24 +341,24 @@ const testStreamAPI = function(
       })
     })
 
-    describe('Get Ids', function(): void {
+    describe('Keys (Get Ids)', function(): void {
       it('Simple test', function(): void {
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
-        expect(stream.getIds()).to.deep.equal([7, 10])
+        expect([...stream.keys()]).to.deep.equal([7, 10])
       })
 
       testReuse({
         data: [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        valueCallback: (stream): any => stream.getIds(),
+        valueCallback: (stream): any => [...stream.keys()],
       })
     })
 
-    describe('Get Items', function(): void {
+    describe('Values (Get Items)', function(): void {
       it('Simple test', function(): void {
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
-        expect(stream.getItems()).to.deep.equal([{ id: 7 }, { id: 10 }])
+        expect([...stream.values()]).to.deep.equal([{ id: 7 }, { id: 10 }])
       })
 
       testReuse({
@@ -364,7 +369,7 @@ const testStreamAPI = function(
           [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: -5 }],
-        valueCallback: (stream): any => stream.getItems(),
+        valueCallback: (stream): any => [...stream.values()],
       })
     })
 
@@ -377,7 +382,7 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
-        expect([...stream.map(mapStub)]).to.deep.equal([7, 10])
+        expect([...stream.map(mapStub)]).to.deep.equal([[7, 7], [10, 10]])
       })
 
       testReuse({
@@ -514,14 +519,14 @@ const testStreamAPI = function(
         expect([
           ...stream.sort((_a, _b, idA, idB): number => +idA - +idB),
         ]).to.deep.equal([
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-          { id: 5 },
-          { id: 6 },
-          { id: 7 },
-          { id: 8 },
+          [1, { id: 1 }],
+          [2, { id: 2 }],
+          [3, { id: 3 }],
+          [4, { id: 4 }],
+          [5, { id: 5 }],
+          [6, { id: 6 }],
+          [7, { id: 7 }],
+          [8, { id: 8 }],
         ])
       })
 
@@ -548,20 +553,20 @@ const testStreamAPI = function(
             (a, b, idA, idB): number => a.value - b.value || +idA - +idB
           ),
         ]).to.deep.equal([
-          { value: Number.MIN_SAFE_INTEGER, id: 10 },
-          { value: -12, id: 4 },
-          { value: 0, id: 11 },
-          { value: 0, id: 12 },
-          { value: Number.MIN_VALUE, id: 13 },
-          { value: 1, id: 8 },
-          { value: 3, id: 2 },
-          { value: 3, id: 3 },
-          { value: Math.PI, id: 1 },
-          { value: 6, id: 6 },
-          { value: 20, id: 7 },
-          { value: 43, id: 5 },
-          { value: Number.MAX_SAFE_INTEGER, id: 9 },
-          { value: Number.MAX_VALUE, id: 14 },
+          [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
+          [4, { value: -12, id: 4 }],
+          [11, { value: 0, id: 11 }],
+          [12, { value: 0, id: 12 }],
+          [13, { value: Number.MIN_VALUE, id: 13 }],
+          [8, { value: 1, id: 8 }],
+          [2, { value: 3, id: 2 }],
+          [3, { value: 3, id: 3 }],
+          [1, { value: Math.PI, id: 1 }],
+          [6, { value: 6, id: 6 }],
+          [7, { value: 20, id: 7 }],
+          [5, { value: 43, id: 5 }],
+          [9, { value: Number.MAX_SAFE_INTEGER, id: 9 }],
+          [14, { value: Number.MAX_VALUE, id: 14 }],
         ])
       })
 

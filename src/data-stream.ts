@@ -9,7 +9,7 @@ import { Id } from './data-interface'
  *
  * @typeparam Item - The item type this stream is going to work with.
  */
-export class DataStream<Item> implements Iterable<Item> {
+export class DataStream<Item> implements Iterable<[Id, Item]> {
   /**
    * Create a new data stream.
    *
@@ -18,9 +18,36 @@ export class DataStream<Item> implements Iterable<Item> {
   public constructor(private readonly _pairs: Iterable<[Id, Item]>) {}
 
   /**
-   * Get the ES compatible iterator.
+   * Returns an iterable of key, value pairs for every entry in the stream.
    */
-  public *[Symbol.iterator](): Iterator<Item> {
+  public *[Symbol.iterator](): IterableIterator<[Id, Item]> {
+    for (const [id, item] of this._pairs) {
+      yield [id, item]
+    }
+  }
+
+  /**
+   * Returns an iterable of key, value pairs for every entry in the stream.
+   */
+  public *entries(): IterableIterator<[Id, Item]> {
+    for (const [id, item] of this._pairs) {
+      yield [id, item]
+    }
+  }
+
+  /**
+   * Returns an iterable of keys in the stream.
+   */
+  public *keys(): IterableIterator<Id> {
+    for (const [id] of this._pairs) {
+      yield id
+    }
+  }
+
+  /**
+   * Returns an iterable of values in the stream.
+   */
+  public *values(): IterableIterator<Item> {
     for (const [, item] of this._pairs) {
       yield item
     }
@@ -101,24 +128,6 @@ export class DataStream<Item> implements Iterable<Item> {
     for (const [id, item] of this._pairs) {
       callback(item, id)
     }
-  }
-
-  /**
-   * Get the ids as an array.
-   *
-   * @returns An array with the ids from this stream.
-   */
-  public getIds(): Id[] {
-    return [...this._pairs].map((pair): Id => pair[0])
-  }
-
-  /**
-   * Get the items as an array.
-   *
-   * @returns An array with the items from this stream.
-   */
-  public getItems(): Item[] {
-    return [...this._pairs].map((pair): Item => pair[1])
   }
 
   /**
