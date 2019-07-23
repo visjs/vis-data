@@ -31,7 +31,10 @@ describe('Data Set', function(): void {
         ds.updateOnly({ foo: 'new', bar: false } as any)
       }, 'Items without ids shouldn’t be allowed during updates.').to.throw()
 
-      expect(ds.length, 'There should be no new items or old missing.').to.equal(3)
+      expect(
+        ds.length,
+        'There should be no new items or old missing.'
+      ).to.equal(3)
       expect(ds.get(7), 'Other items should be intact.').to.deep.equal({
         whoami: 7,
         foo: '7',
@@ -63,7 +66,10 @@ describe('Data Set', function(): void {
         ds.updateOnly({ whoami: 1, foo: 'new', bar: false })
       }, 'New items shouldn’t be allowed during updates.').to.throw()
 
-      expect(ds.length, 'There should be no new items or old missing.').to.equal(3)
+      expect(
+        ds.length,
+        'There should be no new items or old missing.'
+      ).to.equal(3)
       expect(ds.get(1), 'New items shouldn’t be created.').to.be.null
       expect(ds.get(7), 'Other items should be intact.').to.deep.equal({
         whoami: 7,
@@ -85,19 +91,29 @@ describe('Data Set', function(): void {
     it('Id only', function(): void {
       const originalItem8 = { whoami: 8, foo: '8', bar: false }
       const ds = new DataSet<Item1, 'whoami'>(
-        [{ whoami: 7, foo: '7', bar: true }, originalItem8, { whoami: 9, foo: '9', bar: true }],
+        [
+          { whoami: 7, foo: '7', bar: true },
+          originalItem8,
+          { whoami: 9, foo: '9', bar: true },
+        ],
         { fieldId: 'whoami' }
       )
 
       ds.updateOnly({ whoami: 8 })
 
-      expect(ds.length, 'There should be no new items or old missing.').to.equal(3)
+      expect(
+        ds.length,
+        'There should be no new items or old missing.'
+      ).to.equal(3)
       expect(ds.get(7), 'Other items should be intact.').to.deep.equal({
         whoami: 7,
         foo: '7',
         bar: true,
       })
-      expect(ds.get(8), 'There were no other props, nothing should be changed.').to.deep.equal({
+      expect(
+        ds.get(8),
+        'There were no other props, nothing should be changed.'
+      ).to.deep.equal({
         whoami: 8,
         foo: '8',
         bar: false,
@@ -116,13 +132,20 @@ describe('Data Set', function(): void {
     it('Id and foo', function(): void {
       const originalItem8 = { whoami: 8, foo: '8', bar: false }
       const ds = new DataSet<Item1, 'whoami'>(
-        [{ whoami: 7, foo: '7', bar: true }, originalItem8, { whoami: 9, foo: '9', bar: true }],
+        [
+          { whoami: 7, foo: '7', bar: true },
+          originalItem8,
+          { whoami: 9, foo: '9', bar: true },
+        ],
         { fieldId: 'whoami' }
       )
 
       ds.updateOnly({ whoami: 8, foo: '#8' })
 
-      expect(ds.length, 'There should be no new items or old missing.').to.equal(3)
+      expect(
+        ds.length,
+        'There should be no new items or old missing.'
+      ).to.equal(3)
       expect(ds.get(7), 'Other items should be intact.').to.deep.equal({
         whoami: 7,
         foo: '7',
@@ -157,7 +180,10 @@ describe('Data Set', function(): void {
 
       ds.updateOnly({ whoami: 8, payload: { foo: '#8' } })
 
-      expect(ds.length, 'There should be no new items or old missing.').to.equal(3)
+      expect(
+        ds.length,
+        'There should be no new items or old missing.'
+      ).to.equal(3)
       expect(ds.get(7), 'Other items should be intact.').to.deep.equal({
         whoami: 7,
         payload: {

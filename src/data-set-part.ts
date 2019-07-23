@@ -25,9 +25,9 @@ export abstract class DataSetPart<Item, IdProp extends string>
     [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][]
   } = {
     '*': [],
-    add: [],
-    remove: [],
-    update: [],
+    'add': [],
+    'remove': [],
+    'update': [],
   }
 
   protected _trigger(
@@ -61,19 +61,33 @@ export abstract class DataSetPart<Item, IdProp extends string>
       throw new Error('Cannot trigger event *')
     }
 
-    ;[...this._subscribers[event], ...this._subscribers['*']].forEach((subscriber): void => {
-      subscriber(event, payload, senderId != null ? senderId : null)
-    })
+    ;[...this._subscribers[event], ...this._subscribers['*']].forEach(
+      (subscriber): void => {
+        subscriber(event, payload, senderId != null ? senderId : null)
+      }
+    )
   }
 
   /** @inheritdoc */
-  public on(event: '*', callback: EventCallbacksWithAny<Item, IdProp>['*']): void
+  public on(
+    event: '*',
+    callback: EventCallbacksWithAny<Item, IdProp>['*']
+  ): void
   /** @inheritdoc */
-  public on(event: 'add', callback: EventCallbacksWithAny<Item, IdProp>['add']): void
+  public on(
+    event: 'add',
+    callback: EventCallbacksWithAny<Item, IdProp>['add']
+  ): void
   /** @inheritdoc */
-  public on(event: 'remove', callback: EventCallbacksWithAny<Item, IdProp>['remove']): void
+  public on(
+    event: 'remove',
+    callback: EventCallbacksWithAny<Item, IdProp>['remove']
+  ): void
   /** @inheritdoc */
-  public on(event: 'update', callback: EventCallbacksWithAny<Item, IdProp>['update']): void
+  public on(
+    event: 'update',
+    callback: EventCallbacksWithAny<Item, IdProp>['update']
+  ): void
   /**
    * Subscribe to an event, add an event listener.
    *
@@ -93,13 +107,25 @@ export abstract class DataSetPart<Item, IdProp extends string>
   }
 
   /** @inheritdoc */
-  public off(event: '*', callback: EventCallbacksWithAny<Item, IdProp>['*']): void
+  public off(
+    event: '*',
+    callback: EventCallbacksWithAny<Item, IdProp>['*']
+  ): void
   /** @inheritdoc */
-  public off(event: 'add', callback: EventCallbacksWithAny<Item, IdProp>['add']): void
+  public off(
+    event: 'add',
+    callback: EventCallbacksWithAny<Item, IdProp>['add']
+  ): void
   /** @inheritdoc */
-  public off(event: 'remove', callback: EventCallbacksWithAny<Item, IdProp>['remove']): void
+  public off(
+    event: 'remove',
+    callback: EventCallbacksWithAny<Item, IdProp>['remove']
+  ): void
   /** @inheritdoc */
-  public off(event: 'update', callback: EventCallbacksWithAny<Item, IdProp>['update']): void
+  public off(
+    event: 'update',
+    callback: EventCallbacksWithAny<Item, IdProp>['update']
+  ): void
   /**
    * Unsubscribe from an event, remove an event listener.
    *
@@ -124,5 +150,6 @@ export abstract class DataSetPart<Item, IdProp extends string>
   /**
    * @deprecated Use off instead (PS: DataView.unsubscribe === DataView.off).
    */
-  public unsubscribe: DataSetPart<Item, IdProp>['off'] = DataSetPart.prototype.off
+  public unsubscribe: DataSetPart<Item, IdProp>['off'] =
+    DataSetPart.prototype.off
 }

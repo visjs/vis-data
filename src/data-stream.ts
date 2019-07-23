@@ -99,7 +99,9 @@ export class DataStream<Item> implements Iterable<Item> {
    *
    * @returns A new data stream with the mapped items.
    */
-  public map<Mapped>(callback: (item: Item, id: Id) => Mapped): DataStream<Mapped> {
+  public map<Mapped>(
+    callback: (item: Item, id: Id) => Mapped
+  ): DataStream<Mapped> {
     const pairs = this._pairs
     return new DataStream<Mapped>({
       *[Symbol.iterator](): IterableIterator<[Id, Mapped]> {
@@ -176,7 +178,10 @@ export class DataStream<Item> implements Iterable<Item> {
    *
    * @returns The reduced value.
    */
-  public reduce<T>(callback: (accumulator: T, item: Item, id: Id) => T, accumulator: T): T {
+  public reduce<T>(
+    callback: (accumulator: T, item: Item, id: Id) => T,
+    accumulator: T
+  ): T {
     for (const [id, item] of this._pairs) {
       accumulator = callback(accumulator, item, id)
     }

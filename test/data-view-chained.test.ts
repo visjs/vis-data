@@ -24,7 +24,9 @@ describe('Data view chaining', function(): void {
     ]
 
     const ds = new DataSet<Item, 'whoami'>(data, { fieldId: 'whoami' })
-    const dv1 = new DataView<Item, 'whoami'>(ds, { filter: (item): boolean => item.whoami < 9 })
+    const dv1 = new DataView<Item, 'whoami'>(ds, {
+      filter: (item): boolean => item.whoami < 9,
+    })
     const dv2 = new DataView<Item, 'whoami'>(dv1, {
       filter: (item): boolean => item.whoami % 2 !== 0,
     })
@@ -40,29 +42,14 @@ describe('Data view chaining', function(): void {
     })
 
     it('.getIds', function(): void {
-      expect(ds.getIds(), 'The data set should contain all 10 items.').to.deep.equal([
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-      ])
-      expect(dv1.getIds(), 'The 1st data view should filter item.whoami < 9.').to.deep.equal([
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-      ])
+      expect(
+        ds.getIds(),
+        'The data set should contain all 10 items.'
+      ).to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+      expect(
+        dv1.getIds(),
+        'The 1st data view should filter item.whoami < 9.'
+      ).to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8])
       expect(
         dv2.getIds(),
         'The 2nd data view should get only odd ids from the 1st data view.'

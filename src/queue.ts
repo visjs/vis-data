@@ -173,7 +173,10 @@ export class Queue<T = never> {
    * @param object - Object having the method.
    * @param method - The method name.
    */
-  public replace<M extends string>(object: Record<M, () => void>, method: M): void {
+  public replace<M extends string>(
+    object: Record<M, () => void>,
+    method: M
+  ): void {
     const me = this
     const original = object[method]
     if (!original) {

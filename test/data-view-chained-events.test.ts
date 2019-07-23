@@ -25,27 +25,27 @@ describe('Data view chaining events', function(): void {
   const spies = {
     ds: {
       '*': spy(),
-      add: spy(),
-      remove: spy(),
-      update: spy(),
+      'add': spy(),
+      'remove': spy(),
+      'update': spy(),
     },
     dv1: {
       '*': spy(),
-      add: spy(),
-      remove: spy(),
-      update: spy(),
+      'add': spy(),
+      'remove': spy(),
+      'update': spy(),
     },
     dv2: {
       '*': spy(),
-      add: spy(),
-      remove: spy(),
-      update: spy(),
+      'add': spy(),
+      'remove': spy(),
+      'update': spy(),
     },
     dv3: {
       '*': spy(),
-      add: spy(),
-      remove: spy(),
-      update: spy(),
+      'add': spy(),
+      'remove': spy(),
+      'update': spy(),
     },
   }
 
@@ -53,7 +53,9 @@ describe('Data view chaining events', function(): void {
   const ds = new DataSet<Item, 'whoami'>(data, { fieldId: 'whoami' })
 
   // Only with ids < 9
-  const dv1 = new DataView<Item, 'whoami'>(ds, { filter: (item): boolean => item.whoami < 9 })
+  const dv1 = new DataView<Item, 'whoami'>(ds, {
+    filter: (item): boolean => item.whoami < 9,
+  })
 
   // Only with odd ids < 9
   const dv2 = new DataView<Item, 'whoami'>(dv1, {
@@ -140,10 +142,18 @@ describe('Data view chaining events', function(): void {
         expect(spies.ds['*'].callCount).to.equal(7)
       })
       it('call #1', function(): void {
-        expect(spies.ds['*'].getCall(0).args).to.deep.equal(['add', { items: [20] }, 'A1'])
+        expect(spies.ds['*'].getCall(0).args).to.deep.equal([
+          'add',
+          { items: [20] },
+          'A1',
+        ])
       })
       it('call #2', function(): void {
-        expect(spies.ds['*'].getCall(1).args).to.deep.equal(['add', { items: [-22, -21] }, null])
+        expect(spies.ds['*'].getCall(1).args).to.deep.equal([
+          'add',
+          { items: [-22, -21] },
+          null,
+        ])
       })
       it('call #3', function(): void {
         expect(spies.ds['*'].getCall(2).args).to.deep.equal([
@@ -157,15 +167,25 @@ describe('Data view chaining events', function(): void {
         ])
       })
       it('call #4', function(): void {
-        expect(spies.ds['*'].getCall(3).args).to.deep.equal(['add', { items: [-23] }, 'U2'])
+        expect(spies.ds['*'].getCall(3).args).to.deep.equal([
+          'add',
+          { items: [-23] },
+          'U2',
+        ])
       })
       it('call #5', function(): void {
         expect(spies.ds['*'].getCall(4).args).to.deep.equal([
           'update',
           {
             items: [20, -21],
-            data: [{ whoami: 20, payload: 'new 20' }, { whoami: -21, payload: 'new -21' }],
-            oldData: [{ whoami: 20, payload: '#20' }, { whoami: -21, payload: '#-21' }],
+            data: [
+              { whoami: 20, payload: 'new 20' },
+              { whoami: -21, payload: 'new -21' },
+            ],
+            oldData: [
+              { whoami: 20, payload: '#20' },
+              { whoami: -21, payload: '#-21' },
+            ],
           },
           'U2',
         ])
@@ -185,7 +205,10 @@ describe('Data view chaining events', function(): void {
           'remove',
           {
             items: [20, -22],
-            oldData: [{ whoami: 20, payload: 'new 20' }, { whoami: -22, payload: 'new -22' }],
+            oldData: [
+              { whoami: 20, payload: 'new 20' },
+              { whoami: -22, payload: 'new -22' },
+            ],
           },
           'R2',
         ])
@@ -197,13 +220,19 @@ describe('Data view chaining events', function(): void {
         expect(spies.ds['add'].callCount).to.equal(3)
       })
       it('add #1 is * #1', function(): void {
-        expect(spies.ds['add'].getCall(0).args).to.deep.equal(spies.ds['*'].getCall(0).args)
+        expect(spies.ds['add'].getCall(0).args).to.deep.equal(
+          spies.ds['*'].getCall(0).args
+        )
       })
       it('add #2 is * #2', function(): void {
-        expect(spies.ds['add'].getCall(1).args).to.deep.equal(spies.ds['*'].getCall(1).args)
+        expect(spies.ds['add'].getCall(1).args).to.deep.equal(
+          spies.ds['*'].getCall(1).args
+        )
       })
       it('add #3 is * #4', function(): void {
-        expect(spies.ds['add'].getCall(2).args).to.deep.equal(spies.ds['*'].getCall(3).args)
+        expect(spies.ds['add'].getCall(2).args).to.deep.equal(
+          spies.ds['*'].getCall(3).args
+        )
       })
     })
 
@@ -212,10 +241,14 @@ describe('Data view chaining events', function(): void {
         expect(spies.ds['remove'].callCount).to.equal(2)
       })
       it('remove #1 is * #6', function(): void {
-        expect(spies.ds['remove'].getCall(0).args).to.deep.equal(spies.ds['*'].getCall(5).args)
+        expect(spies.ds['remove'].getCall(0).args).to.deep.equal(
+          spies.ds['*'].getCall(5).args
+        )
       })
       it('remove #2 is * #7', function(): void {
-        expect(spies.ds['remove'].getCall(1).args).to.deep.equal(spies.ds['*'].getCall(6).args)
+        expect(spies.ds['remove'].getCall(1).args).to.deep.equal(
+          spies.ds['*'].getCall(6).args
+        )
       })
     })
 
@@ -224,10 +257,14 @@ describe('Data view chaining events', function(): void {
         expect(spies.ds['update'].callCount).to.equal(2)
       })
       it('update #1 is * #3', function(): void {
-        expect(spies.ds['update'].getCall(0).args).to.deep.equal(spies.ds['*'].getCall(2).args)
+        expect(spies.ds['update'].getCall(0).args).to.deep.equal(
+          spies.ds['*'].getCall(2).args
+        )
       })
       it('update #2 is * #5', function(): void {
-        expect(spies.ds['update'].getCall(1).args).to.deep.equal(spies.ds['*'].getCall(4).args)
+        expect(spies.ds['update'].getCall(1).args).to.deep.equal(
+          spies.ds['*'].getCall(4).args
+        )
       })
     })
   })
@@ -238,7 +275,11 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv1['*'].callCount).to.equal(6)
       })
       it('call #1', function(): void {
-        expect(spies.dv1['*'].getCall(0).args).to.deep.equal(['add', { items: [-22, -21] }, null])
+        expect(spies.dv1['*'].getCall(0).args).to.deep.equal([
+          'add',
+          { items: [-22, -21] },
+          null,
+        ])
       })
       it('call #2', function(): void {
         expect(spies.dv1['*'].getCall(1).args).to.deep.equal([
@@ -252,7 +293,11 @@ describe('Data view chaining events', function(): void {
         ])
       })
       it('call #3', function(): void {
-        expect(spies.dv1['*'].getCall(2).args).to.deep.equal(['add', { items: [-23] }, 'U2'])
+        expect(spies.dv1['*'].getCall(2).args).to.deep.equal([
+          'add',
+          { items: [-23] },
+          'U2',
+        ])
       })
       it('call #4', function(): void {
         expect(spies.dv1['*'].getCall(3).args).to.deep.equal([
@@ -292,10 +337,14 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv1['add'].callCount).to.equal(2)
       })
       it('add #1 is * #1', function(): void {
-        expect(spies.dv1['add'].getCall(0).args).to.deep.equal(spies.dv1['*'].getCall(0).args)
+        expect(spies.dv1['add'].getCall(0).args).to.deep.equal(
+          spies.dv1['*'].getCall(0).args
+        )
       })
       it('add #2 is * #3', function(): void {
-        expect(spies.dv1['add'].getCall(1).args).to.deep.equal(spies.dv1['*'].getCall(2).args)
+        expect(spies.dv1['add'].getCall(1).args).to.deep.equal(
+          spies.dv1['*'].getCall(2).args
+        )
       })
     })
 
@@ -304,10 +353,14 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv1['remove'].callCount).to.equal(2)
       })
       it('remove #1 is * #5', function(): void {
-        expect(spies.dv1['remove'].getCall(0).args).to.deep.equal(spies.dv1['*'].getCall(4).args)
+        expect(spies.dv1['remove'].getCall(0).args).to.deep.equal(
+          spies.dv1['*'].getCall(4).args
+        )
       })
       it('remove #2 is * #6', function(): void {
-        expect(spies.dv1['remove'].getCall(1).args).to.deep.equal(spies.dv1['*'].getCall(5).args)
+        expect(spies.dv1['remove'].getCall(1).args).to.deep.equal(
+          spies.dv1['*'].getCall(5).args
+        )
       })
     })
 
@@ -316,10 +369,14 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv1['update'].callCount).to.equal(2)
       })
       it('update #1 is * #2', function(): void {
-        expect(spies.dv1['update'].getCall(0).args).to.deep.equal(spies.dv1['*'].getCall(1).args)
+        expect(spies.dv1['update'].getCall(0).args).to.deep.equal(
+          spies.dv1['*'].getCall(1).args
+        )
       })
       it('update #2 is * #4', function(): void {
-        expect(spies.dv1['update'].getCall(1).args).to.deep.equal(spies.dv1['*'].getCall(3).args)
+        expect(spies.dv1['update'].getCall(1).args).to.deep.equal(
+          spies.dv1['*'].getCall(3).args
+        )
       })
     })
   })
@@ -330,10 +387,18 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv2['*'].callCount).to.equal(4)
       })
       it('call #1', function(): void {
-        expect(spies.dv2['*'].getCall(0).args).to.deep.equal(['add', { items: [-21] }, null])
+        expect(spies.dv2['*'].getCall(0).args).to.deep.equal([
+          'add',
+          { items: [-21] },
+          null,
+        ])
       })
       it('call #2', function(): void {
-        expect(spies.dv2['*'].getCall(1).args).to.deep.equal(['add', { items: [-23] }, 'U2'])
+        expect(spies.dv2['*'].getCall(1).args).to.deep.equal([
+          'add',
+          { items: [-23] },
+          'U2',
+        ])
       })
       it('call #3', function(): void {
         expect(spies.dv2['*'].getCall(2).args).to.deep.equal([
@@ -363,10 +428,14 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv2['add'].callCount).to.equal(2)
       })
       it('add #1 is * #1', function(): void {
-        expect(spies.dv2['add'].getCall(0).args).to.deep.equal(spies.dv2['*'].getCall(0).args)
+        expect(spies.dv2['add'].getCall(0).args).to.deep.equal(
+          spies.dv2['*'].getCall(0).args
+        )
       })
       it('add #2 is * #2', function(): void {
-        expect(spies.dv2['add'].getCall(1).args).to.deep.equal(spies.dv2['*'].getCall(1).args)
+        expect(spies.dv2['add'].getCall(1).args).to.deep.equal(
+          spies.dv2['*'].getCall(1).args
+        )
       })
     })
 
@@ -375,7 +444,9 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv2['remove'].callCount).to.equal(1)
       })
       it('remove #1 is * #4', function(): void {
-        expect(spies.dv2['remove'].getCall(0).args).to.deep.equal(spies.dv2['*'].getCall(3).args)
+        expect(spies.dv2['remove'].getCall(0).args).to.deep.equal(
+          spies.dv2['*'].getCall(3).args
+        )
       })
     })
 
@@ -384,7 +455,9 @@ describe('Data view chaining events', function(): void {
         expect(spies.dv2['update'].callCount).to.equal(1)
       })
       it('update #1 is * #3', function(): void {
-        expect(spies.dv2['update'].getCall(0).args).to.deep.equal(spies.dv2['*'].getCall(2).args)
+        expect(spies.dv2['update'].getCall(0).args).to.deep.equal(
+          spies.dv2['*'].getCall(2).args
+        )
       })
     })
   })
