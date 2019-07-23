@@ -702,4 +702,56 @@ describe('Stream API', function(): void {
       }
     )
   })
+
+  describe('Chained Data View', function(): void {
+    testStreamAPI(
+      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+        const ids = new Set(data.map(([id]): Id => id))
+        const dsData = data.map(([, Item]): Item => Item)
+
+        let id = Number.MIN_SAFE_INTEGER + 500
+        for (let i = 0; i < 6; ++i) {
+          while (ids.has(++id)) {
+            // Find the next free id.
+          }
+
+          dsData.push({
+            id,
+            dataSetOnly: 'This should never appear in any data view.',
+          } as any)
+        }
+        for (let i = 0; i < 6; ++i) {
+          while (ids.has(++id)) {
+            // Find the next free id.
+          }
+
+          dsData.unshift({
+            id,
+            dataView1Only: 'This should never appear in the data view.',
+          } as any)
+        }
+
+        const ds = new DataSet(dsData)
+        const dv1 = new DataView(ds, {
+          filter: (item): boolean => !(item as any).dataSetOnly,
+        })
+        const dv2 = new DataView(dv1, {
+          filter: (item): boolean => !(item as any).dataView1Only,
+        })
+
+        return {
+          stream: dv2.stream(),
+          update: (_, item: any): void => {
+            ds.updateOnly(item)
+          },
+          pop: (): void => {
+            const id = dv2.getIds()[0]
+            if (id != null) {
+              ds.remove(id)
+            }
+          },
+        }
+      }
+    )
+  })
 })
