@@ -169,6 +169,81 @@ const testStreamAPI = function(
   })
 
   describe('Methods', function(): void {
+    describe('Cache', function(): void {
+      it('Simple test', function(): void {
+        const { stream } = createDataStream([
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
+        ])
+
+        const cached = stream.cache()
+
+        expect([...stream]).to.deep.equal([
+          { id: 3 },
+          { id: 7 },
+          { id: 10 },
+          { id: 13 },
+        ])
+        expect([...cached]).to.deep.equal([
+          { id: 3 },
+          { id: 7 },
+          { id: 10 },
+          { id: 13 },
+        ])
+      })
+
+      it('Data removal', function(): void {
+        const { stream, pop } = createDataStream([
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
+        ])
+
+        const cached = stream.cache()
+
+        pop()
+        pop()
+
+        expect([...stream]).to.have.lengthOf(2)
+        expect([...cached]).to.deep.equal([
+          { id: 3 },
+          { id: 7 },
+          { id: 10 },
+          { id: 13 },
+        ])
+      })
+
+      it('Data update', function(): void {
+        const { stream, update } = createDataStream([
+          [3, { id: 3, value: 3 }],
+          [7, { id: 7, value: 7 }],
+          [10, { id: 10, value: 10 }],
+          [13, { id: 13, value: 13 }],
+        ])
+
+        const cached = stream.cache()
+
+        update(3, { id: 3, value: -3 })
+        update(13, { id: 13, value: -13 })
+
+        expect([...stream]).to.deep.equal([
+          { id: 3, value: -3 },
+          { id: 7, value: 7 },
+          { id: 10, value: 10 },
+          { id: 13, value: -13 },
+        ])
+        expect([...cached]).to.deep.equal([
+          { id: 3, value: 3 },
+          { id: 7, value: 7 },
+          { id: 10, value: 10 },
+          { id: 13, value: 13 },
+        ])
+      })
+    })
+
     describe('Distinct', function(): void {
       it('No items', function(): void {
         const distinctStub = stub()

@@ -3,6 +3,10 @@ import { Id } from './data-interface'
 /**
  * Data stream
  *
+ * @remarks
+ * [[DataStream]] offers an always up to date stream of items from a [[DataSet]] or [[DataView]].
+ * That means that the stream is evaluated at the time of iteration, not when the [[DataStream]] was created.
+ *
  * @typeparam Item - The item type this stream is going to work with.
  */
 export class DataStream<Item> implements Iterable<Item> {
@@ -20,6 +24,33 @@ export class DataStream<Item> implements Iterable<Item> {
     for (const [, item] of this._pairs) {
       yield item
     }
+  }
+
+  /**
+   * Cache the items from this stream.
+   *
+   * @remarks
+   * This method allows for items to be fetched immediatelly and used (possibly multiple times) later.
+   * It can also be used to optimize performance as [[DataStream]] would otherwise reevaluate everything upon each iteration.
+   *
+   * ## Example
+   * ```javascript
+   * const ds = new DataSet([…])
+   *
+   * const cachedStream = ds.stream()
+   *   .filter(…)
+   *   .sort(…)
+   *   .map(…)
+   *   .cached(…) // Data are fetched, processed and cached here.
+   *
+   * ds.clear()
+   * chachedStream // Still has all the items.
+   * ```
+   *
+   * @returns A new [[DataStream]] with cached items (detached from the original [[DataSet]]).
+   */
+  public cache(): DataStream<Item> {
+    return new DataStream([...this._pairs])
   }
 
   /**
