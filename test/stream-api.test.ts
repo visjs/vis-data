@@ -4,34 +4,121 @@ import { spy, stub } from 'sinon'
 import { DataSet, DataStream, DataView } from '../src'
 import { Id } from '../src/data-interface'
 
+interface CreateDataStreamRet<Item> {
+  stream: DataStream<Item>
+  update: (id: Id, item: Item) => void
+  pop: () => void
+}
+
 const testStreamAPI = function(
-  createDataStream: <Item extends { id: number }>(data: [Id, Item][]) => DataStream<Item>
+  createDataStream: <Item extends { id: number }>(
+    data: readonly [Id, Item][]
+  ) => CreateDataStreamRet<Item>
 ): void {
-  function testReuse<T extends { id: number }>(
-    data: [Id, T][],
-    callback: (stream: DataStream<T>) => Iterable<T>,
-    returnsIterable: boolean
-  ): void {
-    it('Reuse', function(): void {
-      const stream = createDataStream(data)
+  /* eslint-disable-next-line require-jsdoc */
+  function testReuse<T extends { id: number }>({
+    data,
+    updateArgs,
+    streamCallback,
+    valueCallback,
+  }: {
+    data: [Id, T][]
+    updateArgs?: [Id, T]
+    streamCallback?: (stream: DataStream<T>) => DataStream<unknown>
+    valueCallback?: (stream: DataStream<T>) => unknown
+  }): void {
+    describe('Reuse', function(): void {
+      if (streamCallback) {
+        it('Double iteration', function(): void {
+          const { stream } = createDataStream(data)
 
-      const first = returnsIterable ? [...callback(stream)].length : callback(stream)
-      const second = returnsIterable ? [...callback(stream)].length : callback(stream)
+          const stream2 = streamCallback(stream)
+          const first = [...stream2]
+          const second = [...stream2]
 
-      expect([...stream].length, 'The original stream shouldn’t be used up.').to.equal(data.length)
-      expect(second, 'The processed stream shouldn’t be used up.').to.equal(first)
+          expect(
+            [...stream],
+            'The original stream shouldn’t be used up.'
+          ).to.have.lengthOf(data.length)
+          expect(
+            second.length,
+            'The processed stream shouldn’t be used up.'
+          ).to.equal(first.length)
+        })
+
+        it('Reiteration after data removals', function(): void {
+          const { stream, pop } = createDataStream(data)
+          const stream2 = streamCallback(stream)
+
+          let prev = [...stream2].length
+
+          for (let i = 0; i < data.length; ++i) {
+            pop()
+            const curr = [...stream2].length
+            expect(curr).to.be.most(prev)
+            prev = curr
+          }
+
+          expect(prev).to.be.equal(0)
+        })
+
+        it('Reiteration after data update', function(): void {
+          const { stream, update, pop } = createDataStream(data)
+          const stream2 = streamCallback(stream)
+
+          const before = [...stream2]
+          if (updateArgs) {
+            update(...updateArgs)
+          } else {
+            pop()
+          }
+          const after = [...stream2]
+
+          // Warning: the updateArgs content has to change the callback return value.
+          expect(
+            after,
+            'If the source is changed the stream should work with the new data.'
+          ).to.not.deep.equal(before)
+        })
+      } else if (valueCallback) {
+        it('Multiple calls on the same stream', function(): void {
+          const { stream } = createDataStream(data)
+
+          const first = valueCallback(stream)
+          const second = valueCallback(stream)
+
+          expect(
+            [...stream],
+            'The original stream shouldn’t be used up.'
+          ).to.have.lengthOf(data.length)
+          expect(
+            second,
+            'The processed streams should return equal values.'
+          ).to.deep.equal(first)
+        })
+      } else {
+        it('This should never happen.', function(): void {
+          expect.fail('This is an error in the test spec.')
+        })
+      }
     })
   }
 
   describe('Iterator', function(): void {
     describe('Convert to an array', function(): void {
       it('Empty', function(): void {
-        const stream = createDataStream([])
+        const { stream } = createDataStream([])
         expect([...stream]).to.deep.equal([])
       })
 
       it('With data', function(): void {
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        expect([...stream]).to.deep.equal([{ id: 7 }, { id: 10 }])
+      })
+
+      it('Two times with data', function(): void {
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        expect([...stream]).to.deep.equal([{ id: 7 }, { id: 10 }])
         expect([...stream]).to.deep.equal([{ id: 7 }, { id: 10 }])
       })
     })
@@ -39,7 +126,7 @@ const testStreamAPI = function(
     describe('Iterate (for..of)', function(): void {
       it('Empty', function(): void {
         const fofSpy = spy()
-        const stream = createDataStream([] as any)
+        const { stream } = createDataStream([] as any)
         for (const item of stream) {
           fofSpy(item)
         }
@@ -48,7 +135,7 @@ const testStreamAPI = function(
 
       it('With data', function(): void {
         const fofSpy = spy()
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         for (const item of stream) {
           fofSpy(item)
@@ -56,10 +143,27 @@ const testStreamAPI = function(
 
         expect(fofSpy.callCount).to.equal(2)
 
-        expect(fofSpy.getCalls().map((call): any => call.args[0])).to.deep.equal([
-          { id: 7 },
-          { id: 10 },
-        ])
+        expect(
+          fofSpy.getCalls().map((call): any => call.args[0])
+        ).to.deep.equal([{ id: 7 }, { id: 10 }])
+      })
+
+      it('Two times with data', function(): void {
+        const fofSpy = spy()
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+
+        for (const item of stream) {
+          fofSpy(item)
+        }
+        for (const item of stream) {
+          fofSpy(item)
+        }
+
+        expect(fofSpy.callCount).to.equal(4)
+
+        expect(
+          fofSpy.getCalls().map((call): any => call.args[0])
+        ).to.deep.equal([{ id: 7 }, { id: 10 }, { id: 7 }, { id: 10 }])
       })
     })
   })
@@ -70,7 +174,7 @@ const testStreamAPI = function(
         const distinctStub = stub()
         distinctStub.throws('This should never be called.')
 
-        const stream = createDataStream([])
+        const { stream } = createDataStream([])
 
         const result = stream.distinct(distinctStub)
         expect(result, 'Distinct should return a set.').to.be.instanceof(Set)
@@ -85,7 +189,7 @@ const testStreamAPI = function(
         distinctStub.withArgs({ id: 13, value: 10 }, 13).returns(10)
         distinctStub.throws('Invalid callback input.')
 
-        const stream = createDataStream([
+        const { stream } = createDataStream([
           [3, { id: 3, value: 10 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
@@ -97,16 +201,17 @@ const testStreamAPI = function(
         expect([...result].sort()).to.deep.equal([7, 10].sort())
       })
 
-      testReuse(
-        [
+      testReuse({
+        data: [
           [3, { id: 3, value: 10 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
           [13, { id: 13, value: 10 }],
         ],
-        (stream): any => stream.distinct((item): number => item.value),
-        true
-      )
+        updateArgs: [10, { id: 10, value: 42 }],
+        valueCallback: (stream): any =>
+          stream.distinct((item): number => item.value),
+      })
     })
 
     describe('Filter', function(): void {
@@ -116,68 +221,76 @@ const testStreamAPI = function(
         filterStub.withArgs({ id: 10 }, 10).returns(false)
         filterStub.throws('Invalid callback input.')
 
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect([...stream.filter(filterStub)]).to.deep.equal([{ id: 7 }])
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.filter((item): boolean => +item.id % 2 === 0),
-        true
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, include: false }],
+          [4, { id: 4, include: true }],
+          [5, { id: 5, include: false }],
+          [6, { id: 6, include: true }],
+        ],
+        updateArgs: [6, { id: 6, include: false }],
+        streamCallback: (stream): any =>
+          stream.filter((item): boolean => item.include),
+      })
     })
 
     describe('For Each', function(): void {
       it('Simple test', function(): void {
         const forEachSpy = spy()
 
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
         stream.forEach(forEachSpy)
 
-        expect(forEachSpy.getCalls().map((call): any => call.args)).to.deep.equal([
-          [{ id: 7 }, 7],
-          [{ id: 10 }, 10],
-        ])
+        expect(
+          forEachSpy.getCalls().map((call): any => call.args)
+        ).to.deep.equal([[{ id: 7 }, 7], [{ id: 10 }, 10]])
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => {
+      testReuse({
+        data: [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
+        valueCallback: (stream): any => {
           const forEachSpy = spy()
           stream.forEach(forEachSpy)
           return forEachSpy.callCount
         },
-        false
-      )
+      })
     })
 
     describe('Get Ids', function(): void {
       it('Simple test', function(): void {
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect(stream.getIds()).to.deep.equal([7, 10])
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.getIds(),
-        true
-      )
+      testReuse({
+        data: [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
+        valueCallback: (stream): any => stream.getIds(),
+      })
     })
 
     describe('Get Items', function(): void {
       it('Simple test', function(): void {
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect(stream.getItems()).to.deep.equal([{ id: 7 }, { id: 10 }])
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.getItems(),
-        true
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, value: 3 }],
+          [4, { id: 4, value: 4 }],
+          [5, { id: 5, value: 5 }],
+          [6, { id: 6, value: 6 }],
+        ],
+        updateArgs: [5, { id: 5, value: -5 }],
+        valueCallback: (stream): any => stream.getItems(),
+      })
     })
 
     describe('Map', function(): void {
@@ -187,16 +300,22 @@ const testStreamAPI = function(
         mapStub.withArgs({ id: 10 }, 10).returns(10)
         mapStub.throws('Invalid callback input.')
 
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect([...stream.map(mapStub)]).to.deep.equal([7, 10])
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.map((item): number => item.id),
-        true
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, value: 3 }],
+          [4, { id: 4, value: 4 }],
+          [5, { id: 5, value: 5 }],
+          [6, { id: 6, value: 6 }],
+        ],
+        updateArgs: [5, { id: 5, value: -5 }],
+        streamCallback: (stream): any =>
+          stream.map((item): number => item.value),
+      })
     })
 
     describe('Max', function(): void {
@@ -204,7 +323,7 @@ const testStreamAPI = function(
         const maxStub = stub()
         maxStub.throws('This should never be called.')
 
-        const stream = createDataStream([])
+        const { stream } = createDataStream([])
 
         expect(stream.max(maxStub)).to.equal(null)
       })
@@ -215,16 +334,22 @@ const testStreamAPI = function(
         maxStub.withArgs({ id: 10 }, 10).returns(10)
         maxStub.throws('Invalid callback input.')
 
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect(stream.max(maxStub)).to.deep.equal({ id: 10 })
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.max((item): number => item.id),
-        false
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, value: 3 }],
+          [4, { id: 4, value: 4 }],
+          [5, { id: 5, value: 5 }],
+          [6, { id: 6, value: 6 }],
+        ],
+        updateArgs: [5, { id: 5, value: 55 }],
+        valueCallback: (stream): any =>
+          stream.max((item): number => item.value),
+      })
     })
 
     describe('Min', function(): void {
@@ -232,7 +357,7 @@ const testStreamAPI = function(
         const minStub = stub()
         minStub.throws('This should never be called.')
 
-        const stream = createDataStream([])
+        const { stream } = createDataStream([])
 
         expect(stream.min(minStub)).to.equal(null)
       })
@@ -243,16 +368,22 @@ const testStreamAPI = function(
         minStub.withArgs({ id: 10 }, 10).returns(10)
         minStub.throws('Invalid callback input.')
 
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect(stream.min(minStub)).to.deep.equal({ id: 7 })
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.max((item): number => item.id),
-        false
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, value: 3 }],
+          [4, { id: 4, value: 4 }],
+          [5, { id: 5, value: 5 }],
+          [6, { id: 6, value: 6 }],
+        ],
+        updateArgs: [5, { id: 5, value: -5 }],
+        valueCallback: (stream): any =>
+          stream.min((item): number => item.value),
+      })
     })
 
     describe('Reduce', function(): void {
@@ -262,23 +393,29 @@ const testStreamAPI = function(
         reduceStub.withArgs(1, { id: 10 }, 10).returns(2)
         reduceStub.throws('Invalid callback input.')
 
-        const stream = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
+        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]])
 
         expect(stream.reduce(reduceStub, 0)).to.equal(2)
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.reduce((acc, item): number => acc + item.id, 0),
-        false
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, value: 3 }],
+          [4, { id: 4, value: 4 }],
+          [5, { id: 5, value: 5 }],
+          [6, { id: 6, value: 6 }],
+        ],
+        updateArgs: [5, { id: 5, value: -5 }],
+        valueCallback: (stream): any =>
+          stream.reduce((acc, item): number => acc + item.value, 0),
+      })
     })
 
     describe('Sort', function(): void {
       it('No items', function(): void {
         const sortSpy = spy()
 
-        const stream = createDataStream([])
+        const { stream } = createDataStream([])
 
         expect([...stream.sort(sortSpy)]).to.deep.equal([])
         expect(
@@ -288,7 +425,7 @@ const testStreamAPI = function(
       })
 
       it('8 sorted items', function(): void {
-        const stream = createDataStream([
+        const { stream } = createDataStream([
           [1, { id: 1 }],
           [2, { id: 2 }],
           [3, { id: 3 }],
@@ -299,7 +436,9 @@ const testStreamAPI = function(
           [8, { id: 8 }],
         ])
 
-        expect([...stream.sort((_a, _b, idA, idB): number => +idA - +idB)]).to.deep.equal([
+        expect([
+          ...stream.sort((_a, _b, idA, idB): number => +idA - +idB),
+        ]).to.deep.equal([
           { id: 1 },
           { id: 2 },
           { id: 3 },
@@ -312,7 +451,7 @@ const testStreamAPI = function(
       })
 
       it('14 unsorted items', function(): void {
-        const stream = createDataStream([
+        const { stream } = createDataStream([
           [1, { value: Math.PI, id: 1 }],
           [12, { value: 0, id: 12 }],
           [6, { value: 6, id: 6 }],
@@ -330,7 +469,9 @@ const testStreamAPI = function(
         ])
 
         expect([
-          ...stream.sort((a, b, idA, idB): number => a.value - b.value || +idA - +idB),
+          ...stream.sort(
+            (a, b, idA, idB): number => a.value - b.value || +idA - +idB
+          ),
         ]).to.deep.equal([
           { value: Number.MIN_SAFE_INTEGER, id: 10 },
           { value: -12, id: 4 },
@@ -349,11 +490,17 @@ const testStreamAPI = function(
         ])
       })
 
-      testReuse(
-        [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-        (stream): any => stream.sort((a, b): number => +a.id - +b.id),
-        true
-      )
+      testReuse({
+        data: [
+          [3, { id: 3, value: 3 }],
+          [4, { id: 4, value: 4 }],
+          [5, { id: 5, value: 5 }],
+          [6, { id: 6, value: 6 }],
+        ],
+        updateArgs: [5, { id: 5, value: -5 }],
+        streamCallback: (stream): any =>
+          stream.sort((a, b): number => a.value - b.value),
+      })
     })
   })
 
@@ -364,7 +511,7 @@ const testStreamAPI = function(
       reduceStub.withArgs(1, { id: 10 }, 10).returns(2)
       reduceStub.throws('Invalid callback input.')
 
-      const stream = createDataStream([
+      const { stream } = createDataStream([
         [7, { id: 7 }],
         [13, { id: 13 }],
         [10, { id: 10 }],
@@ -378,43 +525,100 @@ const testStreamAPI = function(
       expect(filteredSum).to.equal(23)
     })
 
-    testReuse(
-      [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
-      (stream): any =>
+    testReuse({
+      data: [
+        [3, { id: 3, value: 3 }],
+        [4, { id: 4, value: 4 }],
+        [5, { id: 5, value: 5 }],
+        [6, { id: 6, value: 6 }],
+      ],
+      updateArgs: [5, { id: 5, value: -5 }],
+      valueCallback: (stream): any =>
         stream
-          .filter((_, id): boolean => +id % 2 !== 0)
-          .map((item): number => item.id)
+          .filter((item): boolean => item.value > 2)
+          .map((item): number => item.value)
           .reduce((acc, val): number => acc + val, 0),
-      false
-    )
+    })
   })
 }
 
 describe('Stream API', function(): void {
   describe('Data Stream', function(): void {
-    testStreamAPI(<Item>(data: [Id, Item][]): DataStream<Item> => new DataStream(data))
+    testStreamAPI(
+      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+        const streamData = data.slice()
+        return {
+          stream: new DataStream(streamData),
+          update: (id, item): void => {
+            streamData.splice(
+              streamData.findIndex((pair): boolean => pair[0] === id),
+              1,
+              [id, item]
+            )
+          },
+          pop: (): void => {
+            streamData.pop()
+          },
+        }
+      }
+    )
   })
 
   describe('Data Set', function(): void {
     testStreamAPI(
-      <Item>(data: [Id, Item][]): DataStream<Item> =>
-        new DataSet(data.map((pair): Item => pair[1])).stream()
+      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+        const ds = new DataSet(data.map((pair): Item => pair[1]))
+        return {
+          stream: ds.stream(),
+          update: (_, item: any): void => {
+            ds.updateOnly(item)
+          },
+          pop: (): void => {
+            const id = ds.getIds()[0]
+            if (id != null) {
+              ds.remove(id)
+            }
+          },
+        }
+      }
     )
   })
 
   describe('Data View', function(): void {
     testStreamAPI(
-      <Item>(data: [Id, Item][]): DataStream<Item> => {
-        const ds = new DataSet(
-          data
-            .map((pair, i): Item[] => [
-              pair[1],
-              { id: -i, dataSetOnly: 'This should never appear in the data view.' } as any,
-            ])
-            .flat()
-        )
-        const dv = new DataView(ds, { filter: (item): boolean => !(item as any).dataSetOnly })
-        return dv.stream()
+      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+        const ids = new Set(data.map(([id]): Id => id))
+        const dsData = data.map(([, Item]): Item => Item)
+
+        let id = Number.MIN_SAFE_INTEGER + 500
+        for (let i = 0; i < 6; ++i) {
+          while (ids.has(++id)) {
+            // Find the next free id.
+          }
+
+          dsData.push({
+            id,
+            dataSetOnly: 'This should never appear in the data view.',
+          } as any)
+        }
+
+        const ds = new DataSet(dsData)
+        const dv = new DataView(ds, {
+          filter: (item): boolean => !(item as any).dataSetOnly,
+        })
+
+        return {
+          stream: dv.stream(),
+          update: (_, item: any): void => {
+            ds.updateOnly(item)
+          },
+          pop: (): void => {
+            const id = dv.getIds()[0]
+            if (id != null) {
+              ds.remove(id)
+            }
+          },
+        }
       }
     )
   })
