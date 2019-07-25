@@ -54,6 +54,85 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   }
 
   /**
+   * Return an array containing all the ids in this stream.
+   *
+   * @remarks
+   * The array may contain duplicities.
+   *
+   * @returns The array with all ids from this stream.
+   */
+  public toIdArray(): Id[] {
+    return [...this._pairs].map((pair): Id => pair[0])
+  }
+
+  /**
+   * Return an array containing all the items in this stream.
+   *
+   * @remarks
+   * The array may contain duplicities.
+   *
+   * @returns The array with all items from this stream.
+   */
+  public toItemArray(): Item[] {
+    return [...this._pairs].map((pair): Item => pair[1])
+  }
+
+  /**
+   * Return an array containing all the entries in this stream.
+   *
+   * @remarks
+   * The array may contain duplicities.
+   *
+   * @returns The array with all entries from this stream.
+   */
+  public toEntryArray(): [Id, Item][] {
+    return [...this._pairs]
+  }
+
+  /**
+   * Return an object map containing all the items in this stream accessible by ids.
+   *
+   * @remarks
+   * In case of duplicate ids (coerced to string so `7 == '7'`) the last encoutered appears in the returned object.
+   *
+   * @returns The object map of all id → item pairs from this stream.
+   */
+  public toObjectMap(): Record<Id, Item> {
+    const map: Record<Id, Item> = Object.create(null)
+    for (const [id, item] of this._pairs) {
+      map[id] = item
+    }
+    return map
+  }
+
+  /**
+   * Return a map containing all the items in this stream accessible by ids.
+   *
+   * @returns The map of all id → item pairs from this stream.
+   */
+  public toMap(): Map<Id, Item> {
+    return new Map(this._pairs)
+  }
+
+  /**
+   * Return a set containing all the (unique) ids in this stream.
+   *
+   * @returns The set of all ids from this stream.
+   */
+  public toIdSet(): Set<Id> {
+    return new Set(this.toIdArray())
+  }
+
+  /**
+   * Return a set containing all the (unique) items in this stream.
+   *
+   * @returns The set of all items from this stream.
+   */
+  public toItemSet(): Set<Item> {
+    return new Set(this.toItemArray())
+  }
+
+  /**
    * Cache the items from this stream.
    *
    * @remarks

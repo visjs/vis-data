@@ -10,6 +10,11 @@ interface CreateDataStreamRet<Item> {
   pop: () => void
 }
 
+const pairById = ([a]: [Id, any], [b]: [Id, any]): number =>
+  `${a}`.localeCompare(`${b}`)
+const itemById = ({ id: a }: { id: Id }, { id: b }: { id: Id }): number =>
+  `${a}`.localeCompare(`${b}`)
+
 const testStreamAPI = function(
   createDataStream: <Item extends { id: number }>(
     data: readonly [Id, Item][]
@@ -170,6 +175,162 @@ const testStreamAPI = function(
           [10, { id: 10 }],
         ])
       })
+    })
+  })
+
+  describe('Conversions', function(): void {
+    it('Id Array', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const idArray = stream.toIdArray()
+
+      expect(idArray, 'An array should be returned.').to.be.an('array')
+      expect(
+        idArray,
+        'All ids should be included in the array.'
+      ).to.have.lengthOf(4)
+      expect(idArray.sort()).to.deep.equal([3, 7, 10, 13].sort())
+    })
+
+    it('Item Array', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const itemArray = stream.toItemArray()
+
+      expect(itemArray, 'An array should be returned.').to.be.an('array')
+      expect(
+        itemArray,
+        'All items should be included in the array.'
+      ).to.have.lengthOf(4)
+      expect(itemArray.sort(itemById)).to.deep.equal(
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById)
+      )
+    })
+
+    it('Entry Array', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const entryArray = stream.toEntryArray()
+
+      expect(entryArray, 'An array should be returned.').to.be.an('array')
+      expect(
+        entryArray,
+        'All items should be included in the array.'
+      ).to.have.lengthOf(4)
+      expect(entryArray.sort(pairById)).to.deep.equal(
+        [
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
+        ].sort(pairById as any)
+      )
+    })
+
+    it('Object map', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const map = stream.toObjectMap()
+
+      expect(
+        Object.getPrototypeOf(map),
+        'An object should be returned.'
+      ).to.equal(null)
+      expect(
+        Object.keys(map),
+        'All items should be included in the map.'
+      ).to.have.lengthOf(4)
+      expect(
+        Object.values(map),
+        'All items should be included in the map.'
+      ).to.have.lengthOf(4)
+      expect(Object.keys(map).sort()).to.deep.equal(
+        ['3', '7', '10', '13'].sort()
+      )
+      expect(Object.values(map).sort(itemById)).to.deep.equal(
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById)
+      )
+    })
+
+    it('Map', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const map = stream.toMap()
+
+      expect(map, 'A Map instance should be returned.').to.instanceof(Map)
+      expect(map, 'All items should be included in the map.').to.have.lengthOf(
+        4
+      )
+      expect([...map.entries()].sort(pairById)).to.deep.equal(
+        [
+          [3, { id: 3 }],
+          [7, { id: 7 }],
+          [10, { id: 10 }],
+          [13, { id: 13 }],
+        ].sort(pairById as any)
+      )
+    })
+
+    it('Id Set', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const idSet = stream.toIdSet()
+
+      expect(idSet, 'A Set instance should be returned.').to.instanceof(Set)
+      expect(idSet, 'All ids should be included in the set.').to.have.lengthOf(
+        4
+      )
+      expect([...idSet.values()].sort()).to.deep.equal([3, 7, 10, 13].sort())
+    })
+
+    it('Item Set', function(): void {
+      const { stream } = createDataStream([
+        [3, { id: 3 }],
+        [7, { id: 7 }],
+        [10, { id: 10 }],
+        [13, { id: 13 }],
+      ])
+
+      const itemSet = stream.toItemSet()
+
+      expect(itemSet, 'A Set instance should be returned.').to.instanceof(Set)
+      expect(
+        itemSet,
+        'All items should be included in the set.'
+      ).to.have.lengthOf(4)
+      expect([...itemSet.values()].sort(itemById)).to.deep.equal(
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById)
+      )
     })
   })
 
