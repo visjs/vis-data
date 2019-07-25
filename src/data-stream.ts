@@ -5,7 +5,8 @@ import { Id } from './data-interface'
  *
  * @remarks
  * [[DataStream]] offers an always up to date stream of items from a [[DataSet]] or [[DataView]].
- * That means that the stream is evaluated at the time of iteration, not when the [[DataStream]] was created.
+ * That means that the stream is evaluated at the time of iteration, conversion to another data type or when [[cache]] is called, not when the [[DataStream]] was created.
+ * Multiple invocations of for example [[toItemArray]] may yield different results (if the data source like for example [[DataSet]] gets modified).
  *
  * @typeparam Item - The item type this stream is going to work with.
  */
@@ -18,7 +19,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   public constructor(private readonly _pairs: Iterable<[Id, Item]>) {}
 
   /**
-   * Returns an iterable of key, value pairs for every entry in the stream.
+   * Return an iterable of key, value pairs for every entry in the stream.
    */
   public *[Symbol.iterator](): IterableIterator<[Id, Item]> {
     for (const [id, item] of this._pairs) {
@@ -27,7 +28,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   }
 
   /**
-   * Returns an iterable of key, value pairs for every entry in the stream.
+   * Return an iterable of key, value pairs for every entry in the stream.
    */
   public *entries(): IterableIterator<[Id, Item]> {
     for (const [id, item] of this._pairs) {
@@ -36,7 +37,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   }
 
   /**
-   * Returns an iterable of keys in the stream.
+   * Return an iterable of keys in the stream.
    */
   public *keys(): IterableIterator<Id> {
     for (const [id] of this._pairs) {
@@ -45,7 +46,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   }
 
   /**
-   * Returns an iterable of values in the stream.
+   * Return an iterable of values in the stream.
    */
   public *values(): IterableIterator<Item> {
     for (const [, item] of this._pairs) {
