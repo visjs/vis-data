@@ -971,7 +971,13 @@ img { max-width: 100%; }
 					<a href="dataset.html#setoptions" class="tsd-kind-icon">set<wbr>Options</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="dataset.html#stream" class="tsd-kind-icon">stream</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="dataset.html#update" class="tsd-kind-icon">update</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="dataset.html#updateonly" class="tsd-kind-icon">update<wbr>Only</a>
 				</li>
 				<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a href="dataset.html#_subscribers" class="tsd-kind-icon">_subscribers</a>
@@ -980,6 +986,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-class tsd-has-type-parameter">
 			<a href="datasetpart.html" class="tsd-kind-icon">Data<wbr>Set<wbr>Part</a>
+		</li>
+		<li class=" tsd-kind-class tsd-has-type-parameter">
+			<a href="datastream.html" class="tsd-kind-icon">Data<wbr>Stream</a>
 		</li>
 		<li class=" tsd-kind-class tsd-has-type-parameter">
 			<a href="dataview.html" class="tsd-kind-icon">Data<wbr>View</a>
@@ -1050,6 +1059,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 			<a href="../globals.html#datainterfaceorder" class="tsd-kind-icon">Data<wbr>Interface<wbr>Order</a>
 		</li>
+		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+			<a href="../globals.html#deeppartial" class="tsd-kind-icon">Deep<wbr>Partial</a>
+		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../globals.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
 		</li>
@@ -1073,6 +1085,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../globals.html#types" class="tsd-kind-icon">Types</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+			<a href="../globals.html#updateitem" class="tsd-kind-icon">Update<wbr>Item</a>
 		</li>
 		<li class=" tsd-kind-function tsd-has-type-parameter">
 			<a href="../globals.html#isfullitem" class="tsd-kind-icon">is<wbr>Full<wbr>Item</a>
@@ -1220,7 +1235,9 @@ data.remove(<span class="hljs-number">4</span>);
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="dataset.html#on" class="tsd-kind-icon">on</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="dataset.html#remove" class="tsd-kind-icon">remove</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="dataset.html#setoptions" class="tsd-kind-icon">set<wbr>Options</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="dataset.html#stream" class="tsd-kind-icon">stream</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="dataset.html#update" class="tsd-kind-icon">update</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="dataset.html#updateonly" class="tsd-kind-icon">update<wbr>Only</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section tsd-is-inherited tsd-is-private-protected">
@@ -1238,29 +1255,14 @@ data.remove(<span class="hljs-number">4</span>);
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Data<wbr>Set<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dataset.html" class="tsd-signature-type">DataSet</a></li>
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Data<wbr>Set<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/datasetinitialoptions.html" class="tsd-signature-type">DataSetInitialOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dataset.html" class="tsd-signature-type">DataSet</a></li>
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Data<wbr>Set<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/datasetinitialoptions.html" class="tsd-signature-type">DataSetInitialOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dataset.html" class="tsd-signature-type">DataSet</a></li>
 					<li class="tsd-signature tsd-kind-icon">new <wbr>Data<wbr>Set<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/datasetinitialoptions.html" class="tsd-signature-type">DataSetInitialOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dataset.html" class="tsd-signature-type">DataSet</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L137">data-set.ts:137</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Construct a new DataSet.
-								Construct a new DataSet.</p>
-							</div>
-						</div>
-						<h4 class="tsd-returns-title">Returns <a href="dataset.html" class="tsd-signature-type">DataSet</a></h4>
-					</li>
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L139">data-set.ts:139</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L140">data-set.ts:140</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1272,7 +1274,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>options: <a href="../interfaces/datasetinitialoptions.html" class="tsd-signature-type">DataSetInitialOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/datasetinitialoptions.html" class="tsd-signature-type">DataSetInitialOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>DataSet configuration.</p>
@@ -1285,7 +1287,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L143">data-set.ts:143</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L145">data-set.ts:145</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1326,7 +1328,7 @@ data.remove(<span class="hljs-number">4</span>);
 				<div class="tsd-signature tsd-kind-icon">flush<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L129">data-set.ts:129</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L132">data-set.ts:132</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1342,7 +1344,7 @@ data.remove(<span class="hljs-number">4</span>);
 				<aside class="tsd-sources">
 					<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#length">length</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L131">data-set.ts:131</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L134">data-set.ts:134</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1358,7 +1360,7 @@ data.remove(<span class="hljs-number">4</span>);
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#subscribe">subscribe</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L124">data-set-part.ts:124</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L123">data-set-part.ts:123</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1376,7 +1378,7 @@ data.remove(<span class="hljs-number">4</span>);
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#unsubscribe">unsubscribe</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L128">data-set-part.ts:128</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L127">data-set-part.ts:127</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1403,7 +1405,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#_trigger">_trigger</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L34">data-set-part.ts:34</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L33">data-set-part.ts:33</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1444,7 +1446,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#_trigger">_trigger</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L39">data-set-part.ts:39</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L38">data-set-part.ts:38</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1485,7 +1487,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#_trigger">_trigger</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L44">data-set-part.ts:44</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L43">data-set-part.ts:43</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1534,7 +1536,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L252">data-set.ts:252</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L254">data-set.ts:254</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1590,7 +1592,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L811">data-set.ts:811</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L910">data-set.ts:910</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1624,7 +1626,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L879">data-set.ts:879</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L970">data-set.ts:970</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1655,7 +1657,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L880">data-set.ts:880</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L971">data-set.ts:971</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1689,7 +1691,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L597">data-set.ts:597</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L697">data-set.ts:697</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1755,7 +1757,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L369">data-set.ts:369</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L469">data-set.ts:469</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1770,7 +1772,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L371">data-set.ts:371</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L471">data-set.ts:471</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1791,7 +1793,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L373">data-set.ts:373</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L473">data-set.ts:473</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1812,7 +1814,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L375">data-set.ts:375</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L475">data-set.ts:475</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1836,7 +1838,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L379">data-set.ts:379</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L479">data-set.ts:479</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1860,7 +1862,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L381">data-set.ts:381</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L481">data-set.ts:481</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1887,7 +1889,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L383">data-set.ts:383</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L483">data-set.ts:483</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1911,7 +1913,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L388">data-set.ts:388</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L488">data-set.ts:488</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1940,7 +1942,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L393">data-set.ts:393</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L493">data-set.ts:493</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1961,7 +1963,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L395">data-set.ts:395</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L495">data-set.ts:495</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1985,7 +1987,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L397">data-set.ts:397</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L497">data-set.ts:497</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2009,7 +2011,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L402">data-set.ts:402</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L502">data-set.ts:502</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2036,7 +2038,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#get">get</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L407">data-set.ts:407</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L507">data-set.ts:507</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2076,7 +2078,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#getdataset">getDataSet</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L592">data-set.ts:592</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L692">data-set.ts:692</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2101,7 +2103,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#getids">getIds</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L525">data-set.ts:525</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L625">data-set.ts:625</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2130,7 +2132,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L628">data-set.ts:628</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L728">data-set.ts:728</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2189,7 +2191,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L834">data-set.ts:834</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L933">data-set.ts:933</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2224,7 +2226,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L860">data-set.ts:860</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L955">data-set.ts:955</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2264,7 +2266,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#off">off</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#off">off</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L97">data-set-part.ts:97</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L96">data-set-part.ts:96</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2298,7 +2300,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#off">off</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#off">off</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L99">data-set-part.ts:99</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L98">data-set-part.ts:98</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2332,7 +2334,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#off">off</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#off">off</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L101">data-set-part.ts:101</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L100">data-set-part.ts:100</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2366,7 +2368,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#off">off</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#off">off</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L103">data-set-part.ts:103</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L102">data-set-part.ts:102</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2412,7 +2414,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#on">on</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#on">on</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L71">data-set-part.ts:71</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L70">data-set-part.ts:70</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2451,7 +2453,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#on">on</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#on">on</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L73">data-set-part.ts:73</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L72">data-set-part.ts:72</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2490,7 +2492,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#on">on</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#on">on</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L75">data-set-part.ts:75</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L74">data-set-part.ts:74</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2529,7 +2531,7 @@ data.remove(<span class="hljs-number">4</span>);
 							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#on">on</a></p>
 							<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#on">on</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L77">data-set-part.ts:77</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L76">data-set-part.ts:76</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2575,7 +2577,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L747">data-set.ts:747</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L846">data-set.ts:846</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2627,7 +2629,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L201">data-set.ts:201</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L203">data-set.ts:203</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2649,26 +2651,58 @@ data.remove(<span class="hljs-number">4</span>);
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="stream" class="tsd-anchor"></a>
+				<h3>stream</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">stream<span class="tsd-signature-symbol">(</span>ids<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="datastream.html" class="tsd-signature-type">DataStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<p>Implementation of <a href="../interfaces/datainterface.html">DataInterface</a>.<a href="../interfaces/datainterface.html#stream">stream</a></p>
+							<ul>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L1119">data-set.ts:1119</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Stream.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> ids: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="datastream.html" class="tsd-signature-type">DataStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<p>The data stream for this data set.</p>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="update" class="tsd-anchor"></a>
 				<h3>update</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">[]</span></li>
+					<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../globals.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">[]</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set.ts#L310">data-set.ts:310</a></li>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L316">data-set.ts:316</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Update existing items. When an item does not exist, it will be created</p>
+								<p>Update existing items. When an item does not exist, it will be created.</p>
 							</div>
-							<p>The provided properties will be merged in the existing item. When an item does not exist, it will be created.</p>
-							<p>After the items are updated, the DataSet will trigger an event <code>add</code> for the added items, and an event <code>update</code>. When a <code>senderId</code> is provided, this id will be passed with the triggered event to all subscribers.</p>
-							<h2 id="example">Example</h2>
-							<pre><code class="language-javascript"><span class="hljs-comment">// create a DataSet</span>
+							<dl class="tsd-comment-tags">
+								<dt>remarks</dt>
+								<dd><p>The provided properties will be merged in the existing item. When an item does not exist, it will be created.</p>
+									<p>After the items are updated, the DataSet will trigger an event <code>add</code> for the added items, and an event <code>update</code>. When a <code>senderId</code> is provided, this id will be passed with the triggered event to all subscribers.</p>
+									<h2 id="example">Example</h2>
+									<pre><code class="language-javascript"><span class="hljs-comment">// create a DataSet</span>
 <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">new</span> vis.DataSet([
   { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'item 1'</span> },
   { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'item 2'</span> },
@@ -2682,7 +2716,9 @@ data.remove(<span class="hljs-number">4</span>);
 ])
 
 <span class="hljs-built_in">console</span>.log(ids) <span class="hljs-comment">// [2, 4]</span></code></pre>
-							<dl class="tsd-comment-tags">
+									<h2 id="warning-for-typescript-users">Warning for TypeScript users</h2>
+									<p>This method may introduce partial items into the data set. Use add or updateOnly instead for better type safety.</p>
+								</dd>
 								<dt>throws</dt>
 								<dd><p>When the supplied data is neither an item nor an array of items.</p>
 								</dd>
@@ -2691,7 +2727,7 @@ data.remove(<span class="hljs-number">4</span>);
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>data: <span class="tsd-signature-type">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
+								<h5>data: <a href="../globals.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<p>Items to be updated (if the id is already present) or added (if the id is missing).</p>
 								</div>
@@ -2708,6 +2744,71 @@ data.remove(<span class="hljs-number">4</span>);
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="updateonly" class="tsd-anchor"></a>
+				<h3>update<wbr>Only</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">update<wbr>Only<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../globals.html#updateitem" class="tsd-signature-type">UpdateItem</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#updateitem" class="tsd-signature-type">UpdateItem</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, senderId<span class="tsd-signature-symbol">?: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">[]</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set.ts#L411">data-set.ts:411</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Update existing items. When an item does not exist, an error will be thrown.</p>
+							</div>
+							<dl class="tsd-comment-tags">
+								<dt>remarks</dt>
+								<dd><p>The provided properties will be deeply merged into the existing item.
+									When an item does not exist (id not present in the data set or absent), an error will be thrown and nothing will be changed.</p>
+									<p>After the items are updated, the DataSet will trigger an event <code>update</code>.
+									When a <code>senderId</code> is provided, this id will be passed with the triggered event to all subscribers.</p>
+									<h2 id="example">Example</h2>
+									<pre><code class="language-javascript"><span class="hljs-comment">// create a DataSet</span>
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">new</span> vis.DataSet([
+  { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'item 1'</span> },
+  { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'item 2'</span> },
+  { <span class="hljs-attr">id</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'item 3'</span> },
+])
+
+<span class="hljs-comment">// update items</span>
+<span class="hljs-keyword">const</span> ids = data.update([
+  { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'item 2 (updated)'</span> }, <span class="hljs-comment">// works</span>
+  <span class="hljs-comment">// { id: 4, text: 'item 4 (new)' }, // would throw</span>
+  <span class="hljs-comment">// { text: 'item 4 (new)' }, // would also throw</span>
+])
+
+<span class="hljs-built_in">console</span>.log(ids) <span class="hljs-comment">// [2]</span></code></pre>
+								</dd>
+								<dt>throws</dt>
+								<dd><p>When the supplied data is neither an item nor an array of items, when the ids are missing.</p>
+								</dd>
+							</dl>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>data: <a href="../globals.html#updateitem" class="tsd-signature-type">UpdateItem</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#updateitem" class="tsd-signature-type">UpdateItem</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Item</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IdProp</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Updates (the id and optionally other props) to the items in this data set.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> senderId: <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Sender id.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="../globals.html#id" class="tsd-signature-type">Id</a><span class="tsd-signature-symbol">[]</span></h4>
+						<p>updatedIds - The ids of the updated items.</p>
+					</li>
+				</ul>
+			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-private-protected">
 			<h2>Object literals</h2>
@@ -2718,7 +2819,7 @@ data.remove(<span class="hljs-number">4</span>);
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="datasetpart.html">DataSetPart</a>.<a href="datasetpart.html#_subscribers">_subscribers</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L25">data-set-part.ts:25</a></li>
+						<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L24">data-set-part.ts:24</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -2727,7 +2828,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<div class="tsd-signature tsd-kind-icon">*<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L28">data-set-part.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L27">data-set-part.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -2737,7 +2838,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<div class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L29">data-set-part.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L28">data-set-part.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -2747,7 +2848,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<div class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L30">data-set-part.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L29">data-set-part.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -2757,7 +2858,7 @@ data.remove(<span class="hljs-number">4</span>);
 					<div class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/f89cc43/src/data-set-part.ts#L31">data-set-part.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/visjs/vis-data/blob/24336a9/src/data-set-part.ts#L30">data-set-part.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>

@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
+
 /** Queue configuration object. */
 export interface QueueOptions {
   /** The queue will be flushed automatically after an inactivity of this delay in milliseconds. By default there is no automatic flushing (`null`). */
@@ -54,7 +56,7 @@ export class Queue<T = never> {
   /** Maximum number of entries in the queue before it will be flushed. */
   public max: number
 
-  private _queue: {
+  private readonly _queue: {
     fn: Function
     args?: unknown[]
     context?: unknown
@@ -171,7 +173,10 @@ export class Queue<T = never> {
    * @param object - Object having the method.
    * @param method - The method name.
    */
-  public replace<M extends string>(object: Record<M, () => void>, method: M): void {
+  public replace<M extends string>(
+    object: Record<M, () => void>,
+    method: M
+  ): void {
     const me = this
     const original = object[method]
     if (!original) {

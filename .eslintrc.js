@@ -7,6 +7,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'prettier/@typescript-eslint',
@@ -15,6 +16,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2019,
+    project: './tsconfig.json',
   },
   plugins: ['prettier'],
   rules: {
@@ -55,15 +57,43 @@ module.exports = {
       },
     ],
 
+    'sort-imports': [
+      'error',
+      {
+        ignoreCase: false,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      },
+    ],
+    '@typescript-eslint/member-naming': [
+      'error',
+      { private: '^_', protected: '^_', public: '^[^_]' },
+    ],
+
+    '@typescript-eslint/member-ordering': 'error',
+    '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+    '@typescript-eslint/no-useless-constructor': 'error',
+    '@typescript-eslint/prefer-includes': 'error',
+    '@typescript-eslint/prefer-readonly': 'error',
+    '@typescript-eslint/prefer-regexp-exec': 'error',
+    // '@typescript-eslint/require-await': 'error',
+
     // Not yet
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     // These are hoisted, I have no idea why it reports them by default.
-    '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, typedefs: false }],
+    '@typescript-eslint/no-use-before-define': [
+      'error',
+      { functions: false, classes: false, typedefs: false },
+    ],
     // False positives for overloading, also tsc compiles with errors anyway.
     'no-dupe-class-members': 'off',
     // Blocks typesafe exhaustive switch (switch (x) { … default: const never: never = x }).
     'no-case-declarations': 'off',
     // Reports typeof bigint as an error, tsc validates this anyway so no problem turning this off.
     'valid-typeof': 'off',
+    // Why?
+    '@typescript-eslint/no-parameter-properties': 'off',
   },
 }
