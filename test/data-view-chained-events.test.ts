@@ -25,27 +25,27 @@ describe('Data view chaining events', function(): void {
   const spies = {
     ds: {
       '*': spy(),
-      'add': spy(),
-      'remove': spy(),
-      'update': spy(),
+      add: spy(),
+      remove: spy(),
+      update: spy(),
     },
     dv1: {
       '*': spy(),
-      'add': spy(),
-      'remove': spy(),
-      'update': spy(),
+      add: spy(),
+      remove: spy(),
+      update: spy(),
     },
     dv2: {
       '*': spy(),
-      'add': spy(),
-      'remove': spy(),
-      'update': spy(),
+      add: spy(),
+      remove: spy(),
+      update: spy(),
     },
     dv3: {
       '*': spy(),
-      'add': spy(),
-      'remove': spy(),
-      'update': spy(),
+      add: spy(),
+      remove: spy(),
+      update: spy(),
     },
   }
 
