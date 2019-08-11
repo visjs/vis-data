@@ -25,9 +25,9 @@ export abstract class DataSetPart<Item, IdProp extends string>
     [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][]
   } = {
     '*': [],
-    'add': [],
-    'remove': [],
-    'update': [],
+    add: [],
+    remove: [],
+    update: [],
   }
 
   protected _trigger(

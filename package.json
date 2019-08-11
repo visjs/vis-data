@@ -1,12 +1,12 @@
 {
   "name": "vis-data",
-  "version": "6.1.1",
+  "version": "0.0.0-no-version",
   "description": "Manage unstructured data using DataSet. Add, update, and remove data, and listen for changes in the data.",
   "homepage": "http://visjs.org/",
   "license": "(Apache-2.0 OR MIT)",
   "repository": {
     "type": "git",
-    "url": "git://github.com/visjs/vis-data.git"
+    "url": "https://github.com/visjs/vis-data.git"
   },
   "bugs": {
     "url": "https://github.com/visjs/vis-data/issues"
@@ -41,13 +41,11 @@
     "fix": "npm run lint -- --fix",
     "lint": "eslint '{src,test}/**/*.{m,}{j,t}s{x,}'",
     "postinstall": "opencollective postinstall || exit 0",
-    "preparepublish": "npm run contributors:update",
-    "prepublishOnly": "npm run test && npm run type-check && npm run lint",
-    "preversion": "npm run test && npm run type-check && npm run lint",
+    "prepublishOnly": "npm run build",
     "test": "BABEL_ENV=test mocha",
     "test-cov": "BABEL_ENV=test-cov nyc mocha",
     "type-check": "tsc --noemit",
-    "version": "npm run build:docs && git add tsdocs && npm run contributors:update && git add package.json",
+    "version": "npm run contributors:update && git add package.json",
     "watch": "rollup --watch --config rollup.config.js",
     "watch-dev": "npm run watch-dev"
   },
@@ -82,7 +80,7 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "git-authors-cli": "^1.0.18",
-    "husky": "^3.0.2",
+    "husky": "^3.0.3",
     "lint-staged": "^9.2.1",
     "mocha": "^6.1.4",
     "moment": "^2.24.0",
