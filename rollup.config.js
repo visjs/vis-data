@@ -42,6 +42,7 @@ export default [
       format: 'umd',
       exports: 'named',
       name: 'vis',
+      extend: true
     },
     plugins: [
       resolve(resolveConfig),
