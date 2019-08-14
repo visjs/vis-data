@@ -14,12 +14,12 @@ import {
   PartItem,
   RemoveEventPayload,
   UpdateEventPayload,
-  isId,
-} from './data-interface'
+  isId
+} from "./data-interface";
 
-import { DataSet } from './data-set'
-import { DataSetPart } from './data-set-part'
-import { DataStream } from './data-stream'
+import { DataSet } from "./data-set";
+import { DataSetPart } from "./data-set-part";
+import { DataStream } from "./data-stream";
 
 /**
  * Data view options.
@@ -31,9 +31,9 @@ export interface DataViewOptions<Item, IdProp extends string> {
   /**
    * The name of the field containing the id of the items. When data is fetched from a server which uses some specific field to identify items, this field name can be specified in the DataSet using the option `fieldId`. For example [CouchDB](http://couchdb.apache.org/) uses the field `'_id'` to identify documents.
    */
-  fieldId?: IdProp
+  fieldId?: IdProp;
   /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
-  filter?: (item: Item) => boolean
+  filter?: (item: Item) => boolean;
 }
 
 /**
@@ -83,15 +83,15 @@ export interface DataViewOptions<Item, IdProp extends string> {
  */
 export class DataView<
   Item extends PartItem<IdProp>,
-  IdProp extends string = 'id'
+  IdProp extends string = "id"
 > extends DataSetPart<Item, IdProp> implements DataInterface<Item, IdProp> {
   /** @inheritdoc */
-  public length: number = 0
-  private readonly _listener: EventCallbacksWithAny<Item, IdProp>['*']
+  public length: number = 0;
+  private readonly _listener: EventCallbacksWithAny<Item, IdProp>["*"];
 
-  private _data!: DataInterface<Item, IdProp> // constructor → setData
-  private readonly _ids: Set<Id> = new Set() // ids of the items currently in memory (just contains a boolean true)
-  private readonly _options: DataViewOptions<Item, IdProp>
+  private _data!: DataInterface<Item, IdProp>; // constructor → setData
+  private readonly _ids: Set<Id> = new Set(); // ids of the items currently in memory (just contains a boolean true)
+  private readonly _options: DataViewOptions<Item, IdProp>;
 
   /**
    * Create a DataView.
@@ -103,13 +103,13 @@ export class DataView<
     data: DataInterface<Item, IdProp>,
     options?: DataViewOptions<Item, IdProp>
   ) {
-    super()
+    super();
 
-    this._options = options || {}
+    this._options = options || {};
 
-    this._listener = this._onEvent.bind(this)
+    this._listener = this._onEvent.bind(this);
 
-    this.setData(data)
+    this.setData(data);
   }
 
   // TODO: implement a function .config() to dynamically update things like configured filter
@@ -124,36 +124,36 @@ export class DataView<
     if (this._data) {
       // unsubscribe from current dataset
       if (this._data.off) {
-        this._data.off('*', this._listener)
+        this._data.off("*", this._listener);
       }
 
       // trigger a remove of all items in memory
-      const ids = this._data.getIds({ filter: this._options.filter })
-      const items = this._data.get(ids)
+      const ids = this._data.getIds({ filter: this._options.filter });
+      const items = this._data.get(ids);
 
-      this._ids.clear()
-      this.length = 0
-      this._trigger('remove', { items: ids, oldData: items })
+      this._ids.clear();
+      this.length = 0;
+      this._trigger("remove", { items: ids, oldData: items });
     }
 
     if (data != null) {
-      this._data = data
+      this._data = data;
 
       // trigger an add of all added items
-      const ids = this._data.getIds({ filter: this._options.filter })
+      const ids = this._data.getIds({ filter: this._options.filter });
       for (let i = 0, len = ids.length; i < len; i++) {
-        const id = ids[i]
-        this._ids.add(id)
+        const id = ids[i];
+        this._ids.add(id);
       }
-      this.length = ids.length
-      this._trigger('add', { items: ids })
+      this.length = ids.length;
+      this._trigger("add", { items: ids });
     } else {
-      this._data = new DataSet<Item, IdProp>()
+      this._data = new DataSet<Item, IdProp>();
     }
 
     // subscribe to new dataset
     if (this._data.on) {
-      this._data.on('*', this._listener)
+      this._data.on("*", this._listener);
     }
   }
 
@@ -163,100 +163,100 @@ export class DataView<
    */
   public refresh(): void {
     const ids = this._data.getIds({
-      filter: this._options.filter,
-    })
-    const oldIds = [...this._ids]
-    const newIds: Record<Id, boolean> = {}
-    const addedIds: Id[] = []
-    const removedIds: Id[] = []
-    const removedItems: FullItem<Item, IdProp>[] = []
+      filter: this._options.filter
+    });
+    const oldIds = [...this._ids];
+    const newIds: Record<Id, boolean> = {};
+    const addedIds: Id[] = [];
+    const removedIds: Id[] = [];
+    const removedItems: FullItem<Item, IdProp>[] = [];
 
     // check for additions
     for (let i = 0, len = ids.length; i < len; i++) {
-      const id = ids[i]
-      newIds[id] = true
+      const id = ids[i];
+      newIds[id] = true;
       if (!this._ids.has(id)) {
-        addedIds.push(id)
-        this._ids.add(id)
+        addedIds.push(id);
+        this._ids.add(id);
       }
     }
 
     // check for removals
     for (let i = 0, len = oldIds.length; i < len; i++) {
-      const id = oldIds[i]
-      const item = this._data.get(id)
+      const id = oldIds[i];
+      const item = this._data.get(id);
       if (item == null) {
         // @TODO: Investigate.
         // Doesn't happen during tests or examples.
         // Is it really impossible or could it eventually happen?
         // How to handle it if it does? The types guarantee non-nullable items.
-        console.error('If you see this, report it please.')
+        console.error("If you see this, report it please.");
       } else if (!newIds[id]) {
-        removedIds.push(id)
-        removedItems.push(item)
-        this._ids.delete(id)
+        removedIds.push(id);
+        removedItems.push(item);
+        this._ids.delete(id);
       }
     }
 
-    this.length += addedIds.length - removedIds.length
+    this.length += addedIds.length - removedIds.length;
 
     // trigger events
     if (addedIds.length) {
-      this._trigger('add', { items: addedIds })
+      this._trigger("add", { items: addedIds });
     }
     if (removedIds.length) {
-      this._trigger('remove', { items: removedIds, oldData: removedItems })
+      this._trigger("remove", { items: removedIds, oldData: removedItems });
     }
   }
 
   /** @inheritdoc */
-  public get(): FullItem<Item, IdProp>[]
+  public get(): FullItem<Item, IdProp>[];
   /** @inheritdoc */
   public get(
     options: DataInterfaceGetOptionsArray<Item>
-  ): FullItem<Item, IdProp>[]
+  ): FullItem<Item, IdProp>[];
   /** @inheritdoc */
   public get(
     options: DataInterfaceGetOptionsObject<Item>
-  ): Record<Id, FullItem<Item, IdProp>>
+  ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritdoc */
   public get(
     options: DataInterfaceGetOptions<Item>
-  ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>
+  ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritdoc */
-  public get(id: Id): null | FullItem<Item, IdProp>
+  public get(id: Id): null | FullItem<Item, IdProp>;
   /** @inheritdoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptionsArray<Item>
-  ): null | FullItem<Item, IdProp>
+  ): null | FullItem<Item, IdProp>;
   /** @inheritdoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptionsObject<Item>
-  ): Record<Id, FullItem<Item, IdProp>>
+  ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritdoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptions<Item>
-  ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>
+  ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritdoc */
-  public get(ids: Id[]): FullItem<Item, IdProp>[]
+  public get(ids: Id[]): FullItem<Item, IdProp>[];
   /** @inheritdoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptionsArray<Item>
-  ): FullItem<Item, IdProp>[]
+  ): FullItem<Item, IdProp>[];
   /** @inheritdoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptionsObject<Item>
-  ): Record<Id, FullItem<Item, IdProp>>
+  ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritdoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptions<Item>
-  ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>
+  ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritdoc */
   public get(
     ids: Id | Id[],
@@ -265,7 +265,7 @@ export class DataView<
     | null
     | FullItem<Item, IdProp>
     | FullItem<Item, IdProp>[]
-    | Record<Id, FullItem<Item, IdProp>>
+    | Record<Id, FullItem<Item, IdProp>>;
 
   /** @inheritdoc */
   public get(
@@ -277,17 +277,17 @@ export class DataView<
     | FullItem<Item, IdProp>[]
     | Record<string, FullItem<Item, IdProp>> {
     if (this._data == null) {
-      return null
+      return null;
     }
 
     // parse the arguments
-    let ids: Id | Id[] | null = null
-    let options: any
+    let ids: Id | Id[] | null = null;
+    let options: any;
     if (isId(first) || Array.isArray(first)) {
-      ids = first
-      options = second
+      ids = first;
+      options = second;
     } else {
-      options = first
+      options = first;
     }
 
     // extend the options with the default options and provided options
@@ -295,49 +295,49 @@ export class DataView<
       {},
       this._options,
       options
-    )
+    );
 
     // create a combined filter method when needed
-    const thisFilter = this._options.filter
-    const optionsFilter = options && options.filter
+    const thisFilter = this._options.filter;
+    const optionsFilter = options && options.filter;
     if (thisFilter && optionsFilter) {
       viewOptions.filter = (item): boolean => {
-        return thisFilter(item) && optionsFilter(item)
-      }
+        return thisFilter(item) && optionsFilter(item);
+      };
     }
 
     if (ids == null) {
-      return this._data.get(viewOptions)
+      return this._data.get(viewOptions);
     } else {
-      return this._data.get(ids, viewOptions)
+      return this._data.get(ids, viewOptions);
     }
   }
 
   /** @inheritdoc */
   public getIds(options?: DataInterfaceGetIdsOptions<Item>): Id[] {
     if (this._data.length) {
-      const defaultFilter = this._options.filter
-      const optionsFilter = options != null ? options.filter : null
-      let filter: DataInterfaceGetIdsOptions<Item>['filter']
+      const defaultFilter = this._options.filter;
+      const optionsFilter = options != null ? options.filter : null;
+      let filter: DataInterfaceGetIdsOptions<Item>["filter"];
 
       if (optionsFilter) {
         if (defaultFilter) {
           filter = (item): boolean => {
-            return defaultFilter(item) && optionsFilter(item)
-          }
+            return defaultFilter(item) && optionsFilter(item);
+          };
         } else {
-          filter = optionsFilter
+          filter = optionsFilter;
         }
       } else {
-        filter = defaultFilter
+        filter = defaultFilter;
       }
 
       return this._data.getIds({
         filter: filter,
-        order: options && options.order,
-      })
+        order: options && options.order
+      });
     } else {
-      return []
+      return [];
     }
   }
 
@@ -347,26 +347,26 @@ export class DataView<
     options?: DataInterfaceForEachOptions<Item>
   ): void {
     if (this._data) {
-      const defaultFilter = this._options.filter
-      const optionsFilter = options && options.filter
-      let filter: undefined | ((item: Item) => boolean)
+      const defaultFilter = this._options.filter;
+      const optionsFilter = options && options.filter;
+      let filter: undefined | ((item: Item) => boolean);
 
       if (optionsFilter) {
         if (defaultFilter) {
           filter = function(item: Item): boolean {
-            return defaultFilter(item) && optionsFilter(item)
-          }
+            return defaultFilter(item) && optionsFilter(item);
+          };
         } else {
-          filter = optionsFilter
+          filter = optionsFilter;
         }
       } else {
-        filter = defaultFilter
+        filter = defaultFilter;
       }
 
       this._data.forEach(callback, {
         filter: filter,
-        order: options && options.order,
-      })
+        order: options && options.order
+      });
     }
   }
 
@@ -375,46 +375,46 @@ export class DataView<
     callback: (item: Item, id: Id) => T,
     options?: DataInterfaceMapOptions<Item, T>
   ): T[] {
-    type Filter = NonNullable<DataInterfaceMapOptions<Item, T>['filter']>
+    type Filter = NonNullable<DataInterfaceMapOptions<Item, T>["filter"]>;
 
     if (this._data) {
-      const defaultFilter = this._options.filter
-      const optionsFilter = options && options.filter
-      let filter: undefined | Filter
+      const defaultFilter = this._options.filter;
+      const optionsFilter = options && options.filter;
+      let filter: undefined | Filter;
 
       if (optionsFilter) {
         if (defaultFilter) {
           filter = (item): ReturnType<Filter> => {
-            return defaultFilter(item) && optionsFilter(item)
-          }
+            return defaultFilter(item) && optionsFilter(item);
+          };
         } else {
-          filter = optionsFilter
+          filter = optionsFilter;
         }
       } else {
-        filter = defaultFilter
+        filter = defaultFilter;
       }
 
       return this._data.map(callback, {
         filter: filter,
-        order: options && options.order,
-      })
+        order: options && options.order
+      });
     } else {
-      return []
+      return [];
     }
   }
 
   /** @inheritdoc */
   public getDataSet(): DataSet<Item, IdProp> {
-    return this._data.getDataSet()
+    return this._data.getDataSet();
   }
 
   /** @inheritdoc */
   public stream(ids?: Iterable<Id>): DataStream<Item> {
     return this._data.stream(
       ids || {
-        [Symbol.iterator]: this._ids.keys.bind(this._ids),
+        [Symbol.iterator]: this._ids.keys.bind(this._ids)
       }
-    )
+    );
   }
 
   /**
@@ -430,100 +430,100 @@ export class DataView<
     senderId?: Id | null
   ): void {
     if (!params || !params.items || !this._data) {
-      return
+      return;
     }
 
-    const ids = params.items
-    const addedIds: Id[] = []
-    const updatedIds: Id[] = []
-    const removedIds: Id[] = []
-    const oldItems: FullItem<Item, IdProp>[] = []
-    const updatedItems: FullItem<Item, IdProp>[] = []
-    const removedItems: FullItem<Item, IdProp>[] = []
+    const ids = params.items;
+    const addedIds: Id[] = [];
+    const updatedIds: Id[] = [];
+    const removedIds: Id[] = [];
+    const oldItems: FullItem<Item, IdProp>[] = [];
+    const updatedItems: FullItem<Item, IdProp>[] = [];
+    const removedItems: FullItem<Item, IdProp>[] = [];
 
     switch (event) {
-      case 'add':
+      case "add":
         // filter the ids of the added items
         for (let i = 0, len = ids.length; i < len; i++) {
-          const id = ids[i]
-          const item = this.get(id)
+          const id = ids[i];
+          const item = this.get(id);
           if (item) {
-            this._ids.add(id)
-            addedIds.push(id)
+            this._ids.add(id);
+            addedIds.push(id);
           }
         }
 
-        break
+        break;
 
-      case 'update':
+      case "update":
         // determine the event from the views viewpoint: an updated
         // item can be added, updated, or removed from this view.
         for (let i = 0, len = ids.length; i < len; i++) {
-          const id = ids[i]
-          const item = this.get(id)
+          const id = ids[i];
+          const item = this.get(id);
 
           if (item) {
             if (this._ids.has(id)) {
-              updatedIds.push(id)
+              updatedIds.push(id);
               updatedItems.push(
                 (params as UpdateEventPayload<Item, IdProp>).data[i]
-              )
+              );
               oldItems.push(
                 (params as UpdateEventPayload<Item, IdProp>).oldData[i]
-              )
+              );
             } else {
-              this._ids.add(id)
-              addedIds.push(id)
+              this._ids.add(id);
+              addedIds.push(id);
             }
           } else {
             if (this._ids.has(id)) {
-              this._ids.delete(id)
-              removedIds.push(id)
+              this._ids.delete(id);
+              removedIds.push(id);
               removedItems.push(
                 (params as UpdateEventPayload<Item, IdProp>).oldData[i]
-              )
+              );
             } else {
               // nothing interesting for me :-(
             }
           }
         }
 
-        break
+        break;
 
-      case 'remove':
+      case "remove":
         // filter the ids of the removed items
         for (let i = 0, len = ids.length; i < len; i++) {
-          const id = ids[i]
+          const id = ids[i];
           if (this._ids.has(id)) {
-            this._ids.delete(id)
-            removedIds.push(id)
+            this._ids.delete(id);
+            removedIds.push(id);
             removedItems.push(
               (params as RemoveEventPayload<Item, IdProp>).oldData[i]
-            )
+            );
           }
         }
 
-        break
+        break;
     }
 
-    this.length += addedIds.length - removedIds.length
+    this.length += addedIds.length - removedIds.length;
 
     if (addedIds.length) {
-      this._trigger('add', { items: addedIds }, senderId)
+      this._trigger("add", { items: addedIds }, senderId);
     }
     if (updatedIds.length) {
       this._trigger(
-        'update',
+        "update",
         { items: updatedIds, oldData: oldItems, data: updatedItems },
         senderId
-      )
+      );
     }
     if (removedIds.length) {
       this._trigger(
-        'remove',
+        "remove",
         { items: removedIds, oldData: removedItems },
         senderId
-      )
+      );
     }
   }
 }

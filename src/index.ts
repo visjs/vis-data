@@ -11,17 +11,17 @@ export {
   EventName,
   EventNameWithAny,
   TypeMap,
-  Types,
-} from './data-interface'
+  Types
+} from "./data-interface";
 
-export { DataSet, DataSetOptions } from './data-set'
-export { DataStream } from './data-stream'
-export { DataView, DataViewOptions } from './data-view'
-export { Queue } from './queue'
+export { DataSet, DataSetOptions } from "./data-set";
+export { DataStream } from "./data-stream";
+export { DataView, DataViewOptions } from "./data-view";
+export { Queue } from "./queue";
 
 // Backwards compatible API.
-import { DataSet } from './data-set'
-import { DataView } from './data-view'
-import { Queue } from './queue'
+import { DataSet } from "./data-set";
+import { DataView } from "./data-view";
+import { Queue } from "./queue";
 
-export default { DataSet, DataView, Queue }
+export default { DataSet, DataView, Queue };
