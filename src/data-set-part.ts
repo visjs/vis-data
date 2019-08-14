@@ -6,12 +6,12 @@ import {
   EventName,
   EventNameWithAny,
   EventPayloads,
-  Id,
-} from './data-interface'
+  Id
+} from "./data-interface";
 
 type EventSubscribers<Item, IdProp extends string> = {
-  [Name in keyof EventCallbacksWithAny<Item, IdProp>]: (...args: any[]) => void
-}
+  [Name in keyof EventCallbacksWithAny<Item, IdProp>]: (...args: any[]) => void;
+};
 
 /**
  * [[DataSet]] code that can be reused in [[DataView]] or other similar implementations of [[DataInterface]].
@@ -20,31 +20,31 @@ type EventSubscribers<Item, IdProp extends string> = {
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export abstract class DataSetPart<Item, IdProp extends string>
-  implements Pick<DataInterface<Item, IdProp>, 'on' | 'off'> {
+  implements Pick<DataInterface<Item, IdProp>, "on" | "off"> {
   protected _subscribers: {
-    [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][]
+    [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][];
   } = {
-    '*': [],
+    "*": [],
     add: [],
     remove: [],
-    update: [],
-  }
+    update: []
+  };
 
   protected _trigger(
-    event: 'add',
-    payload: EventPayloads<Item, IdProp>['add'],
+    event: "add",
+    payload: EventPayloads<Item, IdProp>["add"],
     senderId?: Id | null
-  ): void
+  ): void;
   protected _trigger(
-    event: 'update',
-    payload: EventPayloads<Item, IdProp>['update'],
+    event: "update",
+    payload: EventPayloads<Item, IdProp>["update"],
     senderId?: Id | null
-  ): void
+  ): void;
   protected _trigger(
-    event: 'remove',
-    payload: EventPayloads<Item, IdProp>['remove'],
+    event: "remove",
+    payload: EventPayloads<Item, IdProp>["remove"],
     senderId?: Id | null
-  ): void
+  ): void;
   /**
    * Trigger an event
    *
@@ -57,37 +57,37 @@ export abstract class DataSetPart<Item, IdProp extends string>
     payload: EventPayloads<Item, IdProp>[Name],
     senderId?: Id | null
   ): void {
-    if ((event as string) === '*') {
-      throw new Error('Cannot trigger event *')
+    if ((event as string) === "*") {
+      throw new Error("Cannot trigger event *");
     }
 
-    ;[...this._subscribers[event], ...this._subscribers['*']].forEach(
+    [...this._subscribers[event], ...this._subscribers["*"]].forEach(
       (subscriber): void => {
-        subscriber(event, payload, senderId != null ? senderId : null)
+        subscriber(event, payload, senderId != null ? senderId : null);
       }
-    )
+    );
   }
 
   /** @inheritdoc */
   public on(
-    event: '*',
-    callback: EventCallbacksWithAny<Item, IdProp>['*']
-  ): void
+    event: "*",
+    callback: EventCallbacksWithAny<Item, IdProp>["*"]
+  ): void;
   /** @inheritdoc */
   public on(
-    event: 'add',
-    callback: EventCallbacksWithAny<Item, IdProp>['add']
-  ): void
+    event: "add",
+    callback: EventCallbacksWithAny<Item, IdProp>["add"]
+  ): void;
   /** @inheritdoc */
   public on(
-    event: 'remove',
-    callback: EventCallbacksWithAny<Item, IdProp>['remove']
-  ): void
+    event: "remove",
+    callback: EventCallbacksWithAny<Item, IdProp>["remove"]
+  ): void;
   /** @inheritdoc */
   public on(
-    event: 'update',
-    callback: EventCallbacksWithAny<Item, IdProp>['update']
-  ): void
+    event: "update",
+    callback: EventCallbacksWithAny<Item, IdProp>["update"]
+  ): void;
   /**
    * Subscribe to an event, add an event listener.
    *
@@ -100,32 +100,32 @@ export abstract class DataSetPart<Item, IdProp extends string>
     event: Name,
     callback: EventCallbacksWithAny<Item, IdProp>[Name]
   ): void {
-    if (typeof callback === 'function') {
-      this._subscribers[event].push(callback)
+    if (typeof callback === "function") {
+      this._subscribers[event].push(callback);
     }
     // @TODO: Maybe throw for invalid callbacks?
   }
 
   /** @inheritdoc */
   public off(
-    event: '*',
-    callback: EventCallbacksWithAny<Item, IdProp>['*']
-  ): void
+    event: "*",
+    callback: EventCallbacksWithAny<Item, IdProp>["*"]
+  ): void;
   /** @inheritdoc */
   public off(
-    event: 'add',
-    callback: EventCallbacksWithAny<Item, IdProp>['add']
-  ): void
+    event: "add",
+    callback: EventCallbacksWithAny<Item, IdProp>["add"]
+  ): void;
   /** @inheritdoc */
   public off(
-    event: 'remove',
-    callback: EventCallbacksWithAny<Item, IdProp>['remove']
-  ): void
+    event: "remove",
+    callback: EventCallbacksWithAny<Item, IdProp>["remove"]
+  ): void;
   /** @inheritdoc */
   public off(
-    event: 'update',
-    callback: EventCallbacksWithAny<Item, IdProp>['update']
-  ): void
+    event: "update",
+    callback: EventCallbacksWithAny<Item, IdProp>["update"]
+  ): void;
   /**
    * Unsubscribe from an event, remove an event listener.
    *
@@ -140,16 +140,16 @@ export abstract class DataSetPart<Item, IdProp extends string>
   ): void {
     this._subscribers[event] = this._subscribers[event].filter(
       (subscriber): boolean => subscriber !== callback
-    )
+    );
   }
 
   /**
    * @deprecated Use on instead (PS: DataView.subscribe === DataView.on).
    */
-  public subscribe: DataSetPart<Item, IdProp>['on'] = DataSetPart.prototype.on
+  public subscribe: DataSetPart<Item, IdProp>["on"] = DataSetPart.prototype.on;
   /**
    * @deprecated Use off instead (PS: DataView.unsubscribe === DataView.off).
    */
-  public unsubscribe: DataSetPart<Item, IdProp>['off'] =
-    DataSetPart.prototype.off
+  public unsubscribe: DataSetPart<Item, IdProp>["off"] =
+    DataSetPart.prototype.off;
 }

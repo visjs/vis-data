@@ -3,9 +3,9 @@
 /** Queue configuration object. */
 export interface QueueOptions {
   /** The queue will be flushed automatically after an inactivity of this delay in milliseconds. By default there is no automatic flushing (`null`). */
-  delay?: null | number
+  delay?: null | number;
   /** When the queue exceeds the given maximum number of entries, the queue is flushed automatically. Default value is `Infinity`. */
-  max?: number
+  max?: number;
 }
 /**
  * Queue extending options.
@@ -14,11 +14,11 @@ export interface QueueOptions {
  */
 export interface QueueExtendOptions<T> {
   /** A list with method names of the methods on the object to be replaced with queued ones. */
-  replace: T[]
+  replace: T[];
   /** When provided, the queue will be flushed automatically after an inactivity of this delay in milliseconds. Default value is null. */
-  delay?: number
+  delay?: number;
   /** When the queue exceeds the given maximum number of entries, the queue is flushed automatically. Default value of max is Infinity. */
-  max?: number
+  max?: number;
 }
 /**
  * Queue call entry.
@@ -28,21 +28,21 @@ export interface QueueExtendOptions<T> {
 type QueueCallEntry =
   | Function
   | {
-      fn: Function
-      args: unknown[]
+      fn: Function;
+      args: unknown[];
     }
   | {
-      fn: Function
-      args: unknown[]
-      context: unknown
-    }
+      fn: Function;
+      args: unknown[];
+      context: unknown;
+    };
 
 interface QueueExtended<O> {
-  object: O
+  object: O;
   methods: {
-    name: string
-    original: unknown
-  }[]
+    name: string;
+    original: unknown;
+  }[];
 }
 
 /**
@@ -52,18 +52,18 @@ interface QueueExtended<O> {
  */
 export class Queue<T = never> {
   /** Delay in milliseconds. If defined the queue will be periodically flushed. */
-  public delay: null | number
+  public delay: null | number;
   /** Maximum number of entries in the queue before it will be flushed. */
-  public max: number
+  public max: number;
 
   private readonly _queue: {
-    fn: Function
-    args?: unknown[]
-    context?: unknown
-  }[] = []
+    fn: Function;
+    args?: unknown[];
+    context?: unknown;
+  }[] = [];
 
-  private _timeout: ReturnType<typeof setTimeout> | null = null
-  private _extended: null | QueueExtended<T> = null
+  private _timeout: ReturnType<typeof setTimeout> | null = null;
+  private _extended: null | QueueExtended<T> = null;
 
   /**
    * Construct a new Queue.
@@ -72,10 +72,10 @@ export class Queue<T = never> {
    */
   public constructor(options?: QueueOptions) {
     // options
-    this.delay = null
-    this.max = Infinity
+    this.delay = null;
+    this.max = Infinity;
 
-    this.setOptions(options)
+    this.setOptions(options);
   }
 
   /**
@@ -84,14 +84,14 @@ export class Queue<T = never> {
    * @param options - Queue configuration.
    */
   public setOptions(options?: QueueOptions): void {
-    if (options && typeof options.delay !== 'undefined') {
-      this.delay = options.delay
+    if (options && typeof options.delay !== "undefined") {
+      this.delay = options.delay;
     }
-    if (options && typeof options.max !== 'undefined') {
-      this.max = options.max
+    if (options && typeof options.max !== "undefined") {
+      this.max = options.max;
     }
 
-    this._flushIfNeeded()
+    this._flushIfNeeded();
   }
 
   /**
@@ -107,63 +107,63 @@ export class Queue<T = never> {
     object: O,
     options: QueueExtendOptions<K>
   ): Queue<O> {
-    const queue = new Queue<O>(options)
+    const queue = new Queue<O>(options);
 
     if (object.flush !== undefined) {
-      throw new Error('Target object already has a property flush')
+      throw new Error("Target object already has a property flush");
     }
     object.flush = (): void => {
-      queue.flush()
-    }
+      queue.flush();
+    };
 
-    const methods: QueueExtended<O>['methods'] = [
+    const methods: QueueExtended<O>["methods"] = [
       {
-        name: 'flush',
-        original: undefined,
-      },
-    ]
+        name: "flush",
+        original: undefined
+      }
+    ];
 
     if (options && options.replace) {
       for (let i = 0; i < options.replace.length; i++) {
-        const name = options.replace[i]
+        const name = options.replace[i];
         methods.push({
           name: name,
           // @TODO: better solution?
-          original: ((object as unknown) as Record<K, () => void>)[name],
-        })
+          original: ((object as unknown) as Record<K, () => void>)[name]
+        });
         // @TODO: better solution?
-        queue.replace((object as unknown) as Record<K, () => void>, name)
+        queue.replace((object as unknown) as Record<K, () => void>, name);
       }
     }
 
     queue._extended = {
       object: object,
-      methods: methods,
-    }
+      methods: methods
+    };
 
-    return queue
+    return queue;
   }
 
   /**
    * Destroy the queue. The queue will first flush all queued actions, and in case it has extended an object, will restore the original object.
    */
   public destroy(): void {
-    this.flush()
+    this.flush();
 
     if (this._extended) {
-      const object = this._extended.object
-      const methods = this._extended.methods
+      const object = this._extended.object;
+      const methods = this._extended.methods;
       for (let i = 0; i < methods.length; i++) {
-        const method = methods[i]
+        const method = methods[i];
         if (method.original) {
           // @TODO: better solution?
-          ;(object as any)[method.name] = method.original
+          (object as any)[method.name] = method.original;
         } else {
           // @TODO: better solution?
-          delete (object as any)[method.name]
+          delete (object as any)[method.name];
         }
       }
-      this._extended = null
+      this._extended = null;
     }
   }
 
@@ -177,10 +177,10 @@ export class Queue<T = never> {
     object: Record<M, () => void>,
     method: M
   ): void {
-    const me = this
-    const original = object[method]
+    const me = this;
+    const original = object[method];
     if (!original) {
-      throw new Error('Method ' + method + ' undefined')
+      throw new Error("Method " + method + " undefined");
     }
 
     object[method] = function(...args: unknown[]): void {
@@ -188,9 +188,9 @@ export class Queue<T = never> {
       me.queue({
         args: args,
         fn: original,
-        context: this,
-      })
-    }
+        context: this
+      });
+    };
   }
 
   /**
@@ -199,13 +199,13 @@ export class Queue<T = never> {
    * @param entry - The function or entry to be queued.
    */
   public queue(entry: QueueCallEntry): void {
-    if (typeof entry === 'function') {
-      this._queue.push({ fn: entry })
+    if (typeof entry === "function") {
+      this._queue.push({ fn: entry });
     } else {
-      this._queue.push(entry)
+      this._queue.push(entry);
     }
 
-    this._flushIfNeeded()
+    this._flushIfNeeded();
   }
 
   /**
@@ -214,18 +214,18 @@ export class Queue<T = never> {
   private _flushIfNeeded(): void {
     // flush when the maximum is exceeded.
     if (this._queue.length > this.max) {
-      this.flush()
+      this.flush();
     }
 
     // flush after a period of inactivity when a delay is configured
     if (this._timeout != null) {
-      clearTimeout(this._timeout)
-      this._timeout = null
+      clearTimeout(this._timeout);
+      this._timeout = null;
     }
-    if (this.queue.length > 0 && typeof this.delay === 'number') {
+    if (this.queue.length > 0 && typeof this.delay === "number") {
       this._timeout = setTimeout((): void => {
-        this.flush()
-      }, this.delay)
+        this.flush();
+      }, this.delay);
     }
   }
 
@@ -234,7 +234,7 @@ export class Queue<T = never> {
    */
   public flush(): void {
     this._queue.splice(0).forEach((entry): void => {
-      entry.fn.apply(entry.context || entry.fn, entry.args || [])
-    })
+      entry.fn.apply(entry.context || entry.fn, entry.args || []);
+    });
   }
 }
