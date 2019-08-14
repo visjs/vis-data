@@ -1,5 +1,7 @@
 # vis-data
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/visjs/vis-data.svg)](https://greenkeeper.io/)
+
 This module is part of the [visjs project](https://github.com/visjs)
 
 ## Sources
