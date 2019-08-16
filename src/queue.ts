@@ -177,6 +177,7 @@ export class Queue<T = never> {
     object: Record<M, () => void>,
     method: M
   ): void {
+    /* eslint-disable-next-line @typescript-eslint/no-this-alias */
     const me = this;
     const original = object[method];
     if (!original) {
