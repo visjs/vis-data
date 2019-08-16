@@ -86,7 +86,7 @@ export class DataView<
   IdProp extends string = "id"
 > extends DataSetPart<Item, IdProp> implements DataInterface<Item, IdProp> {
   /** @inheritdoc */
-  public length: number = 0;
+  public length = 0;
   private readonly _listener: EventCallbacksWithAny<Item, IdProp>["*"];
 
   private _data!: DataInterface<Item, IdProp>; // constructor → setData
