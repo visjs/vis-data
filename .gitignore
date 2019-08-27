@@ -19,3 +19,5 @@ gen/
 coverage/
 .rpt2_cache
 dist
+/reports/
+/.stryker-tmp/
