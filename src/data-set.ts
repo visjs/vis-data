@@ -258,6 +258,10 @@ export class DataSet<
 
     if (Array.isArray(data)) {
       // Array
+      const idsToAdd: Id[] = data.map(d => d[this._idProp] as Id);
+      if (idsToAdd.some(id => this._data.has(id))) {
+        throw new Error("A duplicate id was found in the parameter array.");
+      }
       for (let i = 0, len = data.length; i < len; i++) {
         id = this._addItem(data[i]);
         addedIds.push(id);
