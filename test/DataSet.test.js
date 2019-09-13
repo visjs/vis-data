@@ -317,12 +317,12 @@ describe('DataSet', function () {
       assert.throws(function () { dataset.add(undefined) }, Error, "undefined type throws error");
     });
 
-    it('throws an error when passed a duplicate id, but adds the rest of the array', () => {
+    it('throws an error when passed a duplicate id', () => {
       const dataset = new DataSet([{id: 1}, {id: 2}]);
       assert.throws(() => {
         dataset.add([{id: 3}, {id: 1}, {id: 4}, {id: 5}]), Error, "duplicate ids throws error."
       });
-      assert.deepStrictEqual(dataset.getIds(), [1, 2, 3, 4, 5]);
+      assert.deepStrictEqual(dataset.getIds(), [1, 2]);
     });
   });
 

@@ -254,18 +254,17 @@ export class DataSet<
    */
   public add(data: Item | Item[], senderId?: Id | null): (string | number)[] {
     const addedIds: Id[] = [];
-    const duplicates: Item[] = [];
     let id: Id;
 
     if (Array.isArray(data)) {
       // Array
+      const idsToAdd: Id[] = data.map(d => d[this._idProp] as Id);
+      if (idsToAdd.some(id => this._data.has(id))) {
+        throw new Error("A duplicate id was found in the parameter array.");
+      }
       for (let i = 0, len = data.length; i < len; i++) {
-        try {
-          id = this._addItem(data[i]);
-          addedIds.push(id);
-        } catch (error) {
-          duplicates.push(data[i]);
-        }
+        id = this._addItem(data[i]);
+        addedIds.push(id);
       }
     } else if (data && typeof data === "object") {
       // Single item
@@ -277,13 +276,6 @@ export class DataSet<
 
     if (addedIds.length) {
       this._trigger("add", { items: addedIds }, senderId);
-    }
-
-    if (duplicates.length) {
-      throw new Error(
-        "Some duplicate ids were unable to be added to the dataset: " +
-          duplicates.map(i => i[this._idProp])
-      );
     }
 
     return addedIds;
