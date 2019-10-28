@@ -101,7 +101,7 @@
     "rollup-plugin-banner": "^0.2.0",
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript2": "^0.24.0",
+    "rollup-plugin-typescript2": "^0.25.0",
     "sinon": "^7.3.2",
     "stryker-cli": "^1.0.0",
     "typedoc": "^0.15.0",
