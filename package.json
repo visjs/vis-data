@@ -59,7 +59,7 @@
     }
   },
   "dependencies": {
-    "vis-util": "1.1.1"
+    "vis-util": "1.1.9"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
