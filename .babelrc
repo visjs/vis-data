@@ -3,7 +3,8 @@
     [
       "@babel/preset-env",
       {
-        "targets": "> 0.1% or not dead"
+        "targets": "> 0.1% or not dead",
+        "useBuiltIns": false
       }
     ],
     "@babel/preset-typescript"
@@ -11,7 +12,16 @@
   "plugins": [
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread",
-    "@babel/plugin-transform-runtime"
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": 3
+      }
+    ]
+  ],
+  "exclude": [
+    "node_modules/@babel/runtime-corejs3/**",
+    "node_modules/core-js-pure/**"
   ],
   "env": {
     "test": {
@@ -21,8 +31,7 @@
           {
             "targets": "maintained node versions"
           }
-        ],
-        "@babel/preset-typescript"
+        ]
       ]
     },
     "test-cov": {
@@ -32,8 +41,7 @@
           {
             "targets": "maintained node versions"
           }
-        ],
-        "@babel/preset-typescript"
+        ]
       ],
       "plugins": ["istanbul"]
     }
