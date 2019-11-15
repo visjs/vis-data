@@ -31,6 +31,10 @@
     "dist",
     "LICENSE*"
   ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/visjs"
+  },
   "scripts": {
     "build": "npm run build:types && npm run build:code && npm run build:docs",
     "build:code": "rollup -c rollup.config.js",
