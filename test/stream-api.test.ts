@@ -117,14 +117,29 @@ const testStreamAPI = function(
       });
 
       it("With data", function(): void {
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
-        expect([...stream]).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
+        expect([...stream]).to.deep.equal([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
       });
 
       it("Two times with data", function(): void {
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
-        expect([...stream]).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]]);
-        expect([...stream]).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
+        expect([...stream]).to.deep.equal([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
+        expect([...stream]).to.deep.equal([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
       });
     });
 
@@ -140,7 +155,10 @@ const testStreamAPI = function(
 
       it("With data", function(): void {
         const fofSpy = spy();
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         for (const pair of stream) {
           fofSpy(pair);
@@ -150,12 +168,18 @@ const testStreamAPI = function(
 
         expect(
           fofSpy.getCalls().map((call): any => call.args[0])
-        ).to.deep.equal([[7, { id: 7 }], [10, { id: 10 }]]);
+        ).to.deep.equal([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
       });
 
       it("Two times with data", function(): void {
         const fofSpy = spy();
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         for (const pair of stream) {
           fofSpy(pair);
@@ -462,7 +486,10 @@ const testStreamAPI = function(
         filterStub.withArgs({ id: 10 }, 10).returns(false);
         filterStub.throws("Invalid callback input.");
 
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         expect([...stream.filter(filterStub)]).to.deep.equal([[7, { id: 7 }]]);
       });
@@ -484,16 +511,27 @@ const testStreamAPI = function(
       it("Simple test", function(): void {
         const forEachSpy = spy();
 
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
         stream.forEach(forEachSpy);
 
         expect(
           forEachSpy.getCalls().map((call): any => call.args)
-        ).to.deep.equal([[{ id: 7 }, 7], [{ id: 10 }, 10]]);
+        ).to.deep.equal([
+          [{ id: 7 }, 7],
+          [{ id: 10 }, 10]
+        ]);
       });
 
       testReuse({
-        data: [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
+        data: [
+          [3, { id: 3 }],
+          [4, { id: 4 }],
+          [5, { id: 5 }],
+          [6, { id: 6 }]
+        ],
         valueCallback: (stream): any => {
           const forEachSpy = spy();
           stream.forEach(forEachSpy);
@@ -504,20 +542,31 @@ const testStreamAPI = function(
 
     describe("Keys (Get Ids)", function(): void {
       it("Simple test", function(): void {
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         expect([...stream.keys()]).to.deep.equal([7, 10]);
       });
 
       testReuse({
-        data: [[3, { id: 3 }], [4, { id: 4 }], [5, { id: 5 }], [6, { id: 6 }]],
+        data: [
+          [3, { id: 3 }],
+          [4, { id: 4 }],
+          [5, { id: 5 }],
+          [6, { id: 6 }]
+        ],
         valueCallback: (stream): any => [...stream.keys()]
       });
     });
 
     describe("Values (Get Items)", function(): void {
       it("Simple test", function(): void {
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         expect([...stream.values()]).to.deep.equal([{ id: 7 }, { id: 10 }]);
       });
@@ -541,9 +590,15 @@ const testStreamAPI = function(
         mapStub.withArgs({ id: 10 }, 10).returns(10);
         mapStub.throws("Invalid callback input.");
 
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
-        expect([...stream.map(mapStub)]).to.deep.equal([[7, 7], [10, 10]]);
+        expect([...stream.map(mapStub)]).to.deep.equal([
+          [7, 7],
+          [10, 10]
+        ]);
       });
 
       testReuse({
@@ -575,7 +630,10 @@ const testStreamAPI = function(
         maxStub.withArgs({ id: 10 }, 10).returns(10);
         maxStub.throws("Invalid callback input.");
 
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         expect(stream.max(maxStub)).to.deep.equal({ id: 10 });
       });
@@ -608,7 +666,10 @@ const testStreamAPI = function(
         minStub.withArgs({ id: 10 }, 10).returns(10);
         minStub.throws("Invalid callback input.");
 
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         expect(stream.min(minStub)).to.deep.equal({ id: 7 });
       });
@@ -632,7 +693,10 @@ const testStreamAPI = function(
         reduceStub.withArgs(1, { id: 10 }, 10).returns(2);
         reduceStub.throws("Invalid callback input.");
 
-        const { stream } = createDataStream([[7, { id: 7 }], [10, { id: 10 }]]);
+        const { stream } = createDataStream([
+          [7, { id: 7 }],
+          [10, { id: 10 }]
+        ]);
 
         expect(stream.reduce(reduceStub, 0)).to.equal(2);
       });
