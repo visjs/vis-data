@@ -19,10 +19,7 @@
       }
     ]
   ],
-  "exclude": [
-    "node_modules/@babel/runtime-corejs3/**",
-    "node_modules/core-js-pure/**"
-  ],
+  "exclude": ["**/node_modules/**"],
   "env": {
     "test": {
       "presets": [
