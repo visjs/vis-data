@@ -3,7 +3,10 @@
     [
       "@babel/preset-env",
       {
-        "targets": "> 0.1% or not dead",
+        "targets": {
+          "browsers": "> 0.1% or not dead",
+          "esmodules": false
+        },
         "useBuiltIns": false
       }
     ],
@@ -19,10 +22,7 @@
       }
     ]
   ],
-  "exclude": [
-    "node_modules/@babel/runtime-corejs3/**",
-    "node_modules/core-js-pure/**"
-  ],
+  "exclude": ["**/node_modules/**"],
   "env": {
     "test": {
       "presets": [
