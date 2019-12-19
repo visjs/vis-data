@@ -1,7 +1,8 @@
 /* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
 
 import { uuid4 } from "vis-uuid";
-import { convert, deepExtend } from "vis-util";
+import { convert } from "./convert";
+import { deepExtend } from "vis-util";
 
 import {
   DataInterface,
