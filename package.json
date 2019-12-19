@@ -112,7 +112,7 @@
     "stryker-cli": "1.0.0",
     "typedoc": "0.15.3",
     "typescript": "3.7.2",
-    "vis-util": "2.0.1",
+    "vis-util": "2.0.2",
     "vis-uuid": "1.1.3"
   },
   "collective": {
