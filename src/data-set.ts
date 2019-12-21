@@ -43,6 +43,8 @@ export interface DataSetInitialOptions<IdProp extends string> {
    *
    * @remarks
    * **Warning**: There is no TypeScript support for this.
+   *
+   * @deprecated
    */
   type?: TypeMap;
   /**
@@ -112,15 +114,6 @@ export interface DataSetOptions {
  *   }
  * });
  * console.log('filtered items', items);
- *
- * // retrieve formatted items
- * var items = data.get({
- *   fields: ['id', 'date'],
- *   type: {
- *     date: 'ISODate'
- *   }
- * });
- * console.log('formatted items', items);
  * ```
  *
  * @typeParam Item - Item type that may or may not have an id.
@@ -177,6 +170,11 @@ export class DataSet<
     // all variants of a Date are internally stored as Date, so we can convert
     // from everything to everything (also from ISODate to Number for example)
     if (this._options.type) {
+      console.warn(
+        "Type coercion has been deprecated. Please, use data pipes instead."
+      );
+      console.trace();
+
       const fields = Object.keys(this._options.type);
       for (let i = 0, len = fields.length; i < len; i++) {
         const field = fields[i];
@@ -1054,6 +1052,11 @@ export class DataSet<
     }
 
     if (fieldType) {
+      console.warn(
+        "Type coercion has been deprecated. Please, use data pipes instead."
+      );
+      console.trace();
+
       for (let i = 0, len = values.length; i < len; i++) {
         values[i] = convert(values[i], fieldType);
       }
@@ -1091,6 +1094,12 @@ export class DataSet<
     for (let i = 0, len = fields.length; i < len; i++) {
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
+      if (fieldType != null) {
+        console.warn(
+          "Type coercion has been deprecated. Please, use data pipes instead."
+        );
+        console.trace();
+      }
       d[field] = convert((item as any)[field], fieldType);
     }
     this._data.set(id, d);
@@ -1122,6 +1131,11 @@ export class DataSet<
     const fields = Object.keys(raw);
 
     if (types) {
+      console.warn(
+        "Type coercion has been deprecated. Please, use data pipes instead."
+      );
+      console.trace();
+
       converted = {};
       for (let i = 0, len = fields.length; i < len; i++) {
         const field = fields[i];
@@ -1168,6 +1182,12 @@ export class DataSet<
     for (let i = 0, len = fields.length; i < len; i++) {
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
+      if (fieldType != null) {
+        console.warn(
+          "Type coercion has been deprecated. Please, use data pipes instead."
+        );
+        console.trace();
+      }
       (d as any)[field] = convert((item as any)[field], fieldType);
     }
 
