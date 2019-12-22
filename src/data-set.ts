@@ -28,6 +28,15 @@ import { Queue, QueueOptions } from "./queue";
 import { DataSetPart } from "./data-set-part";
 import { DataStream } from "./data-stream";
 
+const warnTypeCorectionDeprecation = (): void => {
+  console.warn(
+    "Type coercion has been deprecated. " +
+      "Please, use data pipes instead. " +
+      "See https://visjs.github.io/vis-data/data/datapipe.html#TypeCoercion for more details with working migration example."
+  );
+  console.trace();
+};
+
 /**
  * Initial DataSet configuration object.
  *
@@ -43,6 +52,8 @@ export interface DataSetInitialOptions<IdProp extends string> {
    *
    * @remarks
    * **Warning**: There is no TypeScript support for this.
+   *
+   * @deprecated
    */
   type?: TypeMap;
   /**
@@ -112,15 +123,6 @@ export interface DataSetOptions {
  *   }
  * });
  * console.log('filtered items', items);
- *
- * // retrieve formatted items
- * var items = data.get({
- *   fields: ['id', 'date'],
- *   type: {
- *     date: 'ISODate'
- *   }
- * });
- * console.log('formatted items', items);
  * ```
  *
  * @typeParam Item - Item type that may or may not have an id.
@@ -177,6 +179,8 @@ export class DataSet<
     // all variants of a Date are internally stored as Date, so we can convert
     // from everything to everything (also from ISODate to Number for example)
     if (this._options.type) {
+      warnTypeCorectionDeprecation();
+
       const fields = Object.keys(this._options.type);
       for (let i = 0, len = fields.length; i < len; i++) {
         const field = fields[i];
@@ -1054,6 +1058,8 @@ export class DataSet<
     }
 
     if (fieldType) {
+      warnTypeCorectionDeprecation();
+
       for (let i = 0, len = values.length; i < len; i++) {
         values[i] = convert(values[i], fieldType);
       }
@@ -1091,6 +1097,9 @@ export class DataSet<
     for (let i = 0, len = fields.length; i < len; i++) {
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
+      if (fieldType != null) {
+        warnTypeCorectionDeprecation();
+      }
       d[field] = convert((item as any)[field], fieldType);
     }
     this._data.set(id, d);
@@ -1122,6 +1131,8 @@ export class DataSet<
     const fields = Object.keys(raw);
 
     if (types) {
+      warnTypeCorectionDeprecation();
+
       converted = {};
       for (let i = 0, len = fields.length; i < len; i++) {
         const field = fields[i];
@@ -1168,6 +1179,9 @@ export class DataSet<
     for (let i = 0, len = fields.length; i < len; i++) {
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
+      if (fieldType != null) {
+        warnTypeCorectionDeprecation();
+      }
       (d as any)[field] = convert((item as any)[field], fieldType);
     }
 
