@@ -28,6 +28,15 @@ import { Queue, QueueOptions } from "./queue";
 import { DataSetPart } from "./data-set-part";
 import { DataStream } from "./data-stream";
 
+const warnTypeCorectionDeprecation = (): void => {
+  console.warn(
+    "Type coercion has been deprecated. " +
+      "Please, use data pipes instead. " +
+      "See https://visjs.github.io/vis-data/data/datapipe.html#TypeCoercion for more details with working migration example."
+  );
+  console.trace();
+};
+
 /**
  * Initial DataSet configuration object.
  *
@@ -170,10 +179,7 @@ export class DataSet<
     // all variants of a Date are internally stored as Date, so we can convert
     // from everything to everything (also from ISODate to Number for example)
     if (this._options.type) {
-      console.warn(
-        "Type coercion has been deprecated. Please, use data pipes instead."
-      );
-      console.trace();
+      warnTypeCorectionDeprecation();
 
       const fields = Object.keys(this._options.type);
       for (let i = 0, len = fields.length; i < len; i++) {
@@ -1052,10 +1058,7 @@ export class DataSet<
     }
 
     if (fieldType) {
-      console.warn(
-        "Type coercion has been deprecated. Please, use data pipes instead."
-      );
-      console.trace();
+      warnTypeCorectionDeprecation();
 
       for (let i = 0, len = values.length; i < len; i++) {
         values[i] = convert(values[i], fieldType);
@@ -1095,10 +1098,7 @@ export class DataSet<
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
       if (fieldType != null) {
-        console.warn(
-          "Type coercion has been deprecated. Please, use data pipes instead."
-        );
-        console.trace();
+        warnTypeCorectionDeprecation();
       }
       d[field] = convert((item as any)[field], fieldType);
     }
@@ -1131,10 +1131,7 @@ export class DataSet<
     const fields = Object.keys(raw);
 
     if (types) {
-      console.warn(
-        "Type coercion has been deprecated. Please, use data pipes instead."
-      );
-      console.trace();
+      warnTypeCorectionDeprecation();
 
       converted = {};
       for (let i = 0, len = fields.length; i < len; i++) {
@@ -1183,10 +1180,7 @@ export class DataSet<
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
       if (fieldType != null) {
-        console.warn(
-          "Type coercion has been deprecated. Please, use data pipes instead."
-        );
-        console.trace();
+        warnTypeCorectionDeprecation();
       }
       (d as any)[field] = convert((item as any)[field], fieldType);
     }

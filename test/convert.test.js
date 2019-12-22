@@ -1,158 +1,275 @@
-import assert, { equal, deepEqual, throws } from "assert";
+import { expect } from "chai";
+import { DataSet } from "../src/data-set";
+import { createNewDataPipeFrom } from "../src/data-pipe";
 
-import { convert } from "../src/convert";
 import moment from "moment";
 
-const ASPDateRegex = /^\/?Date\((\-?\d+)/i;
+describe("Convert replacement from the docs", function() {
+  it("convert", function() {
+    // --[BEGIN]-- The example code.
 
-describe("convertModule", function() {
-  describe("convert", function() {
-    it("handles null", function() {
-      equal(convert(null), null);
-    });
+    // --[BEGIN]-- The original implementation of type coercion.
 
-    it("handles undefined", function() {
-      equal(convert(undefined), undefined);
-    });
+    // !!!! Make sure to import Moment.js as this code depends on it.
+    const convert = (() => {
+      // parse ASP.Net Date pattern,
+      // for example '/Date(1198908717056)/' or '/Date(1198908717056-0700)/'
+      // code from http://momentjs.com/
+      const ASPDateRegex = /^\/?Date\((-?\d+)/i;
 
-    it("undefined type returns original object", function() {
-      deepEqual(convert({}), {});
-    });
+      /**
+       * Test whether given object is a number
+       *
+       * @param value - Input value of unknown type.
+       *
+       * @returns True if number, false otherwise.
+       */
+      function isNumber(value) {
+        return value instanceof Number || typeof value === "number";
+      }
 
-    it("non-string type throws", function() {
-      throws(
-        function() {
-          convert({}, {});
-        },
-        Error,
-        null
-      );
-    });
+      /**
+       * Test whether given object is a string
+       *
+       * @param value - Input value of unknown type.
+       *
+       * @returns True if string, false otherwise.
+       */
+      function isString(value) {
+        return value instanceof String || typeof value === "string";
+      }
 
-    it("converts to boolean", function() {
-      assert(convert({}, "boolean"));
-    });
+      /**
+       * Get the type of an object, for example exports.getType([]) returns 'Array'
+       *
+       * @param object - Input value of unknown type.
+       *
+       * @returns Detected type.
+       */
+      function getType(object) {
+        const type = typeof object;
 
-    it("converts to number", function() {
-      equal(typeof convert("1198908717056", "number"), "number");
-    });
+        if (type === "object") {
+          if (object === null) {
+            return "null";
+          }
+          if (object instanceof Boolean) {
+            return "Boolean";
+          }
+          if (object instanceof Number) {
+            return "Number";
+          }
+          if (object instanceof String) {
+            return "String";
+          }
+          if (Array.isArray(object)) {
+            return "Array";
+          }
+          if (object instanceof Date) {
+            return "Date";
+          }
 
-    it("converts to String", function() {
-      equal(typeof convert({}, "string"), "string");
-    });
+          return "Object";
+        }
+        if (type === "number") {
+          return "Number";
+        }
+        if (type === "boolean") {
+          return "Boolean";
+        }
+        if (type === "string") {
+          return "String";
+        }
+        if (type === undefined) {
+          return "undefined";
+        }
 
-    it("converts to Date from Number", function() {
-      assert(convert(1198908717056, "Date") instanceof Date);
-    });
+        return type;
+      }
 
-    it("converts to Date from String", function() {
-      assert(convert("1198908717056", "Date") instanceof Date);
-    });
+      /**
+       * Convert an object into another type
+       *
+       * @param object - Value of unknown type.
+       * @param type - Name of the desired type.
+       *
+       * @returns Object in the desired type.
+       * @throws Error
+       */
+      return function convert(object, type) {
+        let match;
 
-    it("converts to Date from Moment", function() {
-      assert(convert(new moment(), "Date") instanceof Date);
-    });
+        if (object === undefined) {
+          return undefined;
+        }
+        if (object === null) {
+          return null;
+        }
 
-    it("throws when converting unknown object to Date", function() {
-      throws(
-        function() {
-          convert({}, "Date");
-        },
-        Error,
-        null
-      );
-    });
+        if (!type) {
+          return object;
+        }
+        if (!(typeof type === "string") && !(type instanceof String)) {
+          throw new Error("Type must be a string");
+        }
 
-    it("converts to Moment from Number", function() {
-      assert(convert(1198908717056, "Moment") instanceof moment);
-    });
+        //noinspection FallthroughInSwitchStatementJS
+        switch (type) {
+          case "boolean":
+          case "Boolean":
+            return Boolean(object);
 
-    it("converts to Moment from String", function() {
-      assert(convert("2007-12-29T06:11:57.056Z", "Moment") instanceof moment);
-    });
+          case "number":
+          case "Number":
+            if (isString(object) && !isNaN(Date.parse(object))) {
+              return moment(object).valueOf();
+            } else {
+              // @TODO: I don't think that Number and String constructors are a good idea.
+              // This could also fail if the object doesn't have valueOf method or if it's redefined.
+              // For example: Object.create(null) or { valueOf: 7 }.
+              return Number(object.valueOf());
+            }
+          case "string":
+          case "String":
+            return String(object);
 
-    it("converts to Moment from Date", function() {
-      assert(convert(new Date(), "Moment") instanceof moment);
-    });
+          case "Date":
+            if (isNumber(object)) {
+              return new Date(object);
+            }
+            if (object instanceof Date) {
+              return new Date(object.valueOf());
+            } else if (moment.isMoment(object)) {
+              return new Date(object.valueOf());
+            }
+            if (isString(object)) {
+              match = ASPDateRegex.exec(object);
+              if (match) {
+                // object is an ASP date
+                return new Date(Number(match[1])); // parse number
+              } else {
+                return moment(new Date(object)).toDate(); // parse string
+              }
+            } else {
+              throw new Error(
+                "Cannot convert object of type " +
+                  getType(object) +
+                  " to type Date"
+              );
+            }
 
-    it("converts to Moment from Moment", function() {
-      assert(convert(new moment(), "Moment") instanceof moment);
-    });
+          case "Moment":
+            if (isNumber(object)) {
+              return moment(object);
+            }
+            if (object instanceof Date) {
+              return moment(object.valueOf());
+            } else if (moment.isMoment(object)) {
+              return moment(object);
+            }
+            if (isString(object)) {
+              match = ASPDateRegex.exec(object);
+              if (match) {
+                // object is an ASP date
+                return moment(Number(match[1])); // parse number
+              } else {
+                return moment(object); // parse string
+              }
+            } else {
+              throw new Error(
+                "Cannot convert object of type " +
+                  getType(object) +
+                  " to type Date"
+              );
+            }
 
-    it("throws when converting unknown object to Moment", function() {
-      throws(
-        function() {
-          convert({}, "Moment");
-        },
-        Error,
-        null
-      );
-    });
+          case "ISODate":
+            if (isNumber(object)) {
+              return new Date(object);
+            } else if (object instanceof Date) {
+              return object.toISOString();
+            } else if (moment.isMoment(object)) {
+              return object.toDate().toISOString();
+            } else if (isString(object)) {
+              match = ASPDateRegex.exec(object);
+              if (match) {
+                // object is an ASP date
+                return new Date(Number(match[1])).toISOString(); // parse number
+              } else {
+                return moment(object).format(); // ISO 8601
+              }
+            } else {
+              throw new Error(
+                "Cannot convert object of type " +
+                  getType(object) +
+                  " to type ISODate"
+              );
+            }
 
-    it("converts to ISODate from Number", function() {
-      assert(convert(1198908717056, "ISODate") instanceof Date);
-    });
+          case "ASPDate":
+            if (isNumber(object)) {
+              return "/Date(" + object + ")/";
+            } else if (object instanceof Date || moment.isMoment(object)) {
+              return "/Date(" + object.valueOf() + ")/";
+            } else if (isString(object)) {
+              match = ASPDateRegex.exec(object);
+              let value;
+              if (match) {
+                // object is an ASP date
+                value = new Date(Number(match[1])).valueOf(); // parse number
+              } else {
+                value = new Date(object).valueOf(); // parse string
+              }
+              return "/Date(" + value + ")/";
+            } else {
+              throw new Error(
+                "Cannot convert object of type " +
+                  getType(object) +
+                  " to type ASPDate"
+              );
+            }
 
-    it("converts to ISODate from String", function() {
-      equal(typeof convert("1995-01-01", "ISODate"), "string");
-    });
+          default:
+            throw new Error(`Unknown type ${type}`);
+        }
+      };
+    })();
 
-    it("converts to ISODate from Date - Throws a deprecation warning", function() {
-      equal(typeof convert(new Date(), "ISODate"), "string");
-    });
+    // --[END]-- The original implementation of type coercion.
 
-    it("converts to ISODate from Moment", function() {
-      equal(typeof convert(new moment(), "ISODate"), "string");
-    });
+    const rawDS = new DataSet([
+      /* raw data with arbitrary types */
+      { id: 7, label: 4, date: "2017-09-04" },
+      { id: false, label: 4, date: "2017-10-04" },
+      { id: "test", label: true, date: "2017-11-04" }
+    ]);
+    const coercedDS = new DataSet(/* the data with coerced types will be piped here */);
 
-    it("throws when converting unknown object to ISODate", function() {
-      throws(
-        function() {
-          convert({}, "ISODate");
-        },
-        Error,
-        null
-      );
-    });
+    const types = {
+      id: "string",
+      label: "string",
+      date: "Date"
+    };
 
-    it("converts to ASPDate from Number", function() {
-      assert(ASPDateRegex.test(convert(1198908717056, "ASPDate")));
-    });
+    const pipe = createNewDataPipeFrom(rawDS)
+      .map(item =>
+        Object.keys(item).reduce((acc, key) => {
+          acc[key] = convert(item[key], types[key]);
+          return acc;
+        }, {})
+      )
+      .to(coercedDS);
 
-    it("converts to ASPDate from String", function() {
-      assert(ASPDateRegex.test(convert("1995-01-01", "ASPDate")));
-    });
+    pipe.all().start();
+    // All items were transformed and piped into visDS and all later changes
+    // will be transformed and piped as well.
 
-    it("converts to ASPDate from Date", function() {
-      assert(ASPDateRegex.test(convert(new Date(), "ASPDate")));
-    });
+    // --[END]-- The example code.
 
-    it("converts to ASPDate from ASPDate", function() {
-      assert(ASPDateRegex.test(convert("/Date(12344444)/", "ASPDate")));
-    });
-
-    it("converts to ASPDate from Moment", function() {
-      assert(ASPDateRegex.test(convert(new moment(), "ASPDate")));
-    });
-
-    it("throws when converting unknown object to ASPDate", function() {
-      throws(
-        function() {
-          convert({}, "ASPDate");
-        },
-        Error,
-        null
-      );
-    });
-
-    it("throws when converting unknown type", function() {
-      throws(
-        function() {
-          convert({}, "UnknownType");
-        },
-        Error,
-        null
-      );
-    });
+    expect(coercedDS.get()).to.deep.equal([
+      { id: "7", label: "4", date: new Date("2017-09-04") },
+      { id: "false", label: "4", date: new Date("2017-10-04") },
+      { id: "test", label: "true", date: new Date("2017-11-04") }
+    ]);
   });
 });
