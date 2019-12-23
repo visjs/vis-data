@@ -86,7 +86,7 @@
     "@types/chai": "4.2.5",
     "@types/mocha": "5.2.7",
     "@types/sinon": "7.5.1",
-    "@typescript-eslint/eslint-plugin": "2.9.0",
+    "@typescript-eslint/eslint-plugin": "2.13.0",
     "@typescript-eslint/parser": "2.9.0",
     "babel-plugin-istanbul": "6.0.0",
     "chai": "4.2.0",
