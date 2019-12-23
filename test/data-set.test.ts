@@ -211,4 +211,36 @@ describe("Data Set", function(): void {
       ).to.not.equal(originalItem8);
     });
   });
+
+  it("Add, clear and readd", function(): void {
+    const generateItems = (): Item2[] => [
+      { whoami: 7, payload: { foo: "7", bar: true } },
+      { whoami: 8, payload: { foo: "8", bar: false } },
+      { whoami: 9, payload: { foo: "9", bar: true } }
+    ];
+
+    const ds = new DataSet<Item2, "whoami">({ fieldId: "whoami" });
+
+    ds.add(generateItems());
+
+    expect(ds.get(), "The items should be present before clear").to.deep.equal(
+      generateItems()
+    );
+
+    ds.clear();
+
+    expect(
+      ds.get(),
+      "The items shouldn't be present after clear"
+    ).to.deep.equal([]);
+
+    expect((): void => {
+      ds.add(generateItems());
+    }, "It should be possible to add items with the same ids that existed before clear").to.not.throw();
+
+    expect(
+      ds.get(),
+      "The items should be present again since they were readded"
+    ).to.deep.equal(generateItems());
+  });
 });
