@@ -77,7 +77,7 @@
     "@babel/runtime-corejs3": "7.7.4",
     "@commitlint/cli": "8.3.4",
     "@commitlint/config-conventional": "8.3.4",
-    "@stryker-mutator/babel-transpiler": "2.4.0",
+    "@stryker-mutator/babel-transpiler": "2.5.0",
     "@stryker-mutator/core": "2.4.0",
     "@stryker-mutator/html-reporter": "2.4.0",
     "@stryker-mutator/mocha-framework": "2.4.0",
