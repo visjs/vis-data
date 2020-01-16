@@ -108,7 +108,7 @@
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-typescript2": "0.25.2",
-    "sinon": "8.0.2",
+    "sinon": "8.1.0",
     "stryker-cli": "1.0.0",
     "typedoc": "0.16.0",
     "typescript": "3.7.2",
