@@ -34,7 +34,6 @@ const warnTypeCorectionDeprecation = (): void => {
       "Please, use data pipes instead. " +
       "See https://visjs.github.io/vis-data/data/datapipe.html#TypeCoercion for more details with working migration example."
   );
-  console.trace();
 };
 
 /**
@@ -1058,8 +1057,6 @@ export class DataSet<
     }
 
     if (fieldType) {
-      warnTypeCorectionDeprecation();
-
       for (let i = 0, len = values.length; i < len; i++) {
         values[i] = convert(values[i], fieldType);
       }
@@ -1097,9 +1094,6 @@ export class DataSet<
     for (let i = 0, len = fields.length; i < len; i++) {
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
-      if (fieldType != null) {
-        warnTypeCorectionDeprecation();
-      }
       d[field] = convert((item as any)[field], fieldType);
     }
     this._data.set(id, d);
@@ -1179,9 +1173,6 @@ export class DataSet<
     for (let i = 0, len = fields.length; i < len; i++) {
       const field = fields[i];
       const fieldType = this._type[field]; // type may be undefined
-      if (fieldType != null) {
-        warnTypeCorectionDeprecation();
-      }
       (d as any)[field] = convert((item as any)[field], fieldType);
     }
 
