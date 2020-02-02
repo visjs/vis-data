@@ -1,6 +1,6 @@
 // utility functions
 
-import { getType, isNumber, isString } from "vis-util";
+import { getType, isNumber, isString } from "vis-util/esnext";
 
 // The default export is the code, the named export is the type.
 import moment, { Moment } from "moment";
