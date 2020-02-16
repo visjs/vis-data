@@ -94,7 +94,7 @@
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-prettier": "3.1.1",
     "git-authors-cli": "1.0.19",
-    "husky": "4.2.0",
+    "husky": "4.2.3",
     "lint-staged": "10.0.7",
     "mocha": "7.0.1",
     "moment": "2.24.0",
