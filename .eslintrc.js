@@ -94,6 +94,7 @@ module.exports = {
     // Reports typeof bigint as an error, tsc validates this anyway so no problem turning this off.
     'valid-typeof': 'off',
     // Why?
+    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-parameter-properties': 'off',
   },
 }
