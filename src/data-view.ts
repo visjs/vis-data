@@ -119,6 +119,12 @@ export class DataView<
    * Set a data source for the view.
    *
    * @param data - The instance containing data (directly or indirectly).
+   *
+   * @remarks
+   * Note that when the data view is bound to a data set it won't be garbage
+   * collected unless the data set is too. Use `dataView.setData(null)` or
+   * `dataView.dispose()` to enable garbage collection before you lose the last
+   * reference.
    */
   public setData(data: DataInterface<Item, IdProp>): void {
     if (this._data) {
@@ -415,6 +421,32 @@ export class DataView<
         [Symbol.iterator]: this._ids.keys.bind(this._ids)
       }
     );
+  }
+
+  /**
+   * Render the instance unusable prior to garbage collection.
+   *
+   * @remarks
+   * The intention of this method is to help discover scenarios where the data
+   * view is being used when the programmer thinks it has been garbage collected
+   * already. It's stricter version of `dataView.setData(null)`.
+   */
+  public dispose(): void {
+    if (this._data?.off) {
+      this._data.off("*", this._listener);
+    }
+
+    const message = "This data view has already been disposed of.";
+    Object.defineProperty(this, "_data", {
+      get: (): void => {
+        throw new Error(message);
+      },
+      set: (): void => {
+        throw new Error(message);
+      },
+
+      configurable: false
+    });
   }
 
   /**
