@@ -12,6 +12,7 @@ const babelConfingBase = {
   runtimeHelpers: true,
 }
 const resolveConfig = {
+  browser: true,
   extensions: [...babelConfingBase.extensions, '.json'],
 }
 const banner = generateHeader()
