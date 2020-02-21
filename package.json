@@ -62,8 +62,7 @@
     }
   },
   "optionalDependencies": {
-    "vis-util": "3.0.0",
-    "vis-uuid": "1.1.4"
+    "vis-util": "3.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.8.4",
@@ -83,6 +82,7 @@
     "@types/chai": "4.2.9",
     "@types/mocha": "7.0.1",
     "@types/sinon": "7.5.1",
+    "@types/uuid": "3.4.7",
     "@typescript-eslint/eslint-plugin": "2.20.0",
     "@typescript-eslint/parser": "2.20.0",
     "babel-plugin-istanbul": "6.0.0",
@@ -109,9 +109,9 @@
     "stryker-cli": "1.0.0",
     "typedoc": "0.16.10",
     "typescript": "3.8.2",
+    "uuid": "3.4.0",
     "vis-dev-utils": "2.1.0",
-    "vis-util": "3.0.0",
-    "vis-uuid": "1.1.4"
+    "vis-util": "3.0.0"
   },
   "collective": {
     "type": "opencollective",
