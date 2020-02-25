@@ -82,7 +82,7 @@
     "@types/chai": "4.2.9",
     "@types/mocha": "7.0.1",
     "@types/sinon": "7.5.2",
-    "@types/uuid": "3.4.7",
+    "@types/uuid": "3.4.8",
     "@typescript-eslint/eslint-plugin": "2.21.0",
     "@typescript-eslint/parser": "2.21.0",
     "babel-plugin-istanbul": "6.0.0",
