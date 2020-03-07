@@ -2,7 +2,7 @@
 
 import { default as uuid4 } from "uuid/v4";
 import { convert } from "./convert";
-import { deepExtend } from "vis-util";
+import { deepExtend } from "vis-util/esnext";
 
 import {
   DataInterface,

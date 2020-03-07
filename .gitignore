@@ -14,10 +14,14 @@ vis-data-*.tgz
 # temporary files
 .*.sw[op]
 .commits.tmp
-gen/
 .nyc_output/
-coverage/
 .rpt2_cache
-dist
-/reports/
 /.stryker-tmp/
+/declarations/
+/esnext/
+/peer/
+/reports/
+/standalone/
+coverage/
+dist
+gen/
