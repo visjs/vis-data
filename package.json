@@ -116,7 +116,7 @@
     "rimraf": "3.0.2",
     "rollup": "1.32.0",
     "rollup-plugin-analyzer": "3.2.2",
-    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-banner": "0.2.1",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-copy": "3.3.0",
