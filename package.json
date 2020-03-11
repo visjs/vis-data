@@ -92,7 +92,7 @@
     "@stryker-mutator/mocha-runner": "3.0.0",
     "@stryker-mutator/typescript": "3.0.0",
     "@types/chai": "4.2.10",
-    "@types/mocha": "7.0.1",
+    "@types/mocha": "7.0.2",
     "@types/sinon": "7.5.2",
     "@types/uuid": "3.4.8",
     "@typescript-eslint/eslint-plugin": "2.23.0",
