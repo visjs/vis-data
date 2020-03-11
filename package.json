@@ -124,7 +124,7 @@
     "rollup-plugin-postcss": "2.0.6",
     "rollup-plugin-terser": "5.2.0",
     "rollup-plugin-typescript2": "0.26.0",
-    "sinon": "9.0.0",
+    "sinon": "9.0.1",
     "stryker-cli": "1.0.0",
     "typedoc": "0.16.11",
     "typescript": "3.8.3",
