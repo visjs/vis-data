@@ -91,7 +91,7 @@
     "@stryker-mutator/mocha-framework": "3.0.2",
     "@stryker-mutator/mocha-runner": "3.0.2",
     "@stryker-mutator/typescript": "3.0.2",
-    "@types/chai": "4.2.10",
+    "@types/chai": "4.2.11",
     "@types/mocha": "7.0.2",
     "@types/sinon": "7.5.2",
     "@types/uuid": "3.4.8",
