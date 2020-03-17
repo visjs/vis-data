@@ -70,7 +70,7 @@
   "peerDependencies": {
     "moment": "^2.24.0",
     "vis-util": "^2.1.0 || ^4.0.0",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0 || ^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.8.7",
@@ -94,7 +94,7 @@
     "@types/chai": "4.2.11",
     "@types/mocha": "7.0.2",
     "@types/sinon": "7.5.2",
-    "@types/uuid": "3.4.8",
+    "@types/uuid": "7.0.2",
     "@typescript-eslint/eslint-plugin": "2.24.0",
     "@typescript-eslint/parser": "2.24.0",
     "babel-plugin-css-modules-transform": "1.6.2",
@@ -128,7 +128,7 @@
     "stryker-cli": "1.0.0",
     "typedoc": "0.17.0",
     "typescript": "3.8.3",
-    "uuid": "3.4.0",
+    "uuid": "7.0.2",
     "vis-dev-utils": "2.2.3",
     "vis-util": "4.0.0"
   },
