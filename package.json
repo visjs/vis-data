@@ -126,7 +126,7 @@
     "rollup-plugin-typescript2": "0.26.0",
     "sinon": "9.0.1",
     "stryker-cli": "1.0.0",
-    "typedoc": "0.17.1",
+    "typedoc": "0.17.3",
     "typescript": "3.8.3",
     "uuid": "7.0.2",
     "vis-dev-utils": "2.2.3",
