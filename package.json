@@ -69,8 +69,8 @@
   },
   "peerDependencies": {
     "moment": "^2.24.0",
-    "vis-util": "^2.1.0 || ^4.0.0",
-    "uuid": "^3.4.0 || ^7.0.0"
+    "vis-util": "^4.0.0",
+    "uuid": "^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",

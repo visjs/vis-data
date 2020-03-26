@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
 
-import { default as uuid4 } from "uuid/v4";
+import { v4 as uuid4 } from "uuid";
 import { convert } from "./convert";
 import { deepExtend } from "vis-util/esnext";
 
