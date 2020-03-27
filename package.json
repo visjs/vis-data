@@ -123,7 +123,7 @@
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-postcss": "2.5.0",
     "rollup-plugin-terser": "5.3.0",
-    "rollup-plugin-typescript2": "0.26.0",
+    "rollup-plugin-typescript2": "0.27.0",
     "sinon": "9.0.1",
     "stryker-cli": "1.0.0",
     "typedoc": "0.17.3",
