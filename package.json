@@ -127,7 +127,7 @@
     "sinon": "9.0.2",
     "stryker-cli": "1.0.0",
     "typedoc": "0.17.6",
-    "typescript": "3.8.3",
+    "typescript": "3.9.2",
     "uuid": "7.0.3",
     "vis-dev-utils": "2.2.6",
     "vis-util": "4.0.0"
