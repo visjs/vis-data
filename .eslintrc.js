@@ -16,7 +16,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2019,
-    project: './tsconfig.json',
+    project: "./tsconfig.lint.json"
   },
   plugins: ['prettier'],
   rules: {
