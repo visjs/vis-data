@@ -6,7 +6,7 @@ import {
   EventName,
   EventNameWithAny,
   EventPayloads,
-  Id
+  Id,
 } from "./data-interface";
 
 type EventSubscribers<Item, IdProp extends string> = {
@@ -27,7 +27,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
     "*": [],
     add: [],
     remove: [],
-    update: []
+    update: [],
   };
 
   protected _trigger(

@@ -21,7 +21,7 @@ import {
   PartItem,
   TypeMap,
   UpdateItem,
-  isId
+  isId,
 } from "./data-interface";
 
 import { Queue, QueueOptions } from "./queue";
@@ -217,7 +217,7 @@ export class DataSet<
         // create queue and update its options
         if (!this._queue) {
           this._queue = Queue.extend(this, {
-            replace: ["add", "update", "remove"]
+            replace: ["add", "update", "remove"],
           });
         }
 
@@ -262,8 +262,8 @@ export class DataSet<
 
     if (Array.isArray(data)) {
       // Array
-      const idsToAdd: Id[] = data.map(d => d[this._idProp] as Id);
-      if (idsToAdd.some(id => this._data.has(id))) {
+      const idsToAdd: Id[] = data.map((d) => d[this._idProp] as Id);
+      if (idsToAdd.some((id) => this._data.has(id))) {
         throw new Error("A duplicate id was found in the parameter array.");
       }
       for (let i = 0, len = data.length; i < len; i++) {
@@ -454,7 +454,7 @@ export class DataSet<
         return {
           id,
           oldData: oldData,
-          updatedData
+          updatedData,
         };
       });
 
@@ -466,7 +466,7 @@ export class DataSet<
         ),
         data: updateEventData.map(
           (value): FullItem<Item, IdProp> => value.updatedData
-        )
+        ),
       };
       // TODO: remove deprecated property 'data' some day
       //Object.defineProperty(props, 'data', {
@@ -1192,11 +1192,11 @@ export class DataSet<
               yield [id, item];
             }
           }
-        }
+        },
       });
     } else {
       return new DataStream({
-        [Symbol.iterator]: this._data.entries.bind(this._data)
+        [Symbol.iterator]: this._data.entries.bind(this._data),
       });
     }
   }

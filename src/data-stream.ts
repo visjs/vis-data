@@ -195,7 +195,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
             yield [id, item];
           }
         }
-      }
+      },
     });
   }
 
@@ -228,7 +228,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
         for (const [id, item] of pairs) {
           yield [id, callback(item, id)];
         }
-      }
+      },
     });
   }
 
@@ -324,7 +324,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
           .sort(([idA, itemA], [idB, itemB]): number =>
             callback(itemA, itemB, idA, idB)
           )
-          [Symbol.iterator]()
+          [Symbol.iterator](),
     });
   }
 }
