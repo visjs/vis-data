@@ -87,7 +87,7 @@
     "@types/chai": "4.2.11",
     "@types/mocha": "7.0.2",
     "@types/sinon": "9.0.1",
-    "@types/uuid": "7.0.3",
+    "@types/uuid": "7.0.4",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "babel-plugin-css-modules-transform": "1.6.2",
