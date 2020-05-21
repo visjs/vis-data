@@ -8,8 +8,8 @@ interface Item {
   payload: { foo: string; bar: number };
 }
 
-describe("Data view chaining", function(): void {
-  describe("DV3 → DV2 → DV1 → DS", function(): void {
+describe("Data view chaining", function (): void {
+  describe("DV3 → DV2 → DV1 → DS", function (): void {
     const data = [
       { whoami: 0, payload: { foo: "#0", bar: 0 } },
       { whoami: 1, payload: { foo: "#1", bar: 1 } },
@@ -20,28 +20,28 @@ describe("Data view chaining", function(): void {
       { whoami: 6, payload: { foo: "#6", bar: 6 } },
       { whoami: 7, payload: { foo: "#7", bar: 7 } },
       { whoami: 8, payload: { foo: "#8", bar: 8 } },
-      { whoami: 9, payload: { foo: "#9", bar: 9 } }
+      { whoami: 9, payload: { foo: "#9", bar: 9 } },
     ];
 
     const ds = new DataSet<Item, "whoami">(data, { fieldId: "whoami" });
     const dv1 = new DataView<Item, "whoami">(ds, {
-      filter: (item): boolean => item.whoami < 9
+      filter: (item): boolean => item.whoami < 9,
     });
     const dv2 = new DataView<Item, "whoami">(dv1, {
-      filter: (item): boolean => item.whoami % 2 !== 0
+      filter: (item): boolean => item.whoami % 2 !== 0,
     });
     const dv3 = new DataView<Item, "whoami">(dv2, {
-      filter: (item): boolean => item.whoami % 2 === 0
+      filter: (item): boolean => item.whoami % 2 === 0,
     });
 
-    it(".length", function(): void {
+    it(".length", function (): void {
       expect(ds.length, "Data set").to.equal(10);
       expect(dv1.length, "Data view 1").to.equal(9);
       expect(dv2.length, "Data view 2").to.equal(4);
       expect(dv3.length, "Data view 3").to.equal(0);
     });
 
-    it(".getIds", function(): void {
+    it(".getIds", function (): void {
       expect(
         ds.getIds(),
         "The data set should contain all 10 items."
@@ -60,21 +60,21 @@ describe("Data view chaining", function(): void {
       ).to.deep.equal([]);
     });
 
-    it(".get", function(): void {
+    it(".get", function (): void {
       expect(ds.get(3), "Data set").to.deep.equal(data[3]);
       expect(dv1.get(3), "Data view 1").to.deep.equal(data[3]);
       expect(dv2.get(3), "Data view 2").to.deep.equal(data[3]);
       expect(dv3.get(3), "Data view 3").to.be.null;
     });
 
-    it(".getDataSet", function(): void {
+    it(".getDataSet", function (): void {
       expect(ds.getDataSet(), "Data set").to.equal(ds);
       expect(dv1.getDataSet(), "Data view 1").to.equal(ds);
       expect(dv2.getDataSet(), "Data view 2").to.equal(ds);
       expect(dv3.getDataSet(), "Data view 3").to.equal(ds);
     });
 
-    it(".forEach", function(): void {
+    it(".forEach", function (): void {
       const spyDS = spy();
       const spyDV1 = spy();
       const spyDV2 = spy();
@@ -93,7 +93,7 @@ describe("Data view chaining", function(): void {
       expect(spyDV3.callCount, "Data view 3").to.equal(0);
     });
 
-    it(".map", function(): void {
+    it(".map", function (): void {
       const convert = (item: Item): string => item.payload.foo;
       const spyDS = spy(convert);
       const spyDV1 = spy(convert);
@@ -112,7 +112,7 @@ describe("Data view chaining", function(): void {
         "#6",
         "#7",
         "#8",
-        "#9"
+        "#9",
       ]);
 
       const dv1Result = dv1.map(spyDV1);
@@ -126,7 +126,7 @@ describe("Data view chaining", function(): void {
         "#5",
         "#6",
         "#7",
-        "#8"
+        "#8",
       ]);
 
       const dv2Result = dv2.map(spyDV2);

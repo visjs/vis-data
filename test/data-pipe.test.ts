@@ -23,8 +23,8 @@ const generateItem = (index: number, updated = "no"): Item1 =>
     vis: Object.freeze({
       myId: index,
       foo: String.fromCharCode(96 + index),
-      updated
-    })
+      updated,
+    }),
   });
 
 const skippedItem: (index: 3 | 6 | 9, updated?: string) => Item1 = generateItem;
@@ -44,8 +44,8 @@ type Config = {
   ): void;
 };
 
-describe("Data Pipe", function(): void {
-  describe("Filter and map", function(): void {
+describe("Data Pipe", function (): void {
+  describe("Filter and map", function (): void {
     const configs: Config[] = [
       {
         name: "Not even started",
@@ -55,7 +55,7 @@ describe("Data Pipe", function(): void {
           ds1.add(skippedItem(6));
           ds1.add(pipedItem(7));
           ds1.add(pipedItem(8));
-        }
+        },
       },
       {
         name: "Adding",
@@ -64,7 +64,7 @@ describe("Data Pipe", function(): void {
         operation(ds1, pipe): void {
           pipe.start();
           ds1.add([skippedItem(6), pipedItem(7), pipedItem(8)]);
-        }
+        },
       },
       {
         name: "Updating",
@@ -75,9 +75,9 @@ describe("Data Pipe", function(): void {
           ds1.update([
             pipedItem(1, "updated"),
             pipedItem(2, "updated"),
-            skippedItem(3, "updated")
+            skippedItem(3, "updated"),
           ]);
-        }
+        },
       },
       {
         name: "Removing",
@@ -92,7 +92,7 @@ describe("Data Pipe", function(): void {
             "Items should have been piped into the second data set by now"
           ).to.equal(2);
           ds1.remove([skippedItem(6), pipedItem(7)]);
-        }
+        },
       },
       {
         name: "Piping all the data",
@@ -100,7 +100,7 @@ describe("Data Pipe", function(): void {
         message: "All the data present in the source data set should be piped",
         operation(_ds1, pipe): void {
           pipe.all();
-        }
+        },
       },
       {
         name: "Stopping",
@@ -114,7 +114,7 @@ describe("Data Pipe", function(): void {
           ds1.add([skippedItem(9), pipedItem(10), pipedItem(11)]);
           ds1.update([skippedItem(6, "updated"), pipedItem(7, "updated")]);
           ds1.remove([skippedItem(6, "updated"), pipedItem(7, "updated")]);
-        }
+        },
       },
       {
         name: "All combined",
@@ -123,15 +123,11 @@ describe("Data Pipe", function(): void {
           pipedItem(4).vis,
           pipedItem(5).vis,
           pipedItem(7).vis,
-          pipedItem(10, "updated").vis
+          pipedItem(10, "updated").vis,
         ],
         message: "This should work",
         operation(ds1, pipe): void {
-          pipe
-            .start()
-            .stop()
-            .all()
-            .start();
+          pipe.start().stop().all().start();
           ds1.add([pipedItem(5), skippedItem(6), pipedItem(7)]);
           ds1.remove(pipedItem(1));
           ds1.update([pipedItem(2, "updated"), skippedItem(3, "updated")]);
@@ -142,12 +138,12 @@ describe("Data Pipe", function(): void {
 
           pipe.start();
           ds1.update([skippedItem(9, "updated"), pipedItem(10, "updated")]);
-        }
-      }
+        },
+      },
     ];
 
     configs.forEach(({ expected, message, name, operation }): void => {
-      it(name, function(): void {
+      it(name, function (): void {
         const ds1 = new DataSet<Item1, "whoami">(
           [pipedItem(1), pipedItem(2), skippedItem(3), pipedItem(4)],
           { fieldId: "whoami" }
@@ -167,7 +163,7 @@ describe("Data Pipe", function(): void {
     });
   });
 
-  it("FlatMap", function(): void {
+  it("FlatMap", function (): void {
     const ds1 = new DataSet<Item1, "whoami">(
       [pipedItem(1), pipedItem(2), skippedItem(3), pipedItem(4)],
       { fieldId: "whoami" }
@@ -200,7 +196,7 @@ describe("Data Pipe", function(): void {
       { ...pipedItem(2, "updated").vis, myId: -2 },
 
       pipedItem(5).vis,
-      { ...pipedItem(5).vis, myId: -5 }
+      { ...pipedItem(5).vis, myId: -5 },
     ]);
   });
 });

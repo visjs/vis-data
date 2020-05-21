@@ -6,8 +6,8 @@ interface Item {
   id: number;
 }
 
-describe("Data view dispose", function(): void {
-  it("Disposed data view is unsubscribed and throws", function(): void {
+describe("Data view dispose", function (): void {
+  it("Disposed data view is unsubscribed and throws", function (): void {
     const ds = new DataSet<Item>([{ id: 1 }, { id: 2 }]);
     const dv = new DataView(ds);
 

@@ -9,16 +9,16 @@ import { generateHeader } from "vis-dev-utils";
 
 const babelConfingBase = {
   extensions: [".ts", ".js"],
-  runtimeHelpers: true
+  runtimeHelpers: true,
 };
 const resolveConfig = {
   browser: true,
   mainFields: ["module", "main"],
-  extensions: [...babelConfingBase.extensions, ".json"]
+  extensions: [...babelConfingBase.extensions, ".json"],
 };
 const banner = generateHeader();
 const typescriptConfig = {
-  tsconfig: "tsconfig.code.json"
+  tsconfig: "tsconfig.code.json",
 };
 
 export default [
@@ -28,14 +28,14 @@ export default [
       banner,
       file: "dist/esm.js",
       format: "esm",
-      sourcemap: true
+      sourcemap: true,
     },
     plugins: [
       resolve(resolveConfig),
       typescript(typescriptConfig),
       commonjs(),
-      babel(babelConfingBase)
-    ]
+      babel(babelConfingBase),
+    ],
   },
   {
     input: "src/index.ts",
@@ -46,13 +46,13 @@ export default [
       exports: "named",
       name: "vis",
       extend: true,
-      sourcemap: true
+      sourcemap: true,
     },
     plugins: [
       resolve(resolveConfig),
       typescript(typescriptConfig),
       commonjs(),
-      babel(babelConfingBase)
-    ]
-  }
+      babel(babelConfingBase),
+    ],
+  },
 ];

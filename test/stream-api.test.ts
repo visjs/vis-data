@@ -15,7 +15,7 @@ const pairById = ([a]: [Id, any], [b]: [Id, any]): number =>
 const itemById = ({ id: a }: { id: Id }, { id: b }: { id: Id }): number =>
   `${a}`.localeCompare(`${b}`);
 
-const testStreamAPI = function(
+const testStreamAPI = function (
   createDataStream: <Item extends { id: number }>(
     data: readonly [Id, Item][]
   ) => CreateDataStreamRet<Item>
@@ -25,16 +25,16 @@ const testStreamAPI = function(
     data,
     updateArgs,
     streamCallback,
-    valueCallback
+    valueCallback,
   }: {
     data: [Id, T][];
     updateArgs?: [Id, T];
     streamCallback?: (stream: DataStream<T>) => DataStream<unknown>;
     valueCallback?: (stream: DataStream<T>) => unknown;
   }): void {
-    describe("Reuse", function(): void {
+    describe("Reuse", function (): void {
       if (streamCallback) {
-        it("Double iteration", function(): void {
+        it("Double iteration", function (): void {
           const { stream } = createDataStream(data);
 
           const stream2 = streamCallback(stream);
@@ -51,7 +51,7 @@ const testStreamAPI = function(
           ).to.equal(first.length);
         });
 
-        it("Reiteration after data removals", function(): void {
+        it("Reiteration after data removals", function (): void {
           const { stream, pop } = createDataStream(data);
           const stream2 = streamCallback(stream);
 
@@ -67,7 +67,7 @@ const testStreamAPI = function(
           expect(prev).to.be.equal(0);
         });
 
-        it("Reiteration after data update", function(): void {
+        it("Reiteration after data update", function (): void {
           const { stream, update, pop } = createDataStream(data);
           const stream2 = streamCallback(stream);
 
@@ -86,7 +86,7 @@ const testStreamAPI = function(
           ).to.not.deep.equal(before);
         });
       } else if (valueCallback) {
-        it("Multiple calls on the same stream", function(): void {
+        it("Multiple calls on the same stream", function (): void {
           const { stream } = createDataStream(data);
 
           const first = valueCallback(stream);
@@ -102,49 +102,49 @@ const testStreamAPI = function(
           ).to.deep.equal(first);
         });
       } else {
-        it("This should never happen.", function(): void {
+        it("This should never happen.", function (): void {
           expect.fail("This is an error in the test spec.");
         });
       }
     });
   }
 
-  describe("Iterator", function(): void {
-    describe("Convert to an array", function(): void {
-      it("Empty", function(): void {
+  describe("Iterator", function (): void {
+    describe("Convert to an array", function (): void {
+      it("Empty", function (): void {
         const { stream } = createDataStream([]);
         expect([...stream]).to.deep.equal([]);
       });
 
-      it("With data", function(): void {
+      it("With data", function (): void {
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
         expect([...stream]).to.deep.equal([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
       });
 
-      it("Two times with data", function(): void {
+      it("Two times with data", function (): void {
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
         expect([...stream]).to.deep.equal([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
         expect([...stream]).to.deep.equal([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
       });
     });
 
-    describe("Iterate (for..of)", function(): void {
-      it("Empty", function(): void {
+    describe("Iterate (for..of)", function (): void {
+      it("Empty", function (): void {
         const fofSpy = spy();
         const { stream } = createDataStream([] as any);
         for (const pair of stream) {
@@ -153,11 +153,11 @@ const testStreamAPI = function(
         expect(fofSpy.callCount).to.equal(0);
       });
 
-      it("With data", function(): void {
+      it("With data", function (): void {
         const fofSpy = spy();
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         for (const pair of stream) {
@@ -170,15 +170,15 @@ const testStreamAPI = function(
           fofSpy.getCalls().map((call): any => call.args[0])
         ).to.deep.equal([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
       });
 
-      it("Two times with data", function(): void {
+      it("Two times with data", function (): void {
         const fofSpy = spy();
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         for (const pair of stream) {
@@ -196,19 +196,19 @@ const testStreamAPI = function(
           [7, { id: 7 }],
           [10, { id: 10 }],
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
       });
     });
   });
 
-  describe("Conversions", function(): void {
-    it("Id Array", function(): void {
+  describe("Conversions", function (): void {
+    it("Id Array", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const idArray = stream.toIdArray();
@@ -221,12 +221,12 @@ const testStreamAPI = function(
       expect(idArray.sort()).to.deep.equal([3, 7, 10, 13].sort());
     });
 
-    it("Item Array", function(): void {
+    it("Item Array", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const itemArray = stream.toItemArray();
@@ -241,12 +241,12 @@ const testStreamAPI = function(
       );
     });
 
-    it("Entry Array", function(): void {
+    it("Entry Array", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const entryArray = stream.toEntryArray();
@@ -261,17 +261,17 @@ const testStreamAPI = function(
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ].sort(pairById as any)
       );
     });
 
-    it("Object map", function(): void {
+    it("Object map", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const map = stream.toObjectMap();
@@ -296,12 +296,12 @@ const testStreamAPI = function(
       );
     });
 
-    it("Map", function(): void {
+    it("Map", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const map = stream.toMap();
@@ -315,17 +315,17 @@ const testStreamAPI = function(
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ].sort(pairById as any)
       );
     });
 
-    it("Id Set", function(): void {
+    it("Id Set", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const idSet = stream.toIdSet();
@@ -337,12 +337,12 @@ const testStreamAPI = function(
       expect([...idSet.values()].sort()).to.deep.equal([3, 7, 10, 13].sort());
     });
 
-    it("Item Set", function(): void {
+    it("Item Set", function (): void {
       const { stream } = createDataStream([
         [3, { id: 3 }],
         [7, { id: 7 }],
         [10, { id: 10 }],
-        [13, { id: 13 }]
+        [13, { id: 13 }],
       ]);
 
       const itemSet = stream.toItemSet();
@@ -358,14 +358,14 @@ const testStreamAPI = function(
     });
   });
 
-  describe("Methods", function(): void {
-    describe("Cache", function(): void {
-      it("Simple test", function(): void {
+  describe("Methods", function (): void {
+    describe("Cache", function (): void {
+      it("Simple test", function (): void {
         const { stream } = createDataStream([
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ]);
 
         const cached = stream.cache();
@@ -374,22 +374,22 @@ const testStreamAPI = function(
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ]);
         expect([...cached]).to.deep.equal([
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ]);
       });
 
-      it("Data removal", function(): void {
+      it("Data removal", function (): void {
         const { stream, pop } = createDataStream([
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ]);
 
         const cached = stream.cache();
@@ -402,16 +402,16 @@ const testStreamAPI = function(
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
-          [13, { id: 13 }]
+          [13, { id: 13 }],
         ]);
       });
 
-      it("Data update", function(): void {
+      it("Data update", function (): void {
         const { stream, update } = createDataStream([
           [3, { id: 3, value: 3 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
-          [13, { id: 13, value: 13 }]
+          [13, { id: 13, value: 13 }],
         ]);
 
         const cached = stream.cache();
@@ -423,19 +423,19 @@ const testStreamAPI = function(
           [3, { id: 3, value: -3 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
-          [13, { id: 13, value: -13 }]
+          [13, { id: 13, value: -13 }],
         ]);
         expect([...cached]).to.deep.equal([
           [3, { id: 3, value: 3 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
-          [13, { id: 13, value: 13 }]
+          [13, { id: 13, value: 13 }],
         ]);
       });
     });
 
-    describe("Distinct", function(): void {
-      it("No items", function(): void {
+    describe("Distinct", function (): void {
+      it("No items", function (): void {
         const distinctStub = stub();
         distinctStub.throws("This should never be called.");
 
@@ -446,7 +446,7 @@ const testStreamAPI = function(
         expect([...result]).to.deep.equal([]);
       });
 
-      it("4 items (2 distinct values)", function(): void {
+      it("4 items (2 distinct values)", function (): void {
         const distinctStub = stub();
         distinctStub.withArgs({ id: 3, value: 10 }, 3).returns(10);
         distinctStub.withArgs({ id: 7, value: 7 }, 7).returns(7);
@@ -458,7 +458,7 @@ const testStreamAPI = function(
           [3, { id: 3, value: 10 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
-          [13, { id: 13, value: 10 }]
+          [13, { id: 13, value: 10 }],
         ]);
 
         const result = stream.distinct(distinctStub);
@@ -471,16 +471,16 @@ const testStreamAPI = function(
           [3, { id: 3, value: 10 }],
           [7, { id: 7, value: 7 }],
           [10, { id: 10, value: 10 }],
-          [13, { id: 13, value: 10 }]
+          [13, { id: 13, value: 10 }],
         ],
         updateArgs: [10, { id: 10, value: 42 }],
         valueCallback: (stream): any =>
-          stream.distinct((item): number => item.value)
+          stream.distinct((item): number => item.value),
       });
     });
 
-    describe("Filter", function(): void {
-      it("Simple test", function(): void {
+    describe("Filter", function (): void {
+      it("Simple test", function (): void {
         const filterStub = stub();
         filterStub.withArgs({ id: 7 }, 7).returns(true);
         filterStub.withArgs({ id: 10 }, 10).returns(false);
@@ -488,7 +488,7 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect([...stream.filter(filterStub)]).to.deep.equal([[7, { id: 7 }]]);
@@ -499,21 +499,21 @@ const testStreamAPI = function(
           [3, { id: 3, include: false }],
           [4, { id: 4, include: true }],
           [5, { id: 5, include: false }],
-          [6, { id: 6, include: true }]
+          [6, { id: 6, include: true }],
         ],
         updateArgs: [6, { id: 6, include: false }],
         streamCallback: (stream): any =>
-          stream.filter((item): boolean => item.include)
+          stream.filter((item): boolean => item.include),
       });
     });
 
-    describe("For Each", function(): void {
-      it("Simple test", function(): void {
+    describe("For Each", function (): void {
+      it("Simple test", function (): void {
         const forEachSpy = spy();
 
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
         stream.forEach(forEachSpy);
 
@@ -521,7 +521,7 @@ const testStreamAPI = function(
           forEachSpy.getCalls().map((call): any => call.args)
         ).to.deep.equal([
           [{ id: 7 }, 7],
-          [{ id: 10 }, 10]
+          [{ id: 10 }, 10],
         ]);
       });
 
@@ -530,21 +530,21 @@ const testStreamAPI = function(
           [3, { id: 3 }],
           [4, { id: 4 }],
           [5, { id: 5 }],
-          [6, { id: 6 }]
+          [6, { id: 6 }],
         ],
         valueCallback: (stream): any => {
           const forEachSpy = spy();
           stream.forEach(forEachSpy);
           return forEachSpy.callCount;
-        }
+        },
       });
     });
 
-    describe("Keys (Get Ids)", function(): void {
-      it("Simple test", function(): void {
+    describe("Keys (Get Ids)", function (): void {
+      it("Simple test", function (): void {
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect([...stream.keys()]).to.deep.equal([7, 10]);
@@ -555,17 +555,17 @@ const testStreamAPI = function(
           [3, { id: 3 }],
           [4, { id: 4 }],
           [5, { id: 5 }],
-          [6, { id: 6 }]
+          [6, { id: 6 }],
         ],
-        valueCallback: (stream): any => [...stream.keys()]
+        valueCallback: (stream): any => [...stream.keys()],
       });
     });
 
-    describe("Values (Get Items)", function(): void {
-      it("Simple test", function(): void {
+    describe("Values (Get Items)", function (): void {
+      it("Simple test", function (): void {
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect([...stream.values()]).to.deep.equal([{ id: 7 }, { id: 10 }]);
@@ -576,15 +576,15 @@ const testStreamAPI = function(
           [3, { id: 3, value: 3 }],
           [4, { id: 4, value: 4 }],
           [5, { id: 5, value: 5 }],
-          [6, { id: 6, value: 6 }]
+          [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: -5 }],
-        valueCallback: (stream): any => [...stream.values()]
+        valueCallback: (stream): any => [...stream.values()],
       });
     });
 
-    describe("Map", function(): void {
-      it("Simple test", function(): void {
+    describe("Map", function (): void {
+      it("Simple test", function (): void {
         const mapStub = stub();
         mapStub.withArgs({ id: 7 }, 7).returns(7);
         mapStub.withArgs({ id: 10 }, 10).returns(10);
@@ -592,12 +592,12 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect([...stream.map(mapStub)]).to.deep.equal([
           [7, 7],
-          [10, 10]
+          [10, 10],
         ]);
       });
 
@@ -606,16 +606,16 @@ const testStreamAPI = function(
           [3, { id: 3, value: 3 }],
           [4, { id: 4, value: 4 }],
           [5, { id: 5, value: 5 }],
-          [6, { id: 6, value: 6 }]
+          [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: -5 }],
         streamCallback: (stream): any =>
-          stream.map((item): number => item.value)
+          stream.map((item): number => item.value),
       });
     });
 
-    describe("Max", function(): void {
-      it("No items", function(): void {
+    describe("Max", function (): void {
+      it("No items", function (): void {
         const maxStub = stub();
         maxStub.throws("This should never be called.");
 
@@ -624,7 +624,7 @@ const testStreamAPI = function(
         expect(stream.max(maxStub)).to.equal(null);
       });
 
-      it("2 items", function(): void {
+      it("2 items", function (): void {
         const maxStub = stub();
         maxStub.withArgs({ id: 7 }, 7).returns(7);
         maxStub.withArgs({ id: 10 }, 10).returns(10);
@@ -632,7 +632,7 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect(stream.max(maxStub)).to.deep.equal({ id: 10 });
@@ -643,15 +643,16 @@ const testStreamAPI = function(
           [3, { id: 3, value: 3 }],
           [4, { id: 4, value: 4 }],
           [5, { id: 5, value: 5 }],
-          [6, { id: 6, value: 6 }]
+          [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: 55 }],
-        valueCallback: (stream): any => stream.max((item): number => item.value)
+        valueCallback: (stream): any =>
+          stream.max((item): number => item.value),
       });
     });
 
-    describe("Min", function(): void {
-      it("No items", function(): void {
+    describe("Min", function (): void {
+      it("No items", function (): void {
         const minStub = stub();
         minStub.throws("This should never be called.");
 
@@ -660,7 +661,7 @@ const testStreamAPI = function(
         expect(stream.min(minStub)).to.equal(null);
       });
 
-      it("2 items", function(): void {
+      it("2 items", function (): void {
         const minStub = stub();
         minStub.withArgs({ id: 7 }, 7).returns(7);
         minStub.withArgs({ id: 10 }, 10).returns(10);
@@ -668,7 +669,7 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect(stream.min(minStub)).to.deep.equal({ id: 7 });
@@ -679,15 +680,16 @@ const testStreamAPI = function(
           [3, { id: 3, value: 3 }],
           [4, { id: 4, value: 4 }],
           [5, { id: 5, value: 5 }],
-          [6, { id: 6, value: 6 }]
+          [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: -5 }],
-        valueCallback: (stream): any => stream.min((item): number => item.value)
+        valueCallback: (stream): any =>
+          stream.min((item): number => item.value),
       });
     });
 
-    describe("Reduce", function(): void {
-      it("Simple test", function(): void {
+    describe("Reduce", function (): void {
+      it("Simple test", function (): void {
         const reduceStub = stub();
         reduceStub.withArgs(0, { id: 7 }, 7).returns(1);
         reduceStub.withArgs(1, { id: 10 }, 10).returns(2);
@@ -695,7 +697,7 @@ const testStreamAPI = function(
 
         const { stream } = createDataStream([
           [7, { id: 7 }],
-          [10, { id: 10 }]
+          [10, { id: 10 }],
         ]);
 
         expect(stream.reduce(reduceStub, 0)).to.equal(2);
@@ -706,16 +708,16 @@ const testStreamAPI = function(
           [3, { id: 3, value: 3 }],
           [4, { id: 4, value: 4 }],
           [5, { id: 5, value: 5 }],
-          [6, { id: 6, value: 6 }]
+          [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: -5 }],
         valueCallback: (stream): any =>
-          stream.reduce((acc, item): number => acc + item.value, 0)
+          stream.reduce((acc, item): number => acc + item.value, 0),
       });
     });
 
-    describe("Sort", function(): void {
-      it("No items", function(): void {
+    describe("Sort", function (): void {
+      it("No items", function (): void {
         const sortSpy = spy();
 
         const { stream } = createDataStream([]);
@@ -727,7 +729,7 @@ const testStreamAPI = function(
         ).to.equal(0);
       });
 
-      it("8 sorted items", function(): void {
+      it("8 sorted items", function (): void {
         const { stream } = createDataStream([
           [1, { id: 1 }],
           [2, { id: 2 }],
@@ -736,11 +738,11 @@ const testStreamAPI = function(
           [5, { id: 5 }],
           [6, { id: 6 }],
           [7, { id: 7 }],
-          [8, { id: 8 }]
+          [8, { id: 8 }],
         ]);
 
         expect([
-          ...stream.sort((_a, _b, idA, idB): number => +idA - +idB)
+          ...stream.sort((_a, _b, idA, idB): number => +idA - +idB),
         ]).to.deep.equal([
           [1, { id: 1 }],
           [2, { id: 2 }],
@@ -749,11 +751,11 @@ const testStreamAPI = function(
           [5, { id: 5 }],
           [6, { id: 6 }],
           [7, { id: 7 }],
-          [8, { id: 8 }]
+          [8, { id: 8 }],
         ]);
       });
 
-      it("14 unsorted items", function(): void {
+      it("14 unsorted items", function (): void {
         const { stream } = createDataStream([
           [1, { value: Math.PI, id: 1 }],
           [12, { value: 0, id: 12 }],
@@ -768,13 +770,13 @@ const testStreamAPI = function(
           [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
           [5, { value: 43, id: 5 }],
           [13, { value: Number.MIN_VALUE, id: 13 }],
-          [8, { value: 1, id: 8 }]
+          [8, { value: 1, id: 8 }],
         ]);
 
         expect([
           ...stream.sort(
             (a, b, idA, idB): number => a.value - b.value || +idA - +idB
-          )
+          ),
         ]).to.deep.equal([
           [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
           [4, { value: -12, id: 4 }],
@@ -789,7 +791,7 @@ const testStreamAPI = function(
           [7, { value: 20, id: 7 }],
           [5, { value: 43, id: 5 }],
           [9, { value: Number.MAX_SAFE_INTEGER, id: 9 }],
-          [14, { value: Number.MAX_VALUE, id: 14 }]
+          [14, { value: Number.MAX_VALUE, id: 14 }],
         ]);
       });
 
@@ -798,17 +800,17 @@ const testStreamAPI = function(
           [3, { id: 3, value: 3 }],
           [4, { id: 4, value: 4 }],
           [5, { id: 5, value: 5 }],
-          [6, { id: 6, value: 6 }]
+          [6, { id: 6, value: 6 }],
         ],
         updateArgs: [5, { id: 5, value: -5 }],
         streamCallback: (stream): any =>
-          stream.sort((a, b): number => a.value - b.value)
+          stream.sort((a, b): number => a.value - b.value),
       });
     });
   });
 
-  describe("Combinations", function(): void {
-    it("Filter → Map → Reduce", function(): void {
+  describe("Combinations", function (): void {
+    it("Filter → Map → Reduce", function (): void {
       const reduceStub = stub();
       reduceStub.withArgs(0, { id: 7 }, 7).returns(1);
       reduceStub.withArgs(1, { id: 10 }, 10).returns(2);
@@ -818,7 +820,7 @@ const testStreamAPI = function(
         [7, { id: 7 }],
         [13, { id: 13 }],
         [10, { id: 10 }],
-        [3, { id: 3 }]
+        [3, { id: 3 }],
       ]);
       const filteredSum = stream
         .filter((_, id): boolean => +id % 2 !== 0)
@@ -833,20 +835,20 @@ const testStreamAPI = function(
         [3, { id: 3, value: 3 }],
         [4, { id: 4, value: 4 }],
         [5, { id: 5, value: 5 }],
-        [6, { id: 6, value: 6 }]
+        [6, { id: 6, value: 6 }],
       ],
       updateArgs: [5, { id: 5, value: -5 }],
       valueCallback: (stream): any =>
         stream
           .filter((item): boolean => item.value > 2)
           .map((item): number => item.value)
-          .reduce((acc, val): number => acc + val, 0)
+          .reduce((acc, val): number => acc + val, 0),
     });
   });
 };
 
-describe("Stream API", function(): void {
-  describe("Data Stream", function(): void {
+describe("Stream API", function (): void {
+  describe("Data Stream", function (): void {
     testStreamAPI(
       <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
         const streamData = data.slice();
@@ -861,13 +863,13 @@ describe("Stream API", function(): void {
           },
           pop: (): void => {
             streamData.pop();
-          }
+          },
         };
       }
     );
   });
 
-  describe("Data Set", function(): void {
+  describe("Data Set", function (): void {
     testStreamAPI(
       <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
         const ds = new DataSet(data.map((pair): Item => pair[1]));
@@ -881,13 +883,13 @@ describe("Stream API", function(): void {
             if (id != null) {
               ds.remove(id);
             }
-          }
+          },
         };
       }
     );
   });
 
-  describe("Data View", function(): void {
+  describe("Data View", function (): void {
     testStreamAPI(
       <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
         const ids = new Set(data.map(([id]): Id => id));
@@ -901,13 +903,13 @@ describe("Stream API", function(): void {
 
           dsData.push({
             id,
-            dataSetOnly: "This should never appear in the data view."
+            dataSetOnly: "This should never appear in the data view.",
           } as any);
         }
 
         const ds = new DataSet(dsData);
         const dv = new DataView(ds, {
-          filter: (item): boolean => !(item as any).dataSetOnly
+          filter: (item): boolean => !(item as any).dataSetOnly,
         });
 
         return {
@@ -920,13 +922,13 @@ describe("Stream API", function(): void {
             if (id != null) {
               ds.remove(id);
             }
-          }
+          },
         };
       }
     );
   });
 
-  describe("Chained Data View", function(): void {
+  describe("Chained Data View", function (): void {
     testStreamAPI(
       <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
         const ids = new Set(data.map(([id]): Id => id));
@@ -940,7 +942,7 @@ describe("Stream API", function(): void {
 
           dsData.push({
             id,
-            dataSetOnly: "This should never appear in any data view."
+            dataSetOnly: "This should never appear in any data view.",
           } as any);
         }
         for (let i = 0; i < 6; ++i) {
@@ -950,16 +952,16 @@ describe("Stream API", function(): void {
 
           dsData.unshift({
             id,
-            dataView1Only: "This should never appear in the data view."
+            dataView1Only: "This should never appear in the data view.",
           } as any);
         }
 
         const ds = new DataSet(dsData);
         const dv1 = new DataView(ds, {
-          filter: (item): boolean => !(item as any).dataSetOnly
+          filter: (item): boolean => !(item as any).dataSetOnly,
         });
         const dv2 = new DataView(dv1, {
-          filter: (item): boolean => !(item as any).dataView1Only
+          filter: (item): boolean => !(item as any).dataView1Only,
         });
 
         return {
@@ -972,7 +974,7 @@ describe("Stream API", function(): void {
             if (id != null) {
               ds.remove(id);
             }
-          }
+          },
         };
       }
     );

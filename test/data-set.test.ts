@@ -15,14 +15,14 @@ interface Item2 {
   };
 }
 
-describe("Data Set", function(): void {
-  describe("Update Only", function(): void {
-    it("No id", function(): void {
+describe("Data Set", function (): void {
+  describe("Update Only", function (): void {
+    it("No id", function (): void {
       const ds = new DataSet<Item1, "whoami">(
         [
           { whoami: 7, foo: "7", bar: true },
           { whoami: 8, foo: "8", bar: false },
-          { whoami: 9, foo: "9", bar: true }
+          { whoami: 9, foo: "9", bar: true },
         ],
         { fieldId: "whoami" }
       );
@@ -38,26 +38,26 @@ describe("Data Set", function(): void {
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
         foo: "7",
-        bar: true
+        bar: true,
       });
       expect(ds.get(8), "Other items should be intact.").to.deep.equal({
         whoami: 8,
         foo: "8",
-        bar: false
+        bar: false,
       });
       expect(ds.get(9), "Other items should be intact.").to.deep.equal({
         whoami: 9,
         foo: "9",
-        bar: true
+        bar: true,
       });
     });
 
-    it("New id", function(): void {
+    it("New id", function (): void {
       const ds = new DataSet<Item1, "whoami">(
         [
           { whoami: 7, foo: "7", bar: true },
           { whoami: 8, foo: "8", bar: false },
-          { whoami: 9, foo: "9", bar: true }
+          { whoami: 9, foo: "9", bar: true },
         ],
         { fieldId: "whoami" }
       );
@@ -74,27 +74,27 @@ describe("Data Set", function(): void {
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
         foo: "7",
-        bar: true
+        bar: true,
       });
       expect(ds.get(8), "Other items should be intact.").to.deep.equal({
         whoami: 8,
         foo: "8",
-        bar: false
+        bar: false,
       });
       expect(ds.get(9), "Other items should be intact.").to.deep.equal({
         whoami: 9,
         foo: "9",
-        bar: true
+        bar: true,
       });
     });
 
-    it("Id only", function(): void {
+    it("Id only", function (): void {
       const originalItem8 = { whoami: 8, foo: "8", bar: false };
       const ds = new DataSet<Item1, "whoami">(
         [
           { whoami: 7, foo: "7", bar: true },
           originalItem8,
-          { whoami: 9, foo: "9", bar: true }
+          { whoami: 9, foo: "9", bar: true },
         ],
         { fieldId: "whoami" }
       );
@@ -108,7 +108,7 @@ describe("Data Set", function(): void {
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
         foo: "7",
-        bar: true
+        bar: true,
       });
       expect(
         ds.get(8),
@@ -116,12 +116,12 @@ describe("Data Set", function(): void {
       ).to.deep.equal({
         whoami: 8,
         foo: "8",
-        bar: false
+        bar: false,
       });
       expect(ds.get(9), "Other items should be intact.").to.deep.equal({
         whoami: 9,
         foo: "9",
-        bar: true
+        bar: true,
       });
       expect(
         ds.get(8),
@@ -129,13 +129,13 @@ describe("Data Set", function(): void {
       ).to.not.equal(originalItem8);
     });
 
-    it("Id and foo", function(): void {
+    it("Id and foo", function (): void {
       const originalItem8 = { whoami: 8, foo: "8", bar: false };
       const ds = new DataSet<Item1, "whoami">(
         [
           { whoami: 7, foo: "7", bar: true },
           originalItem8,
-          { whoami: 9, foo: "9", bar: true }
+          { whoami: 9, foo: "9", bar: true },
         ],
         { fieldId: "whoami" }
       );
@@ -149,17 +149,17 @@ describe("Data Set", function(): void {
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
         foo: "7",
-        bar: true
+        bar: true,
       });
       expect(ds.get(8), "Only the foo prop should be updated.").to.deep.equal({
         whoami: 8,
         foo: "#8",
-        bar: false
+        bar: false,
       });
       expect(ds.get(9), "Other items should be intact.").to.deep.equal({
         whoami: 9,
         foo: "9",
-        bar: true
+        bar: true,
       });
       expect(
         ds.get(8),
@@ -167,13 +167,13 @@ describe("Data Set", function(): void {
       ).to.not.equal(originalItem8);
     });
 
-    it("Id and nested props", function(): void {
+    it("Id and nested props", function (): void {
       const originalItem8 = { whoami: 8, payload: { foo: "8", bar: false } };
       const ds = new DataSet<Item2, "whoami">(
         [
           { whoami: 7, payload: { foo: "7", bar: true } },
           originalItem8,
-          { whoami: 9, payload: { foo: "9", bar: true } }
+          { whoami: 9, payload: { foo: "9", bar: true } },
         ],
         { fieldId: "whoami" }
       );
@@ -188,22 +188,22 @@ describe("Data Set", function(): void {
         whoami: 7,
         payload: {
           foo: "7",
-          bar: true
-        }
+          bar: true,
+        },
       });
       expect(ds.get(8), "Only the foo prop should be updated.").to.deep.equal({
         whoami: 8,
         payload: {
           foo: "#8",
-          bar: false
-        }
+          bar: false,
+        },
       });
       expect(ds.get(9), "Other items should be intact.").to.deep.equal({
         whoami: 9,
         payload: {
           foo: "9",
-          bar: true
-        }
+          bar: true,
+        },
       });
       expect(
         ds.get(8),
@@ -212,11 +212,11 @@ describe("Data Set", function(): void {
     });
   });
 
-  it("Add, clear and readd", function(): void {
+  it("Add, clear and readd", function (): void {
     const generateItems = (): Item2[] => [
       { whoami: 7, payload: { foo: "7", bar: true } },
       { whoami: 8, payload: { foo: "8", bar: false } },
-      { whoami: 9, payload: { foo: "9", bar: true } }
+      { whoami: 9, payload: { foo: "9", bar: true } },
     ];
 
     const ds = new DataSet<Item2, "whoami">({ fieldId: "whoami" });

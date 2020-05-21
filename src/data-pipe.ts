@@ -100,7 +100,7 @@ class SimpleDataPipe<
   private readonly _listeners: EventCallbacks<SI, SP> = {
     add: this._add.bind(this),
     remove: this._remove.bind(this),
-    update: this._update.bind(this)
+    update: this._update.bind(this),
   };
 
   /**

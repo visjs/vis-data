@@ -14,7 +14,7 @@ import {
   PartItem,
   RemoveEventPayload,
   UpdateEventPayload,
-  isId
+  isId,
 } from "./data-interface";
 
 import { DataSet } from "./data-set";
@@ -169,7 +169,7 @@ export class DataView<
    */
   public refresh(): void {
     const ids = this._data.getIds({
-      filter: this._options.filter
+      filter: this._options.filter,
     });
     const oldIds = [...this._ids];
     const newIds: Record<Id, boolean> = {};
@@ -340,7 +340,7 @@ export class DataView<
 
       return this._data.getIds({
         filter: filter,
-        order: options && options.order
+        order: options && options.order,
       });
     } else {
       return [];
@@ -359,7 +359,7 @@ export class DataView<
 
       if (optionsFilter) {
         if (defaultFilter) {
-          filter = function(item: Item): boolean {
+          filter = function (item: Item): boolean {
             return defaultFilter(item) && optionsFilter(item);
           };
         } else {
@@ -371,7 +371,7 @@ export class DataView<
 
       this._data.forEach(callback, {
         filter: filter,
-        order: options && options.order
+        order: options && options.order,
       });
     }
   }
@@ -402,7 +402,7 @@ export class DataView<
 
       return this._data.map(callback, {
         filter: filter,
-        order: options && options.order
+        order: options && options.order,
       });
     } else {
       return [];
@@ -418,7 +418,7 @@ export class DataView<
   public stream(ids?: Iterable<Id>): DataStream<Item> {
     return this._data.stream(
       ids || {
-        [Symbol.iterator]: this._ids.keys.bind(this._ids)
+        [Symbol.iterator]: this._ids.keys.bind(this._ids),
       }
     );
   }
@@ -445,7 +445,7 @@ export class DataView<
         throw new Error(message);
       },
 
-      configurable: false
+      configurable: false,
     });
   }
 

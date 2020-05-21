@@ -119,8 +119,8 @@ export class Queue<T = never> {
     const methods: QueueExtended<O>["methods"] = [
       {
         name: "flush",
-        original: undefined
-      }
+        original: undefined,
+      },
     ];
 
     if (options && options.replace) {
@@ -129,7 +129,7 @@ export class Queue<T = never> {
         methods.push({
           name: name,
           // @TODO: better solution?
-          original: ((object as unknown) as Record<K, () => void>)[name]
+          original: ((object as unknown) as Record<K, () => void>)[name],
         });
         // @TODO: better solution?
         queue.replace((object as unknown) as Record<K, () => void>, name);
@@ -138,7 +138,7 @@ export class Queue<T = never> {
 
     queue._extended = {
       object: object,
-      methods: methods
+      methods: methods,
     };
 
     return queue;
@@ -184,12 +184,12 @@ export class Queue<T = never> {
       throw new Error("Method " + method + " undefined");
     }
 
-    object[method] = function(...args: unknown[]): void {
+    object[method] = function (...args: unknown[]): void {
       // add this call to the queue
       me.queue({
         args: args,
         fn: original,
-        context: this
+        context: this,
       });
     };
   }

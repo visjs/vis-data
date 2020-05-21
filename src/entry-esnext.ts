@@ -11,7 +11,7 @@ export {
   EventName,
   EventNameWithAny,
   TypeMap,
-  Types
+  Types,
 } from "./data-interface";
 
 export * from "./data-pipe";
