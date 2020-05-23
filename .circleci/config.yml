@@ -49,7 +49,11 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - 'declarations'
             - 'dist'
+            - 'esnext'
+            - 'peer'
+            - 'standalone'
 
   lint:
     executor: node
@@ -117,6 +121,7 @@ workflows:
       - test:
           requires:
             - prepare
+            - build
 
       - release:
           requires:
