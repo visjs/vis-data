@@ -123,7 +123,7 @@
     "typescript": "3.9.5",
     "uuid": "8.1.0",
     "vis-dev-utils": "2.3.2",
-    "vis-util": "4.0.2"
+    "vis-util": "4.1.0"
   },
   "collective": {
     "type": "opencollective",
