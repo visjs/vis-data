@@ -1,3 +1,4 @@
+import { Assignable } from "vis-util/esnext";
 import { DataSet } from "./data-set";
 import { DataStream } from "./data-stream";
 
@@ -77,7 +78,7 @@ export type FullItem<
 export type UpdateItem<
   Item extends PartItem<IdProp>,
   IdProp extends string
-> = DeepPartial<Item> & Record<IdProp, Id>;
+> = Assignable<FullItem<Item, IdProp>> & Record<IdProp, Id>;
 
 /**
  * Test whether an item has an id (is a [[FullItem]]).

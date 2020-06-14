@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { DataSet } from "../src";
+import { DELETE, DataSet } from "../src";
 
 interface Item1 {
   whoami: number;
@@ -12,6 +12,14 @@ interface Item2 {
   payload: {
     foo: string;
     bar: boolean;
+  };
+}
+interface Item3 {
+  whoami: number;
+  payload?: {
+    p1?: string;
+    p2?: number;
+    p3?: boolean;
   };
 }
 
@@ -209,6 +217,33 @@ describe("Data Set", function (): void {
         ds.get(8),
         "Update should not modify the item in place (a new object should be created)."
       ).to.not.equal(originalItem8);
+    });
+
+    it("Delete props through updateOnly", function (): void {
+      const ds = new DataSet<Item3, "whoami">(
+        [{ whoami: 7, payload: { p1: "7", p2: 7, p3: true } }],
+        { fieldId: "whoami" }
+      );
+
+      ds.updateOnly({ whoami: 7, payload: { p1: DELETE } });
+      expect(ds.get(7), "DELETE should delete properties").to.deep.equal({
+        whoami: 7,
+        payload: {
+          p2: 7,
+          p3: true,
+        },
+      });
+
+      ds.updateOnly({ whoami: 7, payload: { p2: DELETE, p3: DELETE } });
+      expect(ds.get(7), "DELETE should delete properties").to.deep.equal({
+        whoami: 7,
+        payload: {},
+      });
+
+      ds.updateOnly({ whoami: 7, payload: DELETE });
+      expect(ds.get(7), "DELETE should delete properties").to.deep.equal({
+        whoami: 7,
+      });
     });
   });
 
