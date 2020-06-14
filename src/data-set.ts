@@ -2,7 +2,7 @@
 
 import { v4 as uuid4 } from "uuid";
 import { convert } from "./convert";
-import { deepExtend } from "vis-util/esnext";
+import { pureDeepObjectAssign } from "vis-util/esnext";
 
 import {
   DataInterface,
@@ -447,7 +447,7 @@ export class DataSet<
         updatedData: FullItem<Item, IdProp>;
       } => {
         const id = oldData[this._idProp];
-        const updatedData = deepExtend(deepExtend({}, oldData), update);
+        const updatedData = pureDeepObjectAssign(oldData, update);
 
         this._data.set(id, updatedData);
 
