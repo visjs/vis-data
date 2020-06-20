@@ -128,7 +128,7 @@ data.on('*', function (event, properties, senderId) {
 });
 
 // update an existing item
-data.update({id: 2, group: 1});
+data.updateOnly({id: 2, group: 1});
 
 // remove an item
 data.remove(4);
@@ -173,7 +173,7 @@ var data = new vis.DataSet([data] [, options])
 
   <p>
     After construction, data can be added to the DataSet using the methods
-    <code>add</code> and <code>update</code>, as described in section
+    <code>add</code> and <code>updateOnly</code>, as described in section
     <a href="#Data_Manipulation">Data Manipulation</a>.
   </p>
 
@@ -213,6 +213,8 @@ var data = new vis.DataSet([data] [, options])
       <td>Object.&lt;String,&nbsp;String&gt;</td>
       <td>none</td>
       <td>
+        <strong>Deprecated</strong>: will be removed in the future.
+        <br />
         An object containing field names as key, and data types as
         value. By default, the type of the properties of items are left
         unchanged. Item properties can be normalized by specifying a
@@ -263,13 +265,13 @@ var data = new vis.DataSet([data] [, options])
 
     <tr>
       <td>add(data [, senderId])</td>
-      <td>Number[]</td>
+      <td>Id[]</td>
       <td>Add one or multiple items to the DataSet. <code>data</code> can be a single item or an array with items. Adding an item will fail when there already is an item with the same id. The function returns an array with the ids of the added items. See section <a href="#Data_Manipulation">Data Manipulation</a>.</td>
     </tr>
 
     <tr>
       <td>clear([senderId])</td>
-      <td>Number[]</td>
+      <td>Id[]</td>
       <td>Clear all data from the DataSet. The function returns an array with the ids of the removed items.</td>
     </tr>
 
@@ -322,7 +324,7 @@ var data = new vis.DataSet([data] [, options])
       <td>
         getIds([options])
       </td>
-      <td>Number[]</td>
+      <td>Id[]</td>
       <td>
         Get ids of all items or of a filtered set of items.
         Available <code>options</code> are described in section <a href="#Data_Selection">Data Selection</a>, except that options <code>fields</code> and <code>type</code> are not applicable in case of <code>getIds</code>.
@@ -375,7 +377,7 @@ var data = new vis.DataSet([data] [, options])
         remove(id [, senderId])<br>
         remove(ids [, senderId])
       </td>
-      <td>Number[]</td>
+      <td>Id[]</td>
       <td>
         Remove one or multiple items by id or by the items themselves. Returns an array with the ids of the removed items. See section <a href="#Data_Manipulation">Data Manipulation</a>.
       </td>
@@ -420,9 +422,22 @@ var data = new vis.DataSet([data] [, options])
       <td>
         update(data [, senderId])
       </td>
-      <td>Number[]</td>
+      <td>Id[]</td>
       <td>
         Update one or multiple existing items. <code>data</code> can be a single item or an array with items. When an item doesn't exist, it will be created. Returns an array with the ids of the removed items. See section <a href="#Data_Manipulation">Data Manipulation</a>.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        updateOnly(data [, senderId])
+      </td>
+      <td>Id[]</td>
+      <td>
+        Update one or multiple existing items. <code>data</code> can be a single
+        item or an array of items. When an item doesn't exist, an exception is
+        thrown. Returns an array with the ids of the updated items. See section
+        <a href="#Data_Manipulation">Data Manipulation</a>.
       </td>
     </tr>
 
@@ -465,10 +480,26 @@ data.on('*', function (event, properties, senderId) {
   console.log('event:', event, 'properties:', properties, 'senderId:', senderId);
 });
 
-// add an item
-data.add({id: 1, text: 'item 1'});              // triggers an 'add' event
-data.update({id: 1, text: 'item 1 (updated)'}); // triggers an 'update' event
-data.remove(1);                                 // triggers an 'remove' event
+// triggers an 'add' event
+data.add({ id: 1, text: "item 1 (new)" });
+
+// triggers an 'update' event
+data.updateOnly({ id: 1, text: "item 1 (updated)" });
+
+// triggers an 'update' event
+data.update({ id: 1, text: "item 1 (updated again)" });
+
+// triggers an 'add' event
+data.update({ id: 2, text: "item 2 (new)" });
+
+// triggers 'add' and 'update' events
+data.update(
+  { id: 1, text: "item 1 (updated once more)" },
+  { id: 3, text: "item 3 (new)" }
+);
+
+// triggers an 'remove' event
+data.remove(1);
 </pre>
 
 
@@ -613,6 +644,7 @@ function (event, properties, senderId) {
   <p>
     The data in a DataSet can be manipulated using the methods
     <a href="#Add"><code>add</code></a>,
+    <a href="#Update"><code>updateOnly</code></a>,
     <a href="#Update"><code>update</code></a>,
     and <a href="#Remove"><code>remove</code></a>.
     The DataSet can be emptied using the method
@@ -631,7 +663,7 @@ data.add([
 ]);
 
 // update an item
-data.update({id: 2, text: 'item 2 (updated)'});
+data.updateOnly({id: 2, text: 'item 2 (updated)'});
 
 // remove an item
 data.remove(3);
@@ -669,10 +701,44 @@ data.remove(3);
     as any of the added items already exists.
   </p>
 
-  <h3 id="Update">Update</h3>
+  <h3 id="UpdateOnly">UpdateOnly</h3>
 
   <p>
     Update a data item or an array with items.
+  </p>
+
+  Syntax:
+  <pre class="prettyprint lang-js">var updatedIds = DataSet.updateOnly(data [, senderId])</pre>
+
+  The argument <code>data</code> can contain:
+  <ul>
+    <li>
+      An <code>Object</code> containing a single item to be updated. The item
+      must contain an id.
+    </li>
+    <li>
+      An <code>Array</code> containing a list with items to be updated. Each
+      item must contain an id.
+    </li>
+  </ul>
+
+  <p>
+    The provided properties will be deeply merged in the existing item. When an
+    item does not exist, an exception will be thrown. It is also posible to
+    delete properties by assigning them the <code>DELETE</code> symbol.
+  </p>
+
+  <p>
+    After the items are updated, the DataSet will trigger <code>update</code>
+    event. When a <code>senderId</code> is provided, this id will be passed with
+    the triggered event to all subscribers.
+  </p>
+
+  <h3 id="Update">Update (or add)</h3>
+
+  <p>
+    Update a data item or an array with items, creating items that don't exist
+    yet.
   </p>
 
   Syntax:
@@ -690,8 +756,9 @@ data.remove(3);
   </ul>
 
   <p>
-    The provided properties will be merged in the existing item.
-    When an item does not exist, it will be created.
+    The provided properties will be shallowly merged in the existing item. It's
+    not possible to remove properties through this method. When an item does not
+    exist, it will be created.
   </p>
 
   <p>
@@ -700,6 +767,11 @@ data.remove(3);
     an event <code>update</code>. When a <code>senderId</code>
     is provided, this id will be passed with the triggered
     event to all subscribers.
+  </p>
+
+  <p>
+    Warning for TypeScript users: This is a hole in type checking as it can add
+    partial items into the DataSet.
   </p>
 
   <h3 id="Remove">Remove</h3>
@@ -993,6 +1065,17 @@ var positiveBalance = dataset.get({
       <td>
         <code>"/Date(1372370400000)/"</code><br>
         <code>"/Date(1198908717056-0700)/"</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Id</td>
+      <td>
+        Id type of items, JavaScript Number or String
+      </td>
+      <td>
+        <code>7</code><br>
+        <code>"7"</code><br>
+        <code>"I'm an id!"</code>
       </td>
     </tr>
   </table>
