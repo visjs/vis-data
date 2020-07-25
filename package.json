@@ -122,7 +122,7 @@
     "typedoc": "0.17.8",
     "typescript": "3.9.7",
     "uuid": "8.2.0",
-    "vis-dev-utils": "2.3.5",
+    "vis-dev-utils": "2.3.6",
     "vis-util": "4.3.3"
   },
   "collective": {
