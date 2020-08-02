@@ -10,8 +10,6 @@ export {
   EventCallbacksWithAny,
   EventName,
   EventNameWithAny,
-  TypeMap,
-  Types,
 } from "./data-interface";
 
 export * from "./data-pipe";

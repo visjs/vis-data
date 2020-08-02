@@ -67,7 +67,6 @@
     }
   },
   "peerDependencies": {
-    "moment": "^2.24.0",
     "vis-util": "^4.0.0",
     "uuid": "^7.0.0 || ^8.0.0"
   },
@@ -101,7 +100,6 @@
     "husky": "4.2.5",
     "lint-staged": "10.2.11",
     "mocha": "8.1.0",
-    "moment": "2.27.0",
     "nyc": "15.1.0",
     "opencollective": "1.0.3",
     "postcss-assets": "5.0.0",
