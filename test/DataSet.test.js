@@ -1,9 +1,6 @@
 var assert = require('assert');
 
 var DataSet = require('../src').DataSet;
-var Queue = require('../src').Queue;
-
-// TODO: test the source code immediately, but this is ES6
 
 var now = new Date();
 
@@ -11,18 +8,12 @@ describe('DataSet', function () {
   it('should work', function () {
     // TODO: improve DataSet tests, split up in one test per function
 
-    var data = new DataSet({
-      type: {
-        start: 'Date',
-        end: 'Date'
-      }
-    });
+    var data = new DataSet();
 
     // add single items with different date types
     data.add({id: 1, content: 'Item 1', start: new Date(now.valueOf())});
     data.add({id: 2, content: 'Item 2', start: now.toISOString()});
     data.add([
-      //{id: 3, content: 'Item 3', start: moment(now)}, // TODO: moment fails, not the same instance
       {id: 3, content: 'Item 3', start: now},
       {id: 4, content: 'Item 4', start: '/Date(' + now.valueOf() + ')/'}
     ]);
@@ -30,8 +21,17 @@ describe('DataSet', function () {
     var items = data.get();
     assert.equal(data.length, 4);
     assert.equal(items.length, 4);
-    items.forEach(function (item) {
-      assert.ok(item.start instanceof Date);
+    items.forEach(function (item, i) {
+      switch (i) {
+        case 0:
+        case 2:
+          assert.ok(item.start instanceof Date);
+          break
+        case 1:
+        case 3:
+          assert.ok(typeof item.start === "string");
+          break
+      }
     });
 
     // get filtered fields only
@@ -52,22 +52,20 @@ describe('DataSet', function () {
     // convert dates
     assert.deepEqual(data.get({
       fields: ['id', 'start'],
-      type: {start: 'Number'}
     }).sort(sort), [
-      {id: 1, start: now.valueOf()},
-      {id: 2, start: now.valueOf()},
-      {id: 3, start: now.valueOf()},
-      {id: 4, start: now.valueOf()}
+      {id: 1, start: now},
+      {id: 2, start: now.toISOString()},
+      {id: 3, start: now},
+      {id: 4, start: `/Date(${now.valueOf()})/`}
     ]);
 
 
     // get a single item
     assert.deepEqual(data.get(1, {
       fields: ['id', 'start'],
-      type: {start: 'ISODate'}
     }), {
       id: 1,
-      start: now.toISOString()
+      start: now
     });
 
     // remove an item
@@ -105,9 +103,9 @@ describe('DataSet', function () {
     assert.deepEqual(data.get().sort(sort), [
       {id: 1, content: 'Item 1', start: now},
       {id: 3, other: 'bla'},
-      {id: 4, content: 'Item 4', start: now},
-      {id: 5, content: 'changed!', start: now},
-      {id: 6, content: 'created!', start: now}
+      {id: 4, content: 'Item 4', start:  `/Date(${now.valueOf()})/`},
+      {id: 5, content: 'changed!', start: +now},
+      {id: 6, content: 'created!', start: +now}
     ]);
     assert.equal(data.length, 5);
 

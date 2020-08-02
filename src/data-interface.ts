@@ -4,31 +4,6 @@ import { DataStream } from "./data-stream";
 
 type ValueOf<T> = T[keyof T];
 
-/**
- * Available types for enforcing property types.
- *
- * | Name    | Description                             | Examples                                                  |
- * |---------|-----------------------------------------|-----------------------------------------------------------|
- * | Boolean | A JavaScript Boolean                    | `true`, `false`                                           |
- * | Number  | A JavaScript Number                     | `32`, `2.4`                                               |
- * | String  | A JavaScript String                     | `"hello world"`, `"2013-06-28"`                           |
- * | Date    | A JavaScript Date object                | `new Date()`, `new Date(2013, 5, 28)`, `new Date(13723    |
- * | Moment  | A Moment object, created with moment.js | `moment()`, `moment('2013-06-28')`                        |
- * | ISODate | A string containing an ISO Date         | `new Date().toISOString()`, `"2013-06-27T22:00:00.000Z"`  |
- * | ASPDate | A string containing an ASP Date         | `"/Date(1372370400000)/"`, `"/Date(1198908717056-0700)/"` |
- */
-export type Types =
-  | "boolean"
-  | "Boolean"
-  | "number"
-  | "Number"
-  | "string"
-  | "String"
-  | "Date"
-  | "ISODate"
-  | "ASPDate"
-  | "Moment";
-
 /** Valid id type. */
 export type Id = number | string;
 /** Nullable id type. */
@@ -205,8 +180,6 @@ export type EventName = keyof EventPayloads<never, "">;
 /** Available event names and '*' to listen for all. */
 export type EventNameWithAny = keyof EventPayloadsWithAny<never, "">;
 
-/** Maps property name to their types. */
-export type TypeMap = Record<string, Types>;
 /**
  * Data interface order parameter.
  * - A string value determines which property will be used for sorting (using < and > operators for numeric comparison).
@@ -235,13 +208,6 @@ export interface DataInterfaceGetOptionsBase<Item> {
   filter?: (item: Item) => boolean;
   /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>;
-  /**
-   * An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa.
-   *
-   * @remarks
-   * **Warning**: There is no TypeScript support for this.
-   */
-  type?: TypeMap;
 }
 
 /**
@@ -291,8 +257,6 @@ export interface DataInterfaceGetIdsOptions<Item> {
   filter?: (item: Item) => boolean;
   /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>;
-  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
-  type?: TypeMap;
 }
 
 /**
@@ -307,8 +271,6 @@ export interface DataInterfaceForEachOptions<Item> {
   filter?: (item: Item) => boolean;
   /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Item>;
-  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
-  type?: TypeMap;
 }
 
 /**
@@ -324,8 +286,6 @@ export interface DataInterfaceMapOptions<Original, Mapped> {
   filter?: (item: Original) => boolean;
   /** Order the items by a field name or custom sort function. */
   order?: DataInterfaceOrder<Mapped>;
-  /** An object containing field names as key, and data types as value. By default, the type of the properties of an item are left unchanged. When a field type is specified, this field in the items will be converted to the specified type. This can be used for example to convert ISO strings containing a date to a JavaScript Date object, or convert strings to numbers or vice versa. */
-  type?: TypeMap;
 }
 
 /**

@@ -4,8 +4,6 @@ exports['Package Exported files 1'] = {
     "        LICENSE-APACHE-2.0",
     "        LICENSE-MIT",
     "        README.md",
-    "        declarations/convert.d.ts",
-    "        declarations/convert.d.ts.map",
     "        declarations/data-interface.d.ts",
     "        declarations/data-interface.d.ts.map",
     "        declarations/data-pipe.d.ts",

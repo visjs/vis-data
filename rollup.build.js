@@ -5,7 +5,6 @@ export default generateRollupConfiguration({
   globals: {
     uuid: "uuidv4",
     "vis-util": "vis",
-    moment: "moment",
   },
   header: { name: "vis-data" },
   libraryFilename: "vis-data",

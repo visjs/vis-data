@@ -2,7 +2,13 @@ import { expect } from "chai";
 import { DataSet } from "../src/data-set";
 import { createNewDataPipeFrom } from "../src/data-pipe";
 
-import moment from "moment";
+// Mock of Moment.js.
+const moment = (v) => {
+  return {
+    toDate: () => new Date(v),
+  };
+};
+moment.isMoment = () => false;
 
 describe("Convert replacement from the docs", function() {
   it("convert", function() {

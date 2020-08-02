@@ -1,7 +1,6 @@
 /* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
 
 import { v4 as uuid4 } from "uuid";
-import { convert } from "./convert";
 import { pureDeepObjectAssign } from "vis-util/esnext";
 
 import {
@@ -19,7 +18,6 @@ import {
   Id,
   OptId,
   PartItem,
-  TypeMap,
   UpdateItem,
   isId,
 } from "./data-interface";
@@ -27,14 +25,6 @@ import {
 import { Queue, QueueOptions } from "./queue";
 import { DataSetPart } from "./data-set-part";
 import { DataStream } from "./data-stream";
-
-const warnTypeCorectionDeprecation = (): void => {
-  console.warn(
-    "Type coercion has been deprecated. " +
-      "Please, use data pipes instead. " +
-      "See https://visjs.github.io/vis-data/data/datapipe.html#TypeCoercion for more details with working migration example."
-  );
-};
 
 /**
  * Initial DataSet configuration object.
@@ -46,15 +36,6 @@ export interface DataSetInitialOptions<IdProp extends string> {
    * The name of the field containing the id of the items. When data is fetched from a server which uses some specific field to identify items, this field name can be specified in the DataSet using the option `fieldId`. For example [CouchDB](http://couchdb.apache.org/) uses the field `'_id'` to identify documents.
    */
   fieldId?: IdProp;
-  /**
-   * An object containing field names as key, and data types as value. By default, the type of the properties of items are left unchanged. Item properties can be normalized by specifying a field type. This is useful for example to automatically convert stringified dates coming from a server into JavaScript Date objects. The available data types are listed in [[TypeMap]].
-   *
-   * @remarks
-   * **Warning**: There is no TypeScript support for this.
-   *
-   * @deprecated
-   */
-  type?: TypeMap;
   /**
    * Queue data changes ('add', 'update', 'remove') and flush them at once. The queue can be flushed manually by calling `DataSet.flush()`, or can be flushed after a configured delay or maximum number of entries.
    *
@@ -74,9 +55,40 @@ export interface DataSetOptions {
 }
 
 /**
+ * Add an id to given item if it doesn't have one already.
+ *
+ * @remarks
+ * The item will be modified.
+ *
+ * @param item - The item that will have an id after a call to this function.
+ * @param idProp - The key of the id property.
+ *
+ * @typeParam Item - Item type that may or may not have an id.
+ * @typeParam IdProp - Name of the property that contains the id.
+ *
+ * @returns true
+ */
+function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
+  item: Item,
+  idProp: IdProp
+): FullItem<Item, IdProp> {
+  if (item[idProp] == null) {
+    // generate an id
+    item[idProp] = uuid4() as any;
+  }
+
+  return item as FullItem<Item, IdProp>;
+}
+
+/**
  * # DataSet
  *
- * Vis.js comes with a flexible DataSet, which can be used to hold and manipulate unstructured data and listen for changes in the data. The DataSet is key/value based. Data items can be added, updated and removed from the DataSet, and one can subscribe to changes in the DataSet. The data in the DataSet can be filtered and ordered, and fields (like dates) can be converted to a specific type. Data can be normalized when appending it to the DataSet as well.
+ * Vis.js comes with a flexible DataSet, which can be used to hold and
+ * manipulate unstructured data and listen for changes in the data. The DataSet
+ * is key/value based. Data items can be added, updated and removed from the
+ * DataSet, and one can subscribe to changes in the DataSet. The data in the
+ * DataSet can be filtered and ordered. Data can be normalized when appending it
+ * to the DataSet as well.
  *
  * ## Example
  *
@@ -139,7 +151,6 @@ export class DataSet<
   private readonly _options: DataSetInitialOptions<IdProp>;
   private readonly _data: Map<Id, FullItem<Item, IdProp>>;
   private readonly _idProp: IdProp;
-  private readonly _type: TypeMap;
   private _queue?: Queue<this>;
 
   /**
@@ -173,24 +184,6 @@ export class DataSet<
     this._data = new Map(); // map with data indexed by id
     this.length = 0; // number of items in the DataSet
     this._idProp = this._options.fieldId || ("id" as IdProp); // name of the field containing id
-    this._type = {}; // internal field types (NOTE: this can differ from this._options.type)
-
-    // all variants of a Date are internally stored as Date, so we can convert
-    // from everything to everything (also from ISODate to Number for example)
-    if (this._options.type) {
-      warnTypeCorectionDeprecation();
-
-      const fields = Object.keys(this._options.type);
-      for (let i = 0, len = fields.length; i < len; i++) {
-        const field = fields[i];
-        const value = this._options.type[field];
-        if (value == "Date" || value == "ISODate" || value == "ASPDate") {
-          this._type[field] = "Date";
-        } else {
-          this._type[field] = value;
-        }
-      }
-    }
 
     // add initial data when provided
     if (data && data.length) {
@@ -585,24 +578,23 @@ export class DataSet<
     // }
 
     // build options
-    const type = (options && options.type) || this._options.type;
     const filter = options && options.filter;
     const items: FullItem<Item, IdProp>[] = [];
-    let item: null | FullItem<Item, IdProp> = null;
-    let itemIds: null | Id[] = null;
-    let itemId: null | Id = null;
+    let item: undefined | FullItem<Item, IdProp> = undefined;
+    let itemIds: undefined | Id[] = undefined;
+    let itemId: undefined | Id = undefined;
 
     // convert items
     if (id != null) {
       // return a single item
-      item = this._getItem(id, type);
+      item = this._data.get(id);
       if (item && filter && !filter(item)) {
-        item = null;
+        item = undefined;
       }
     } else if (ids != null) {
       // return a subset of items
       for (let i = 0, len = ids.length; i < len; i++) {
-        item = this._getItem(ids[i], type);
+        item = this._data.get(ids[i]);
         if (item != null && (!filter || filter(item))) {
           items.push(item);
         }
@@ -612,7 +604,7 @@ export class DataSet<
       itemIds = [...this._data.keys()];
       for (let i = 0, len = itemIds.length; i < len; i++) {
         itemId = itemIds[i];
-        item = this._getItem(itemId, type);
+        item = this._data.get(itemId);
         if (item != null && (!filter || filter(item))) {
           items.push(item);
         }
@@ -653,7 +645,7 @@ export class DataSet<
     } else {
       if (id != null) {
         // a single item
-        return item;
+        return item ?? null;
       } else {
         // just return our array
         return items;
@@ -666,21 +658,18 @@ export class DataSet<
     const data = this._data;
     const filter = options && options.filter;
     const order = options && options.order;
-    const type = (options && options.type) || this._options.type;
     const itemIds = [...data.keys()];
     const ids: Id[] = [];
-    let item: FullItem<Item, IdProp>;
-    let items: FullItem<Item, IdProp>[];
 
     if (filter) {
       // get filtered items
       if (order) {
         // create ordered list
-        items = [];
+        const items = [];
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i];
-          item = this._getItem(id, type);
-          if (filter(item)) {
+          const item = this._data.get(id);
+          if (item != null && filter(item)) {
             items.push(item);
           }
         }
@@ -694,8 +683,8 @@ export class DataSet<
         // create unordered list
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i];
-          item = this._getItem(id, type);
-          if (filter(item)) {
+          const item = this._data.get(id);
+          if (item != null && filter(item)) {
             ids.push(item[this._idProp]);
           }
         }
@@ -704,7 +693,7 @@ export class DataSet<
       // get all items
       if (order) {
         // create an ordered list
-        items = [];
+        const items = [];
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i];
           items.push(data.get(id)!);
@@ -719,8 +708,10 @@ export class DataSet<
         // create unordered list
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i];
-          item = data.get(id)!;
-          ids.push(item[this._idProp]);
+          const item = data.get(id);
+          if (item != null) {
+            ids.push(item[this._idProp]);
+          }
         }
       }
     }
@@ -739,7 +730,6 @@ export class DataSet<
     options?: DataInterfaceForEachOptions<Item>
   ): void {
     const filter = options && options.filter;
-    const type = (options && options.type) || this._options.type;
     const data = this._data;
     const itemIds = [...data.keys()];
 
@@ -756,8 +746,8 @@ export class DataSet<
       // unordered
       for (let i = 0, len = itemIds.length; i < len; i++) {
         const id = itemIds[i];
-        const item = this._getItem(id, type);
-        if (!filter || filter(item)) {
+        const item = this._data.get(id);
+        if (item != null && (!filter || filter(item))) {
           callback(item, id);
         }
       }
@@ -770,7 +760,6 @@ export class DataSet<
     options?: DataInterfaceMapOptions<Item, T>
   ): T[] {
     const filter = options && options.filter;
-    const type = (options && options.type) || this._options.type;
     const mappedItems: T[] = [];
     const data = this._data;
     const itemIds = [...data.keys()];
@@ -778,8 +767,8 @@ export class DataSet<
     // convert and filter items
     for (let i = 0, len = itemIds.length; i < len; i++) {
       const id = itemIds[i];
-      const item = this._getItem(id, type);
-      if (!filter || filter(item)) {
+      const item = this._data.get(id);
+      if (item != null && (!filter || filter(item))) {
         mappedItems.push(callback(item, id));
       }
     }
@@ -1036,7 +1025,6 @@ export class DataSet<
     const data = this._data;
     const itemIds = [...data.keys()];
     const values: unknown[] = [];
-    const fieldType = (this._options.type && this._options.type[prop]) || null;
     let count = 0;
 
     for (let i = 0, len = itemIds.length; i < len; i++) {
@@ -1056,12 +1044,6 @@ export class DataSet<
       }
     }
 
-    if (fieldType) {
-      for (let i = 0, len = values.length; i < len; i++) {
-        values[i] = convert(values[i], fieldType);
-      }
-    }
-
     return values;
   }
 
@@ -1073,108 +1055,47 @@ export class DataSet<
    * @returns Added item's id. An id is generated when it is not present in the item.
    */
   private _addItem(item: Item): Id {
-    let id: OptId = item[this._idProp];
+    const fullItem = ensureFullItem(item, this._idProp);
+    const id = fullItem[this._idProp];
 
-    if (id != null) {
-      // check whether this id is already taken
-      if (this._data.has(id)) {
-        // item already exists
-        throw new Error(
-          "Cannot add item: item with id " + id + " already exists"
-        );
-      }
-    } else {
-      // generate an id
-      id = uuid4();
-      item[this._idProp] = id as any;
+    // check whether this id is already taken
+    if (this._data.has(id)) {
+      // item already exists
+      throw new Error(
+        "Cannot add item: item with id " + id + " already exists"
+      );
     }
 
-    const d: any = {};
-    const fields = Object.keys(item);
-    for (let i = 0, len = fields.length; i < len; i++) {
-      const field = fields[i];
-      const fieldType = this._type[field]; // type may be undefined
-      d[field] = convert((item as any)[field], fieldType);
-    }
-    this._data.set(id, d);
+    this._data.set(id, fullItem);
     ++this.length;
 
     return id;
-  }
-
-  private _getItem(id: Id): FullItem<Item, IdProp> | null;
-  private _getItem(id: Id, types?: TypeMap): any;
-  /**
-   * Get an item. Fields can be converted to a specific type
-   *
-   * @param id - Id of the requested item.
-   * @param types - Property name to type name object map of type converstions.
-   *
-   * @returns The item, optionally after type conversion.
-   */
-  private _getItem(id: Id, types?: TypeMap): any {
-    // @TODO: I have no idea how to type this.
-    // get the item from the dataset
-    const raw = this._data.get(id);
-    if (!raw) {
-      return null;
-    }
-
-    // convert the items field types
-    let converted: any;
-    const fields = Object.keys(raw);
-
-    if (types) {
-      warnTypeCorectionDeprecation();
-
-      converted = {};
-      for (let i = 0, len = fields.length; i < len; i++) {
-        const field = fields[i];
-        const value = (raw as any)[field];
-        converted[field] = convert(value, types[field]);
-      }
-    } else {
-      // no field types specified, no converting needed
-      converted = { ...raw };
-    }
-
-    if (converted[this._idProp] == null) {
-      converted[this._idProp] = (raw as any).id;
-    }
-
-    return converted;
   }
 
   /**
    * Update a single item: merge with existing item.
    * Will fail when the item has no id, or when there does not exist an item with the same id.
    *
-   * @param item - The new item
+   * @param update - The new item
    *
    * @returns The id of the updated item.
    */
-  private _updateItem(item: FullItem<Item, IdProp>): Id {
-    const id: OptId = item[this._idProp];
+  private _updateItem(update: FullItem<Item, IdProp>): Id {
+    const id: OptId = update[this._idProp];
     if (id == null) {
       throw new Error(
         "Cannot update item: item has no id (item: " +
-          JSON.stringify(item) +
+          JSON.stringify(update) +
           ")"
       );
     }
-    const d = this._data.get(id);
-    if (!d) {
+    const item = this._data.get(id);
+    if (!item) {
       // item doesn't exist
       throw new Error("Cannot update item: no item with id " + id + " found");
     }
 
-    // merge with current item
-    const fields = Object.keys(item);
-    for (let i = 0, len = fields.length; i < len; i++) {
-      const field = fields[i];
-      const fieldType = this._type[field]; // type may be undefined
-      (d as any)[field] = convert((item as any)[field], fieldType);
-    }
+    this._data.set(id, { ...item, ...update });
 
     return id;
   }
