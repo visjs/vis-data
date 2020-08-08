@@ -52,8 +52,10 @@
     "lint": "eslint .",
     "postinstall": "opencollective postinstall || exit 0",
     "prepublishOnly": "npm run build",
-    "test": "npm run test:coverage",
+    "test": "npm run test:coverage && npm run test:interop",
     "test:coverage": "BABEL_ENV=test-cov nyc mocha",
+    "test:interop": "node interop.js",
+    "test:interop:debug": "npm run test:interop -- --fail-command \"$SHELL\"",
     "test:unit": "BABEL_ENV=test mocha",
     "type-check": "tsc --noemit",
     "version": "npm run contributors:update && git add package.json",
@@ -62,8 +64,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test"
+      "pre-commit": "lint-staged"
     }
   },
   "peerDependencies": {
