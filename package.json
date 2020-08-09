@@ -117,7 +117,7 @@
     "rollup-plugin-typescript2": "0.27.2",
     "sinon": "9.0.2",
     "snap-shot-it": "7.9.3",
-    "typedoc": "0.17.8",
+    "typedoc": "0.18.0",
     "typescript": "3.9.7",
     "uuid": "8.3.0",
     "vis-dev-utils": "2.5.1",
