@@ -82,9 +82,11 @@ export interface DataViewOptions<Item, IdProp extends string> {
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export class DataView<
-  Item extends PartItem<IdProp>,
-  IdProp extends string = "id"
-> extends DataSetPart<Item, IdProp> implements DataInterface<Item, IdProp> {
+    Item extends PartItem<IdProp>,
+    IdProp extends string = "id"
+  >
+  extends DataSetPart<Item, IdProp>
+  implements DataInterface<Item, IdProp> {
   /** @inheritdoc */
   public length = 0;
   private readonly _listener: EventCallbacksWithAny<Item, IdProp>["*"];
