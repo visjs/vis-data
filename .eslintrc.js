@@ -94,11 +94,6 @@ module.exports = {
     // Not yet
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    // These are hoisted, I have no idea why it reports them by default.
-    "@typescript-eslint/no-use-before-define": [
-      "error",
-      { functions: false, classes: false, typedefs: false },
-    ],
     // This is usually good to follow but not always.
     "@typescript-eslint/ban-types": "off",
     // False positives for overloading, also tsc compiles with errors anyway.
