@@ -48,8 +48,10 @@
     "build:types": "tsc -p tsconfig.types.json",
     "clean": "rimraf \"{declarations,dist,docs,esnext,peer,standalone}/*\"",
     "contributors:update": "git-authors-cli",
-    "fix": "npm run lint -- --fix",
-    "lint": "eslint .",
+    "style": "prettier --check .",
+    "style-fix": "prettier --write .",
+    "lint": "eslint --ext .js,.ts .",
+    "lint-fix": "eslint --fix --ext .js,.ts .",
     "postinstall": "opencollective postinstall || exit 0",
     "prepublishOnly": "npm run build",
     "test": "npm run test:coverage && npm run test:interop",
@@ -67,6 +69,12 @@
       "pre-commit": "lint-staged"
     }
   },
+  "lint-staged": {
+    "*.*": "prettier --write",
+    "*.{js,ts}": "eslint --fix",
+    ".*.*": "prettier --write",
+    ".*.{js,ts}": "eslint --fix"
+  },
   "peerDependencies": {
     "vis-util": "^4.0.0",
     "uuid": "^7.0.0 || ^8.0.0"
@@ -78,12 +86,8 @@
     "@types/mocha": "8.0.3",
     "@types/sinon": "9.0.5",
     "@types/uuid": "8.3.0",
-    "@typescript-eslint/eslint-plugin": "4.1.0",
-    "@typescript-eslint/parser": "4.1.0",
     "chai": "4.2.0",
     "eslint": "7.8.1",
-    "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-prettier": "3.1.4",
     "git-authors-cli": "1.0.28",
     "husky": "4.3.0",
     "lint-staged": "10.3.0",
