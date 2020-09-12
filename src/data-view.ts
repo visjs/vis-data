@@ -87,7 +87,7 @@ export class DataView<
   >
   extends DataSetPart<Item, IdProp>
   implements DataInterface<Item, IdProp> {
-  /** @inheritdoc */
+  /** @inheritDoc */
   public length = 0;
   private readonly _listener: EventCallbacksWithAny<Item, IdProp>["*"];
 
@@ -217,55 +217,55 @@ export class DataView<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     options: DataInterfaceGetOptionsArray<Item>
   ): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     options: DataInterfaceGetOptionsObject<Item>
   ): Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     options: DataInterfaceGetOptions<Item>
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(id: Id): null | FullItem<Item, IdProp>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptionsArray<Item>
   ): null | FullItem<Item, IdProp>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptionsObject<Item>
   ): Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptions<Item>
   ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(ids: Id[]): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptionsArray<Item>
   ): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptionsObject<Item>
   ): Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptions<Item>
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id | Id[],
     options?: DataInterfaceGetOptions<Item>
@@ -275,7 +275,7 @@ export class DataView<
     | FullItem<Item, IdProp>[]
     | Record<Id, FullItem<Item, IdProp>>;
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     first?: DataInterfaceGetOptions<Item> | Id | Id[],
     second?: DataInterfaceGetOptions<Item>
@@ -321,7 +321,7 @@ export class DataView<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public getIds(options?: DataInterfaceGetIdsOptions<Item>): Id[] {
     if (this._data.length) {
       const defaultFilter = this._options.filter;
@@ -349,7 +349,7 @@ export class DataView<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public forEach(
     callback: (item: Item, id: Id) => void,
     options?: DataInterfaceForEachOptions<Item>
@@ -378,7 +378,7 @@ export class DataView<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public map<T>(
     callback: (item: Item, id: Id) => T,
     options?: DataInterfaceMapOptions<Item, T>
@@ -411,12 +411,12 @@ export class DataView<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public getDataSet(): DataSet<Item, IdProp> {
     return this._data.getDataSet();
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public stream(ids?: Iterable<Id>): DataStream<Item> {
     return this._data.stream(
       ids || {

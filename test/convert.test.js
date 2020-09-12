@@ -10,8 +10,8 @@ const moment = (v) => {
 };
 moment.isMoment = () => false;
 
-describe("Convert replacement from the docs", function() {
-  it("convert", function() {
+describe("Convert replacement from the docs", function () {
+  it("convert", function () {
     // --[BEGIN]-- The example code.
 
     // --[BEGIN]-- The original implementation of type coercion.
@@ -247,18 +247,18 @@ describe("Convert replacement from the docs", function() {
       /* raw data with arbitrary types */
       { id: 7, label: 4, date: "2017-09-04" },
       { id: false, label: 4, date: "2017-10-04" },
-      { id: "test", label: true, date: "2017-11-04" }
+      { id: "test", label: true, date: "2017-11-04" },
     ]);
     const coercedDS = new DataSet(/* the data with coerced types will be piped here */);
 
     const types = {
       id: "string",
       label: "string",
-      date: "Date"
+      date: "Date",
     };
 
     const pipe = createNewDataPipeFrom(rawDS)
-      .map(item =>
+      .map((item) =>
         Object.keys(item).reduce((acc, key) => {
           acc[key] = convert(item[key], types[key]);
           return acc;
@@ -275,7 +275,7 @@ describe("Convert replacement from the docs", function() {
     expect(coercedDS.get()).to.deep.equal([
       { id: "7", label: "4", date: new Date("2017-09-04") },
       { id: "false", label: "4", date: new Date("2017-10-04") },
-      { id: "test", label: "true", date: new Date("2017-11-04") }
+      { id: "test", label: "true", date: new Date("2017-11-04") },
     ]);
   });
 });

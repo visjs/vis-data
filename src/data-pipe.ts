@@ -83,10 +83,10 @@ type Transformer<T> = (input: T[]) => T[];
  * Internal implementation of the pipe. This should be accessible only through
  * `createNewDataPipeFrom` from the outside.
  *
- * @typeparam SI - Source item type.
- * @typeparam SP - Source item type's id property name.
- * @typeparam TI - Target item type.
- * @typeparam TP - Target item type's id property name.
+ * @typeParam SI - Source item type.
+ * @typeParam SP - Source item type's id property name.
+ * @typeParam TI - Target item type.
+ * @typeParam TP - Target item type's id property name.
  */
 class SimpleDataPipe<
   SI extends PartItem<SP>,
@@ -117,13 +117,13 @@ class SimpleDataPipe<
     private readonly _target: DataSet<TI, TP>
   ) {}
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public all(): this {
     this._target.update(this._transformItems(this._source.get()));
     return this;
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public start(): this {
     this._source.on("add", this._listeners.add);
     this._source.on("remove", this._listeners.remove);
@@ -132,7 +132,7 @@ class SimpleDataPipe<
     return this;
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public stop(): this {
     this._source.off("add", this._listeners.add);
     this._source.off("remove", this._listeners.remove);
@@ -210,8 +210,8 @@ class SimpleDataPipe<
  * Internal implementation of the pipe factory. This should be accessible
  * only through `createNewDataPipeFrom` from the outside.
  *
- * @typeparam TI - Target item type.
- * @typeparam TP - Target item type's id property name.
+ * @typeParam TI - Target item type.
+ * @typeParam TP - Target item type's id property name.
  */
 class DataPipeUnderConstruction<
   SI extends PartItem<SP>,
@@ -252,8 +252,8 @@ class DataPipeUnderConstruction<
    * @param callback - A mapping function that takes a source item and returns
    * corresponding mapped item.
    *
-   * @typeparam TI - Target item type.
-   * @typeparam TP - Target item type's id property name.
+   * @typeParam TI - Target item type.
+   * @typeParam TP - Target item type's id property name.
    *
    * @returns This factory for further configuration.
    */
@@ -270,8 +270,8 @@ class DataPipeUnderConstruction<
    * @param callback - A mapping function that takes a source item and returns
    * an array of corresponding mapped items.
    *
-   * @typeparam TI - Target item type.
-   * @typeparam TP - Target item type's id property name.
+   * @typeParam TI - Target item type.
+   * @typeParam TP - Target item type's id property name.
    *
    * @returns This factory for further configuration.
    */

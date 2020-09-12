@@ -68,22 +68,22 @@ export abstract class DataSetPart<Item, IdProp extends string>
     );
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public on(
     event: "*",
     callback: EventCallbacksWithAny<Item, IdProp>["*"]
   ): void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public on(
     event: "add",
     callback: EventCallbacksWithAny<Item, IdProp>["add"]
   ): void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public on(
     event: "remove",
     callback: EventCallbacksWithAny<Item, IdProp>["remove"]
   ): void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public on(
     event: "update",
     callback: EventCallbacksWithAny<Item, IdProp>["update"]
@@ -106,22 +106,22 @@ export abstract class DataSetPart<Item, IdProp extends string>
     // @TODO: Maybe throw for invalid callbacks?
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public off(
     event: "*",
     callback: EventCallbacksWithAny<Item, IdProp>["*"]
   ): void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public off(
     event: "add",
     callback: EventCallbacksWithAny<Item, IdProp>["add"]
   ): void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public off(
     event: "remove",
     callback: EventCallbacksWithAny<Item, IdProp>["remove"]
   ): void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public off(
     event: "update",
     callback: EventCallbacksWithAny<Item, IdProp>["update"]
