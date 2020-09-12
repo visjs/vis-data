@@ -46,7 +46,7 @@
     "build:code": "rollup -c rollup.build.js && rollup -c rollup.config.js",
     "build:docs": "typedoc ./src",
     "build:types": "tsc -p tsconfig.types.json",
-    "clean": "rimraf \"{declarations,dist,docs,esnext,peer,standalone}/*\"",
+    "clean": "rimraf \"{declarations,dist,esnext,peer,standalone,tsdocs}/*\"",
     "contributors:update": "git-authors-cli",
     "style": "prettier --check .",
     "style-fix": "prettier --write .",
@@ -70,9 +70,9 @@
     }
   },
   "lint-staged": {
-    "*.*": "prettier --write",
+    "*.{js,ts,css,html,json,md,yml,yaml}": "prettier --write",
     "*.{js,ts}": "eslint --fix",
-    ".*.*": "prettier --write",
+    ".*.{js,ts,css,html,json,md,yml,yaml}": "prettier --write",
     ".*.{js,ts}": "eslint --fix"
   },
   "peerDependencies": {
