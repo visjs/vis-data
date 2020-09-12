@@ -26,9 +26,9 @@ describe("Convert replacement from the docs", function () {
       /**
        * Test whether given object is a number
        *
-       * @param value - Input value of unknown type.
+       * @param {*} value - Input value of unknown type.
        *
-       * @returns True if number, false otherwise.
+       * @returns {boolean} True if number, false otherwise.
        */
       function isNumber(value) {
         return value instanceof Number || typeof value === "number";
@@ -37,9 +37,9 @@ describe("Convert replacement from the docs", function () {
       /**
        * Test whether given object is a string
        *
-       * @param value - Input value of unknown type.
+       * @param {*} value - Input value of unknown type.
        *
-       * @returns True if string, false otherwise.
+       * @returns {boolean} True if string, false otherwise.
        */
       function isString(value) {
         return value instanceof String || typeof value === "string";
@@ -48,9 +48,9 @@ describe("Convert replacement from the docs", function () {
       /**
        * Get the type of an object, for example exports.getType([]) returns 'Array'
        *
-       * @param object - Input value of unknown type.
+       * @param {*} object - Input value of unknown type.
        *
-       * @returns Detected type.
+       * @returns {string} Detected type.
        */
       function getType(object) {
         const type = typeof object;
@@ -96,10 +96,10 @@ describe("Convert replacement from the docs", function () {
       /**
        * Convert an object into another type
        *
-       * @param object - Value of unknown type.
-       * @param type - Name of the desired type.
+       * @param {*} object - Value of unknown type.
+       * @param {string} type - Name of the desired type.
        *
-       * @returns Object in the desired type.
+       * @returns {*} Object in the desired type.
        * @throws Error
        */
       return function convert(object, type) {

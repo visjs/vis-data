@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
-
 import { DataInterface, EventCallbacks, PartItem } from "./data-interface";
 import { DataSet } from "./data-set";
 

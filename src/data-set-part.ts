@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
-
 import {
   DataInterface,
   EventCallbacksWithAny,

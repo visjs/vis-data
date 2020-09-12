@@ -20,7 +20,6 @@ const testStreamAPI = function (
     data: readonly [Id, Item][]
   ) => CreateDataStreamRet<Item>
 ): void {
-  /* eslint-disable-next-line require-jsdoc */
   function testReuse<T extends { id: number }>({
     data,
     updateArgs,

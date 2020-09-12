@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
-
 import { v4 as uuid4 } from "uuid";
 import { pureDeepObjectAssign } from "vis-util/esnext";
 

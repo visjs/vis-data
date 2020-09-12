@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
-
 /** Queue configuration object. */
 export interface QueueOptions {
   /** The queue will be flushed automatically after an inactivity of this delay in milliseconds. By default there is no automatic flushing (`null`). */
@@ -177,7 +175,7 @@ export class Queue<T = never> {
     object: Record<M, () => void>,
     method: M
   ): void {
-    /* eslint-disable-next-line @typescript-eslint/no-this-alias */
+    /* eslint-disable-next-line @typescript-eslint/no-this-alias -- Function this is necessary in the function bellow, so class this has to be saved into a variable here. */
     const me = this;
     const original = object[method];
     if (!original) {
