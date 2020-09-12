@@ -8,7 +8,7 @@ import { Id } from "./data-interface";
  * That means that the stream is evaluated at the time of iteration, conversion to another data type or when [[cache]] is called, not when the [[DataStream]] was created.
  * Multiple invocations of for example [[toItemArray]] may yield different results (if the data source like for example [[DataSet]] gets modified).
  *
- * @typeparam Item - The item type this stream is going to work with.
+ * @typeParam Item - The item type this stream is going to work with.
  */
 export class DataStream<Item> implements Iterable<[Id, Item]> {
   /**
@@ -165,7 +165,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @param callback - The function that picks and possibly converts the property.
    *
-   * @typeparam T - The type of the distinct value.
+   * @typeParam T - The type of the distinct value.
    *
    * @returns A set of all distinct properties.
    */
@@ -215,7 +215,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @param callback - The function that does the conversion.
    *
-   * @typeparam Mapped - The type of the item after mapping.
+   * @typeParam Mapped - The type of the item after mapping.
    *
    * @returns A new data stream with the mapped items.
    */
@@ -294,7 +294,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @param callback - The function that does the reduction.
    * @param accumulator - The initial value of the accumulator.
    *
-   * @typeparam T - The type of the accumulated value.
+   * @typeParam T - The type of the accumulated value.
    *
    * @returns The reduced value.
    */

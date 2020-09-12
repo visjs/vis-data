@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/member-ordering: ["error", { "classes": ["field", "constructor", "method"] }] */
-
 import { v4 as uuid4 } from "uuid";
 import { pureDeepObjectAssign } from "vis-util/esnext";
 
@@ -147,7 +145,7 @@ export class DataSet<
   implements DataInterface<Item, IdProp> {
   /** Flush all queued calls. */
   public flush?: () => void;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public length: number;
 
   private readonly _options: DataSetInitialOptions<IdProp>;
@@ -478,55 +476,55 @@ export class DataSet<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     options: DataInterfaceGetOptionsArray<Item>
   ): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     options: DataInterfaceGetOptionsObject<Item>
   ): Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     options: DataInterfaceGetOptions<Item>
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(id: Id): null | FullItem<Item, IdProp>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptionsArray<Item>
   ): null | FullItem<Item, IdProp>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptionsObject<Item>
   ): Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     id: Id,
     options: DataInterfaceGetOptions<Item>
   ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(ids: Id[]): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptionsArray<Item>
   ): FullItem<Item, IdProp>[];
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptionsObject<Item>
   ): Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id[],
     options: DataInterfaceGetOptions<Item>
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     ids: Id | Id[],
     options?: DataInterfaceGetOptions<Item>
@@ -536,7 +534,7 @@ export class DataSet<
     | FullItem<Item, IdProp>[]
     | Record<Id, FullItem<Item, IdProp>>;
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public get(
     first?: DataInterfaceGetOptions<Item> | Id | Id[],
     second?: DataInterfaceGetOptions<Item>
@@ -655,7 +653,7 @@ export class DataSet<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public getIds(options?: DataInterfaceGetIdsOptions<Item>): Id[] {
     const data = this._data;
     const filter = options && options.filter;
@@ -721,12 +719,12 @@ export class DataSet<
     return ids;
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public getDataSet(): DataSet<Item, IdProp> {
     return this;
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public forEach(
     callback: (item: Item, id: Id) => void,
     options?: DataInterfaceForEachOptions<Item>
@@ -756,7 +754,7 @@ export class DataSet<
     }
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public map<T>(
     callback: (item: Item, id: Id) => T,
     options?: DataInterfaceMapOptions<Item, T>
@@ -1102,7 +1100,7 @@ export class DataSet<
     return id;
   }
 
-  /** @inheritdoc */
+  /** @inheritDoc */
   public stream(ids?: Iterable<Id>): DataStream<Item> {
     if (ids) {
       const data = this._data;
