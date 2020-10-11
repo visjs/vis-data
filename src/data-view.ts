@@ -89,6 +89,10 @@ export class DataView<
   implements DataInterface<Item, IdProp> {
   /** @inheritDoc */
   public length = 0;
+  /** @inheritDoc */
+  public get idProp(): IdProp {
+    return this.getDataSet().idProp;
+  }
   private readonly _listener: EventCallbacksWithAny<Item, IdProp>["*"];
 
   private _data!: DataInterface<Item, IdProp>; // constructor → setData

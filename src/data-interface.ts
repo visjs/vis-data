@@ -301,6 +301,9 @@ export interface DataInterface<
   /** The number of items. */
   length: number;
 
+  /** The key of id property. */
+  idProp: IdProp;
+
   /**
    * Add a universal event listener.
    *
