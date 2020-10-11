@@ -19,7 +19,7 @@ type EventSubscribers<Item, IdProp extends string> = {
  */
 export abstract class DataSetPart<Item, IdProp extends string>
   implements Pick<DataInterface<Item, IdProp>, "on" | "off"> {
-  protected _subscribers: {
+  #subscribers: {
     [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][];
   } = {
     "*": [],
@@ -59,7 +59,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
       throw new Error("Cannot trigger event *");
     }
 
-    [...this._subscribers[event], ...this._subscribers["*"]].forEach(
+    [...this.#subscribers[event], ...this.#subscribers["*"]].forEach(
       (subscriber): void => {
         subscriber(event, payload, senderId != null ? senderId : null);
       }
@@ -99,7 +99,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
     callback: EventCallbacksWithAny<Item, IdProp>[Name]
   ): void {
     if (typeof callback === "function") {
-      this._subscribers[event].push(callback);
+      this.#subscribers[event].push(callback);
     }
     // @TODO: Maybe throw for invalid callbacks?
   }
@@ -136,7 +136,7 @@ export abstract class DataSetPart<Item, IdProp extends string>
     event: Name,
     callback: EventCallbacksWithAny<Item, IdProp>[Name]
   ): void {
-    this._subscribers[event] = this._subscribers[event].filter(
+    this.#subscribers[event] = this.#subscribers[event].filter(
       (subscriber): boolean => subscriber !== callback
     );
   }
@@ -150,4 +150,10 @@ export abstract class DataSetPart<Item, IdProp extends string>
    */
   public unsubscribe: DataSetPart<Item, IdProp>["off"] =
     DataSetPart.prototype.off;
+
+  /* develblock:start */
+  public get testLeakSubscribers(): any {
+    return this.#subscribers;
+  }
+  /* develblock:end */
 }

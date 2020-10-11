@@ -18,7 +18,7 @@ describe("Data view dispose", function (): void {
 
     dv.dispose();
     expect(
-      (ds as any)._subscribers["*"],
+      ds.testLeakSubscribers["*"],
       "Disposed data view should be unsubscribed from it's data set."
     ).to.have.lengthOf(0);
     expect((): void => {
