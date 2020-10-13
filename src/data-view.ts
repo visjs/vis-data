@@ -89,8 +89,12 @@ export class DataView<
   implements DataInterface<Item, IdProp> {
   /** @inheritDoc */
   public length = 0;
-  readonly #listener: EventCallbacksWithAny<Item, IdProp>["*"];
+  /** @inheritDoc */
+  public get idProp(): IdProp {
+    return this.getDataSet().idProp;
+  }
 
+  readonly #listener: EventCallbacksWithAny<Item, IdProp>["*"];
   #data!: DataInterface<Item, IdProp>; // constructor → setData
   readonly #ids: Set<Id> = new Set(); // ids of the items currently in memory (just contains a boolean true)
   readonly #options: DataViewOptions<Item, IdProp>;

@@ -147,6 +147,10 @@ export class DataSet<
   public flush?: () => void;
   /** @inheritDoc */
   public length: number;
+  /** @inheritDoc */
+  public get idProp(): IdProp {
+    return this.#idProp;
+  }
 
   readonly #options: DataSetInitialOptions<IdProp>;
   readonly #data: Map<Id, FullItem<Item, IdProp>>;
