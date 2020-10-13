@@ -149,7 +149,7 @@ export class DataSet<
   public length: number;
   /** @inheritDoc */
   public get idProp(): IdProp {
-    return this._idProp;
+    return this.#idProp;
   }
 
   readonly #options: DataSetInitialOptions<IdProp>;
