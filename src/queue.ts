@@ -54,14 +54,14 @@ export class Queue<T = never> {
   /** Maximum number of entries in the queue before it will be flushed. */
   public max: number;
 
-  private readonly _queue: {
+  readonly #queue: {
     fn: Function;
     args?: unknown[];
     context?: unknown;
   }[] = [];
 
-  private _timeout: ReturnType<typeof setTimeout> | null = null;
-  private _extended: null | QueueExtended<T> = null;
+  #timeout: ReturnType<typeof setTimeout> | null = null;
+  #extended: null | QueueExtended<T> = null;
 
   /**
    * Construct a new Queue.
@@ -134,7 +134,7 @@ export class Queue<T = never> {
       }
     }
 
-    queue._extended = {
+    queue.#extended = {
       object: object,
       methods: methods,
     };
@@ -148,9 +148,9 @@ export class Queue<T = never> {
   public destroy(): void {
     this.flush();
 
-    if (this._extended) {
-      const object = this._extended.object;
-      const methods = this._extended.methods;
+    if (this.#extended) {
+      const object = this.#extended.object;
+      const methods = this.#extended.methods;
       for (let i = 0; i < methods.length; i++) {
         const method = methods[i];
         if (method.original) {
@@ -161,7 +161,7 @@ export class Queue<T = never> {
           delete (object as any)[method.name];
         }
       }
-      this._extended = null;
+      this.#extended = null;
     }
   }
 
@@ -199,9 +199,9 @@ export class Queue<T = never> {
    */
   public queue(entry: QueueCallEntry): void {
     if (typeof entry === "function") {
-      this._queue.push({ fn: entry });
+      this.#queue.push({ fn: entry });
     } else {
-      this._queue.push(entry);
+      this.#queue.push(entry);
     }
 
     this._flushIfNeeded();
@@ -212,17 +212,17 @@ export class Queue<T = never> {
    */
   private _flushIfNeeded(): void {
     // flush when the maximum is exceeded.
-    if (this._queue.length > this.max) {
+    if (this.#queue.length > this.max) {
       this.flush();
     }
 
     // flush after a period of inactivity when a delay is configured
-    if (this._timeout != null) {
-      clearTimeout(this._timeout);
-      this._timeout = null;
+    if (this.#timeout != null) {
+      clearTimeout(this.#timeout);
+      this.#timeout = null;
     }
     if (this.queue.length > 0 && typeof this.delay === "number") {
-      this._timeout = setTimeout((): void => {
+      this.#timeout = setTimeout((): void => {
         this.flush();
       }, this.delay);
     }
@@ -232,7 +232,7 @@ export class Queue<T = never> {
    * Flush all queued calls
    */
   public flush(): void {
-    this._queue.splice(0).forEach((entry): void => {
+    this.#queue.splice(0).forEach((entry): void => {
       entry.fn.apply(entry.context || entry.fn, entry.args || []);
     });
   }

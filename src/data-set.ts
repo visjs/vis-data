@@ -49,7 +49,7 @@ export interface DataSetOptions {
    * - If false and there was a queue before it will be flushed and then removed.
    * - If [[QueueOptions]] the existing queue will be reconfigured or a new queue will be created.
    */
-  queue?: QueueOptions | false;
+  queue?: Queue | QueueOptions | false;
 }
 
 /**
@@ -152,10 +152,10 @@ export class DataSet<
     return this._idProp;
   }
 
-  private readonly _options: DataSetInitialOptions<IdProp>;
-  private readonly _data: Map<Id, FullItem<Item, IdProp>>;
-  private readonly _idProp: IdProp;
-  private _queue?: Queue<this>;
+  readonly #options: DataSetInitialOptions<IdProp>;
+  readonly #data: Map<Id, FullItem<Item, IdProp>>;
+  readonly #idProp: IdProp;
+  #queue: Queue<this> | null = null;
 
   /**
    * @param options - DataSet configuration.
@@ -184,10 +184,10 @@ export class DataSet<
       data = [];
     }
 
-    this._options = options || {};
-    this._data = new Map(); // map with data indexed by id
+    this.#options = options || {};
+    this.#data = new Map(); // map with data indexed by id
     this.length = 0; // number of items in the DataSet
-    this._idProp = this._options.fieldId || ("id" as IdProp); // name of the field containing id
+    this.#idProp = this.#options.fieldId || ("id" as IdProp); // name of the field containing id
 
     // add initial data when provided
     if (data && data.length) {
@@ -206,20 +206,20 @@ export class DataSet<
     if (options && options.queue !== undefined) {
       if (options.queue === false) {
         // delete queue if loaded
-        if (this._queue) {
-          this._queue.destroy();
-          delete this._queue;
+        if (this.#queue) {
+          this.#queue.destroy();
+          this.#queue = null;
         }
       } else {
         // create queue and update its options
-        if (!this._queue) {
-          this._queue = Queue.extend(this, {
+        if (!this.#queue) {
+          this.#queue = Queue.extend(this, {
             replace: ["add", "update", "remove"],
           });
         }
 
         if (options.queue && typeof options.queue === "object") {
-          this._queue.setOptions(options.queue);
+          this.#queue.setOptions(options.queue);
         }
       }
     }
@@ -259,8 +259,8 @@ export class DataSet<
 
     if (Array.isArray(data)) {
       // Array
-      const idsToAdd: Id[] = data.map((d) => d[this._idProp] as Id);
-      if (idsToAdd.some((id) => this._data.has(id))) {
+      const idsToAdd: Id[] = data.map((d) => d[this.#idProp] as Id);
+      if (idsToAdd.some((id) => this.#data.has(id))) {
         throw new Error("A duplicate id was found in the parameter array.");
       }
       for (let i = 0, len = data.length; i < len; i++) {
@@ -327,13 +327,13 @@ export class DataSet<
     const updatedIds: Id[] = [];
     const oldData: FullItem<Item, IdProp>[] = [];
     const updatedData: FullItem<Item, IdProp>[] = [];
-    const idProp = this._idProp;
+    const idProp = this.#idProp;
 
     const addOrUpdate = (item: DeepPartial<Item>): void => {
       const origId: OptId = item[idProp];
-      if (origId != null && this._data.has(origId)) {
+      if (origId != null && this.#data.has(origId)) {
         const fullItem = item as FullItem<Item, IdProp>; // it has an id, therefore it is a fullitem
-        const oldItem = Object.assign({}, this._data.get(origId));
+        const oldItem = Object.assign({}, this.#data.get(origId));
         // update item
         const id = this._updateItem(fullItem);
         updatedIds.push(id);
@@ -432,7 +432,7 @@ export class DataSet<
         oldData: FullItem<Item, IdProp>;
         update: UpdateItem<Item, IdProp>;
       } => {
-        const oldData = this._data.get(update[this._idProp]);
+        const oldData = this.#data.get(update[this.#idProp]);
         if (oldData == null) {
           throw new Error("Updating non-existent items is not allowed.");
         }
@@ -443,10 +443,10 @@ export class DataSet<
         oldData: FullItem<Item, IdProp>;
         updatedData: FullItem<Item, IdProp>;
       } => {
-        const id = oldData[this._idProp];
+        const id = oldData[this.#idProp];
         const updatedData = pureDeepObjectAssign(oldData, update);
 
-        this._data.set(id, updatedData);
+        this.#data.set(id, updatedData);
 
         return {
           id,
@@ -591,24 +591,24 @@ export class DataSet<
     // convert items
     if (id != null) {
       // return a single item
-      item = this._data.get(id);
+      item = this.#data.get(id);
       if (item && filter && !filter(item)) {
         item = undefined;
       }
     } else if (ids != null) {
       // return a subset of items
       for (let i = 0, len = ids.length; i < len; i++) {
-        item = this._data.get(ids[i]);
+        item = this.#data.get(ids[i]);
         if (item != null && (!filter || filter(item))) {
           items.push(item);
         }
       }
     } else {
       // return all items
-      itemIds = [...this._data.keys()];
+      itemIds = [...this.#data.keys()];
       for (let i = 0, len = itemIds.length; i < len; i++) {
         itemId = itemIds[i];
-        item = this._data.get(itemId);
+        item = this.#data.get(itemId);
         if (item != null && (!filter || filter(item))) {
           items.push(item);
         }
@@ -642,7 +642,7 @@ export class DataSet<
         const resultant = items[i];
         // @TODO: Shoudn't this be this._fieldId?
         // result[resultant.id] = resultant
-        const id: Id = resultant[this._idProp];
+        const id: Id = resultant[this.#idProp];
         result[id] = resultant;
       }
       return result;
@@ -659,7 +659,7 @@ export class DataSet<
 
   /** @inheritDoc */
   public getIds(options?: DataInterfaceGetIdsOptions<Item>): Id[] {
-    const data = this._data;
+    const data = this.#data;
     const filter = options && options.filter;
     const order = options && options.order;
     const itemIds = [...data.keys()];
@@ -672,7 +672,7 @@ export class DataSet<
         const items = [];
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i];
-          const item = this._data.get(id);
+          const item = this.#data.get(id);
           if (item != null && filter(item)) {
             items.push(item);
           }
@@ -681,15 +681,15 @@ export class DataSet<
         this._sort(items, order);
 
         for (let i = 0, len = items.length; i < len; i++) {
-          ids.push(items[i][this._idProp]);
+          ids.push(items[i][this.#idProp]);
         }
       } else {
         // create unordered list
         for (let i = 0, len = itemIds.length; i < len; i++) {
           const id = itemIds[i];
-          const item = this._data.get(id);
+          const item = this.#data.get(id);
           if (item != null && filter(item)) {
-            ids.push(item[this._idProp]);
+            ids.push(item[this.#idProp]);
           }
         }
       }
@@ -706,7 +706,7 @@ export class DataSet<
         this._sort(items, order);
 
         for (let i = 0, len = items.length; i < len; i++) {
-          ids.push(items[i][this._idProp]);
+          ids.push(items[i][this.#idProp]);
         }
       } else {
         // create unordered list
@@ -714,7 +714,7 @@ export class DataSet<
           const id = itemIds[i];
           const item = data.get(id);
           if (item != null) {
-            ids.push(item[this._idProp]);
+            ids.push(item[this.#idProp]);
           }
         }
       }
@@ -734,7 +734,7 @@ export class DataSet<
     options?: DataInterfaceForEachOptions<Item>
   ): void {
     const filter = options && options.filter;
-    const data = this._data;
+    const data = this.#data;
     const itemIds = [...data.keys()];
 
     if (options && options.order) {
@@ -743,14 +743,14 @@ export class DataSet<
 
       for (let i = 0, len = items.length; i < len; i++) {
         const item = items[i];
-        const id = item[this._idProp];
+        const id = item[this.#idProp];
         callback(item, id);
       }
     } else {
       // unordered
       for (let i = 0, len = itemIds.length; i < len; i++) {
         const id = itemIds[i];
-        const item = this._data.get(id);
+        const item = this.#data.get(id);
         if (item != null && (!filter || filter(item))) {
           callback(item, id);
         }
@@ -765,13 +765,13 @@ export class DataSet<
   ): T[] {
     const filter = options && options.filter;
     const mappedItems: T[] = [];
-    const data = this._data;
+    const data = this.#data;
     const itemIds = [...data.keys()];
 
     // convert and filter items
     for (let i = 0, len = itemIds.length; i < len; i++) {
       const id = itemIds[i];
-      const item = this._data.get(id);
+      const item = this.#data.get(id);
       if (item != null && (!filter || filter(item))) {
         mappedItems.push(callback(item, id));
       }
@@ -892,7 +892,7 @@ export class DataSet<
     for (let i = 0, len = ids.length; i < len; i++) {
       const item = this._remove(ids[i]);
       if (item) {
-        const itemId: OptId = item[this._idProp];
+        const itemId: OptId = item[this.#idProp];
         if (itemId != null) {
           removedIds.push(itemId);
           removedItems.push(item);
@@ -927,13 +927,13 @@ export class DataSet<
     if (isId(id)) {
       ident = id;
     } else if (id && typeof id === "object") {
-      ident = id[this._idProp]; // look for the identifier field using ._idProp
+      ident = id[this.#idProp]; // look for the identifier field using ._idProp
     }
 
     // do the removing if the item is found
-    if (ident != null && this._data.has(ident)) {
-      const item = this._data.get(ident) || null;
-      this._data.delete(ident);
+    if (ident != null && this.#data.has(ident)) {
+      const item = this.#data.get(ident) || null;
+      this.#data.delete(ident);
       --this.length;
       return item;
     }
@@ -951,14 +951,14 @@ export class DataSet<
    * @returns removedIds - The ids of all removed items.
    */
   public clear(senderId?: Id | null): Id[] {
-    const ids = [...this._data.keys()];
+    const ids = [...this.#data.keys()];
     const items: FullItem<Item, IdProp>[] = [];
 
     for (let i = 0, len = ids.length; i < len; i++) {
-      items.push(this._data.get(ids[i])!);
+      items.push(this.#data.get(ids[i])!);
     }
 
-    this._data.clear();
+    this.#data.clear();
     this.length = 0;
 
     this._trigger("remove", { items: ids, oldData: items }, senderId);
@@ -977,7 +977,7 @@ export class DataSet<
     let max = null;
     let maxField = null;
 
-    for (const item of this._data.values()) {
+    for (const item of this.#data.values()) {
       const itemField = item[field];
       if (
         typeof itemField === "number" &&
@@ -1002,7 +1002,7 @@ export class DataSet<
     let min = null;
     let minField = null;
 
-    for (const item of this._data.values()) {
+    for (const item of this.#data.values()) {
       const itemField = item[field];
       if (
         typeof itemField === "number" &&
@@ -1026,7 +1026,7 @@ export class DataSet<
    * @returns Unordered array containing all distinct values. Items without specified property are ignored.
    */
   public distinct<T extends string>(prop: T): unknown[] {
-    const data = this._data;
+    const data = this.#data;
     const itemIds = [...data.keys()];
     const values: unknown[] = [];
     let count = 0;
@@ -1059,18 +1059,18 @@ export class DataSet<
    * @returns Added item's id. An id is generated when it is not present in the item.
    */
   private _addItem(item: Item): Id {
-    const fullItem = ensureFullItem(item, this._idProp);
-    const id = fullItem[this._idProp];
+    const fullItem = ensureFullItem(item, this.#idProp);
+    const id = fullItem[this.#idProp];
 
     // check whether this id is already taken
-    if (this._data.has(id)) {
+    if (this.#data.has(id)) {
       // item already exists
       throw new Error(
         "Cannot add item: item with id " + id + " already exists"
       );
     }
 
-    this._data.set(id, fullItem);
+    this.#data.set(id, fullItem);
     ++this.length;
 
     return id;
@@ -1085,7 +1085,7 @@ export class DataSet<
    * @returns The id of the updated item.
    */
   private _updateItem(update: FullItem<Item, IdProp>): Id {
-    const id: OptId = update[this._idProp];
+    const id: OptId = update[this.#idProp];
     if (id == null) {
       throw new Error(
         "Cannot update item: item has no id (item: " +
@@ -1093,13 +1093,13 @@ export class DataSet<
           ")"
       );
     }
-    const item = this._data.get(id);
+    const item = this.#data.get(id);
     if (!item) {
       // item doesn't exist
       throw new Error("Cannot update item: no item with id " + id + " found");
     }
 
-    this._data.set(id, { ...item, ...update });
+    this.#data.set(id, { ...item, ...update });
 
     return id;
   }
@@ -1107,7 +1107,7 @@ export class DataSet<
   /** @inheritDoc */
   public stream(ids?: Iterable<Id>): DataStream<Item> {
     if (ids) {
-      const data = this._data;
+      const data = this.#data;
 
       return new DataStream<Item>({
         *[Symbol.iterator](): IterableIterator<[Id, Item]> {
@@ -1121,8 +1121,26 @@ export class DataSet<
       });
     } else {
       return new DataStream({
-        [Symbol.iterator]: this._data.entries.bind(this._data),
+        [Symbol.iterator]: this.#data.entries.bind(this.#data),
       });
     }
   }
+
+  /* develblock:start */
+  public get testLeakData(): Map<Id, FullItem<Item, IdProp>> {
+    return this.#data;
+  }
+  public get testLeakIdProp(): IdProp {
+    return this.#idProp;
+  }
+  public get testLeakOptions(): DataSetInitialOptions<IdProp> {
+    return this.#options;
+  }
+  public get testLeakQueue(): Queue<this> | null {
+    return this.#queue;
+  }
+  public set testLeakQueue(v: Queue<this> | null) {
+    this.#queue = v;
+  }
+  /* develblock:end */
 }
