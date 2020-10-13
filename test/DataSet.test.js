@@ -387,29 +387,29 @@ describe("DataSet", function () {
     it("does not update queue when passed an undefined queue", function () {
       var dataset = new DataSet([], { queue: true });
       dataset.setOptions({ queue: undefined });
-      assert.notEqual(dataset._queue, undefined);
+      assert.notEqual(dataset.testLeakQueue, undefined);
     });
 
     it("destroys the queue when queue set to false", function () {
       var dataset = new DataSet([]);
       dataset.setOptions({ queue: false });
-      assert.equal(dataset._queue, undefined);
+      assert.equal(dataset.testLeakQueue, undefined);
     });
 
     it("udpates queue options", function () {
       var dataset = new DataSet([]);
       dataset.setOptions({ queue: { max: 5, delay: 3 } });
-      assert.equal(dataset._queue.max, 5);
-      assert.equal(dataset._queue.delay, 3);
+      assert.equal(dataset.testLeakQueue.max, 5);
+      assert.equal(dataset.testLeakQueue.delay, 3);
     });
 
     it("creates new queue given if none is set", function () {
       var dataset = new DataSet([], { queue: true });
-      dataset._queue.destroy();
-      dataset._queue = null;
+      dataset.testLeakQueue.destroy();
+      dataset.testLeakQueue = null;
       dataset.setOptions({ queue: { max: 5, delay: 3 } });
-      assert.equal(dataset._queue.max, 5);
-      assert.equal(dataset._queue.delay, 3);
+      assert.equal(dataset.testLeakQueue.max, 5);
+      assert.equal(dataset.testLeakQueue.delay, 3);
     });
   });
 

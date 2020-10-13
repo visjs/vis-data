@@ -89,11 +89,11 @@ export class DataView<
   implements DataInterface<Item, IdProp> {
   /** @inheritDoc */
   public length = 0;
-  private readonly _listener: EventCallbacksWithAny<Item, IdProp>["*"];
+  readonly #listener: EventCallbacksWithAny<Item, IdProp>["*"];
 
-  private _data!: DataInterface<Item, IdProp>; // constructor → setData
-  private readonly _ids: Set<Id> = new Set(); // ids of the items currently in memory (just contains a boolean true)
-  private readonly _options: DataViewOptions<Item, IdProp>;
+  #data!: DataInterface<Item, IdProp>; // constructor → setData
+  readonly #ids: Set<Id> = new Set(); // ids of the items currently in memory (just contains a boolean true)
+  readonly #options: DataViewOptions<Item, IdProp>;
 
   /**
    * Create a DataView.
@@ -107,9 +107,9 @@ export class DataView<
   ) {
     super();
 
-    this._options = options || {};
+    this.#options = options || {};
 
-    this._listener = this._onEvent.bind(this);
+    this.#listener = this._onEvent.bind(this);
 
     this.setData(data);
   }
@@ -129,39 +129,39 @@ export class DataView<
    * reference.
    */
   public setData(data: DataInterface<Item, IdProp>): void {
-    if (this._data) {
+    if (this.#data) {
       // unsubscribe from current dataset
-      if (this._data.off) {
-        this._data.off("*", this._listener);
+      if (this.#data.off) {
+        this.#data.off("*", this.#listener);
       }
 
       // trigger a remove of all items in memory
-      const ids = this._data.getIds({ filter: this._options.filter });
-      const items = this._data.get(ids);
+      const ids = this.#data.getIds({ filter: this.#options.filter });
+      const items = this.#data.get(ids);
 
-      this._ids.clear();
+      this.#ids.clear();
       this.length = 0;
       this._trigger("remove", { items: ids, oldData: items });
     }
 
     if (data != null) {
-      this._data = data;
+      this.#data = data;
 
       // trigger an add of all added items
-      const ids = this._data.getIds({ filter: this._options.filter });
+      const ids = this.#data.getIds({ filter: this.#options.filter });
       for (let i = 0, len = ids.length; i < len; i++) {
         const id = ids[i];
-        this._ids.add(id);
+        this.#ids.add(id);
       }
       this.length = ids.length;
       this._trigger("add", { items: ids });
     } else {
-      this._data = new DataSet<Item, IdProp>();
+      this.#data = new DataSet<Item, IdProp>();
     }
 
     // subscribe to new dataset
-    if (this._data.on) {
-      this._data.on("*", this._listener);
+    if (this.#data.on) {
+      this.#data.on("*", this.#listener);
     }
   }
 
@@ -170,10 +170,10 @@ export class DataView<
    * Useful when the DataView has a filter function containing a variable parameter.
    */
   public refresh(): void {
-    const ids = this._data.getIds({
-      filter: this._options.filter,
+    const ids = this.#data.getIds({
+      filter: this.#options.filter,
     });
-    const oldIds = [...this._ids];
+    const oldIds = [...this.#ids];
     const newIds: Record<Id, boolean> = {};
     const addedIds: Id[] = [];
     const removedIds: Id[] = [];
@@ -183,16 +183,16 @@ export class DataView<
     for (let i = 0, len = ids.length; i < len; i++) {
       const id = ids[i];
       newIds[id] = true;
-      if (!this._ids.has(id)) {
+      if (!this.#ids.has(id)) {
         addedIds.push(id);
-        this._ids.add(id);
+        this.#ids.add(id);
       }
     }
 
     // check for removals
     for (let i = 0, len = oldIds.length; i < len; i++) {
       const id = oldIds[i];
-      const item = this._data.get(id);
+      const item = this.#data.get(id);
       if (item == null) {
         // @TODO: Investigate.
         // Doesn't happen during tests or examples.
@@ -202,7 +202,7 @@ export class DataView<
       } else if (!newIds[id]) {
         removedIds.push(id);
         removedItems.push(item);
-        this._ids.delete(id);
+        this.#ids.delete(id);
       }
     }
 
@@ -284,7 +284,7 @@ export class DataView<
     | FullItem<Item, IdProp>
     | FullItem<Item, IdProp>[]
     | Record<string, FullItem<Item, IdProp>> {
-    if (this._data == null) {
+    if (this.#data == null) {
       return null;
     }
 
@@ -301,12 +301,12 @@ export class DataView<
     // extend the options with the default options and provided options
     const viewOptions: DataInterfaceGetOptions<Item> = Object.assign(
       {},
-      this._options,
+      this.#options,
       options
     );
 
     // create a combined filter method when needed
-    const thisFilter = this._options.filter;
+    const thisFilter = this.#options.filter;
     const optionsFilter = options && options.filter;
     if (thisFilter && optionsFilter) {
       viewOptions.filter = (item): boolean => {
@@ -315,16 +315,16 @@ export class DataView<
     }
 
     if (ids == null) {
-      return this._data.get(viewOptions);
+      return this.#data.get(viewOptions);
     } else {
-      return this._data.get(ids, viewOptions);
+      return this.#data.get(ids, viewOptions);
     }
   }
 
   /** @inheritDoc */
   public getIds(options?: DataInterfaceGetIdsOptions<Item>): Id[] {
-    if (this._data.length) {
-      const defaultFilter = this._options.filter;
+    if (this.#data.length) {
+      const defaultFilter = this.#options.filter;
       const optionsFilter = options != null ? options.filter : null;
       let filter: DataInterfaceGetIdsOptions<Item>["filter"];
 
@@ -340,7 +340,7 @@ export class DataView<
         filter = defaultFilter;
       }
 
-      return this._data.getIds({
+      return this.#data.getIds({
         filter: filter,
         order: options && options.order,
       });
@@ -354,8 +354,8 @@ export class DataView<
     callback: (item: Item, id: Id) => void,
     options?: DataInterfaceForEachOptions<Item>
   ): void {
-    if (this._data) {
-      const defaultFilter = this._options.filter;
+    if (this.#data) {
+      const defaultFilter = this.#options.filter;
       const optionsFilter = options && options.filter;
       let filter: undefined | ((item: Item) => boolean);
 
@@ -371,7 +371,7 @@ export class DataView<
         filter = defaultFilter;
       }
 
-      this._data.forEach(callback, {
+      this.#data.forEach(callback, {
         filter: filter,
         order: options && options.order,
       });
@@ -385,8 +385,8 @@ export class DataView<
   ): T[] {
     type Filter = NonNullable<DataInterfaceMapOptions<Item, T>["filter"]>;
 
-    if (this._data) {
-      const defaultFilter = this._options.filter;
+    if (this.#data) {
+      const defaultFilter = this.#options.filter;
       const optionsFilter = options && options.filter;
       let filter: undefined | Filter;
 
@@ -402,7 +402,7 @@ export class DataView<
         filter = defaultFilter;
       }
 
-      return this._data.map(callback, {
+      return this.#data.map(callback, {
         filter: filter,
         order: options && options.order,
       });
@@ -413,14 +413,14 @@ export class DataView<
 
   /** @inheritDoc */
   public getDataSet(): DataSet<Item, IdProp> {
-    return this._data.getDataSet();
+    return this.#data.getDataSet();
   }
 
   /** @inheritDoc */
   public stream(ids?: Iterable<Id>): DataStream<Item> {
-    return this._data.stream(
+    return this.#data.stream(
       ids || {
-        [Symbol.iterator]: this._ids.keys.bind(this._ids),
+        [Symbol.iterator]: this.#ids.keys.bind(this.#ids),
       }
     );
   }
@@ -434,12 +434,12 @@ export class DataView<
    * already. It's stricter version of `dataView.setData(null)`.
    */
   public dispose(): void {
-    if (this._data?.off) {
-      this._data.off("*", this._listener);
+    if (this.#data?.off) {
+      this.#data.off("*", this.#listener);
     }
 
     const message = "This data view has already been disposed of.";
-    Object.defineProperty(this, "_data", {
+    const replacement = {
       get: (): void => {
         throw new Error(message);
       },
@@ -448,7 +448,10 @@ export class DataView<
       },
 
       configurable: false,
-    });
+    };
+    for (const key of Reflect.ownKeys(DataView.prototype)) {
+      Object.defineProperty(this, key, replacement);
+    }
   }
 
   /**
@@ -463,7 +466,7 @@ export class DataView<
     params: EventPayloads<Item, IdProp>[EN],
     senderId?: Id | null
   ): void {
-    if (!params || !params.items || !this._data) {
+    if (!params || !params.items || !this.#data) {
       return;
     }
 
@@ -482,7 +485,7 @@ export class DataView<
           const id = ids[i];
           const item = this.get(id);
           if (item) {
-            this._ids.add(id);
+            this.#ids.add(id);
             addedIds.push(id);
           }
         }
@@ -497,7 +500,7 @@ export class DataView<
           const item = this.get(id);
 
           if (item) {
-            if (this._ids.has(id)) {
+            if (this.#ids.has(id)) {
               updatedIds.push(id);
               updatedItems.push(
                 (params as UpdateEventPayload<Item, IdProp>).data[i]
@@ -506,12 +509,12 @@ export class DataView<
                 (params as UpdateEventPayload<Item, IdProp>).oldData[i]
               );
             } else {
-              this._ids.add(id);
+              this.#ids.add(id);
               addedIds.push(id);
             }
           } else {
-            if (this._ids.has(id)) {
-              this._ids.delete(id);
+            if (this.#ids.has(id)) {
+              this.#ids.delete(id);
               removedIds.push(id);
               removedItems.push(
                 (params as UpdateEventPayload<Item, IdProp>).oldData[i]
@@ -528,8 +531,8 @@ export class DataView<
         // filter the ids of the removed items
         for (let i = 0, len = ids.length; i < len; i++) {
           const id = ids[i];
-          if (this._ids.has(id)) {
-            this._ids.delete(id);
+          if (this.#ids.has(id)) {
+            this.#ids.delete(id);
             removedIds.push(id);
             removedItems.push(
               (params as RemoveEventPayload<Item, IdProp>).oldData[i]

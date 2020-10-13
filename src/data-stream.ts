@@ -11,18 +11,22 @@ import { Id } from "./data-interface";
  * @typeParam Item - The item type this stream is going to work with.
  */
 export class DataStream<Item> implements Iterable<[Id, Item]> {
+  readonly #pairs: Iterable<[Id, Item]>;
+
   /**
    * Create a new data stream.
    *
-   * @param _pairs - The id, item pairs.
+   * @param pairs - The id, item pairs.
    */
-  public constructor(private readonly _pairs: Iterable<[Id, Item]>) {}
+  public constructor(pairs: Iterable<[Id, Item]>) {
+    this.#pairs = pairs;
+  }
 
   /**
    * Return an iterable of key, value pairs for every entry in the stream.
    */
   public *[Symbol.iterator](): IterableIterator<[Id, Item]> {
-    for (const [id, item] of this._pairs) {
+    for (const [id, item] of this.#pairs) {
       yield [id, item];
     }
   }
@@ -31,7 +35,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Return an iterable of key, value pairs for every entry in the stream.
    */
   public *entries(): IterableIterator<[Id, Item]> {
-    for (const [id, item] of this._pairs) {
+    for (const [id, item] of this.#pairs) {
       yield [id, item];
     }
   }
@@ -40,7 +44,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Return an iterable of keys in the stream.
    */
   public *keys(): IterableIterator<Id> {
-    for (const [id] of this._pairs) {
+    for (const [id] of this.#pairs) {
       yield id;
     }
   }
@@ -49,7 +53,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Return an iterable of values in the stream.
    */
   public *values(): IterableIterator<Item> {
-    for (const [, item] of this._pairs) {
+    for (const [, item] of this.#pairs) {
       yield item;
     }
   }
@@ -63,7 +67,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns The array with all ids from this stream.
    */
   public toIdArray(): Id[] {
-    return [...this._pairs].map((pair): Id => pair[0]);
+    return [...this.#pairs].map((pair): Id => pair[0]);
   }
 
   /**
@@ -75,7 +79,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns The array with all items from this stream.
    */
   public toItemArray(): Item[] {
-    return [...this._pairs].map((pair): Item => pair[1]);
+    return [...this.#pairs].map((pair): Item => pair[1]);
   }
 
   /**
@@ -87,7 +91,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns The array with all entries from this stream.
    */
   public toEntryArray(): [Id, Item][] {
-    return [...this._pairs];
+    return [...this.#pairs];
   }
 
   /**
@@ -100,7 +104,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    */
   public toObjectMap(): Record<Id, Item> {
     const map: Record<Id, Item> = Object.create(null);
-    for (const [id, item] of this._pairs) {
+    for (const [id, item] of this.#pairs) {
       map[id] = item;
     }
     return map;
@@ -112,7 +116,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns The map of all id → item pairs from this stream.
    */
   public toMap(): Map<Id, Item> {
-    return new Map(this._pairs);
+    return new Map(this.#pairs);
   }
 
   /**
@@ -157,7 +161,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns A new [[DataStream]] with cached items (detached from the original [[DataSet]]).
    */
   public cache(): DataStream<Item> {
-    return new DataStream([...this._pairs]);
+    return new DataStream([...this.#pairs]);
   }
 
   /**
@@ -172,7 +176,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   public distinct<T>(callback: (item: Item, id: Id) => T): Set<T> {
     const set = new Set<T>();
 
-    for (const [id, item] of this._pairs) {
+    for (const [id, item] of this.#pairs) {
       set.add(callback(item, id));
     }
 
@@ -187,7 +191,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns A new data stream with the filtered items.
    */
   public filter(callback: (item: Item, id: Id) => boolean): DataStream<Item> {
-    const pairs = this._pairs;
+    const pairs = this.#pairs;
     return new DataStream<Item>({
       *[Symbol.iterator](): IterableIterator<[Id, Item]> {
         for (const [id, item] of pairs) {
@@ -205,7 +209,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @param callback - The function that will be invoked for each item.
    */
   public forEach(callback: (item: Item, id: Id) => boolean): void {
-    for (const [id, item] of this._pairs) {
+    for (const [id, item] of this.#pairs) {
       callback(item, id);
     }
   }
@@ -222,7 +226,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   public map<Mapped>(
     callback: (item: Item, id: Id) => Mapped
   ): DataStream<Mapped> {
-    const pairs = this._pairs;
+    const pairs = this.#pairs;
     return new DataStream<Mapped>({
       *[Symbol.iterator](): IterableIterator<[Id, Mapped]> {
         for (const [id, item] of pairs) {
@@ -240,7 +244,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns The item with the maximum if found otherwise null.
    */
   public max(callback: (item: Item, id: Id) => number): Item | null {
-    const iter = this._pairs[Symbol.iterator]();
+    const iter = this.#pairs[Symbol.iterator]();
     let curr = iter.next();
     if (curr.done) {
       return null;
@@ -268,7 +272,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns The item with the minimum if found otherwise null.
    */
   public min(callback: (item: Item, id: Id) => number): Item | null {
-    const iter = this._pairs[Symbol.iterator]();
+    const iter = this.#pairs[Symbol.iterator]();
     let curr = iter.next();
     if (curr.done) {
       return null;
@@ -302,7 +306,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
     callback: (accumulator: T, item: Item, id: Id) => T,
     accumulator: T
   ): T {
-    for (const [id, item] of this._pairs) {
+    for (const [id, item] of this.#pairs) {
       accumulator = callback(accumulator, item, id);
     }
     return accumulator;
@@ -320,7 +324,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
   ): DataStream<Item> {
     return new DataStream({
       [Symbol.iterator]: (): IterableIterator<[Id, Item]> =>
-        [...this._pairs]
+        [...this.#pairs]
           .sort(([idA, itemA], [idB, itemB]): number =>
             callback(itemA, itemB, idA, idB)
           )

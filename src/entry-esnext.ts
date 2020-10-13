@@ -1,3 +1,7 @@
+/* develblock:start */
+console.warn("You're running a development build.");
+/* develblock:end */
+
 export {
   DataInterface,
   DataInterfaceGetIdsOptions,
