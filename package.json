@@ -98,7 +98,7 @@
     "rimraf": "3.0.2",
     "rollup": "2.32.1",
     "sazerac": "2.0.0",
-    "sinon": "9.2.0",
+    "sinon": "9.2.1",
     "snap-shot-it": "7.9.3",
     "typedoc": "0.19.2",
     "typescript": "4.0.5",
