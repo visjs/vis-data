@@ -219,7 +219,7 @@ class DataPipeUnderConstruction<
    * Array transformers used to transform items within the pipe. This is typed
    * as any for the sake of simplicity.
    */
-  readonly #transformers: Transformer<any>[] = [];
+  private readonly _transformers: Transformer<any>[] = [];
 
   /**
    * Create a new data pipe factory. This is an internal constructor that
@@ -240,7 +240,7 @@ class DataPipeUnderConstruction<
   public filter(
     callback: (item: SI) => boolean
   ): DataPipeUnderConstruction<SI, SP> {
-    this.#transformers.push((input): unknown[] => input.filter(callback));
+    this._transformers.push((input): unknown[] => input.filter(callback));
     return this;
   }
 
@@ -258,7 +258,7 @@ class DataPipeUnderConstruction<
   public map<TI extends PartItem<TP>, TP extends string = "id">(
     callback: (item: SI) => TI
   ): DataPipeUnderConstruction<TI, TP> {
-    this.#transformers.push((input): unknown[] => input.map(callback));
+    this._transformers.push((input): unknown[] => input.map(callback));
     return (this as unknown) as DataPipeUnderConstruction<TI, TP>;
   }
 
@@ -276,7 +276,7 @@ class DataPipeUnderConstruction<
   public flatMap<TI extends PartItem<TP>, TP extends string = "id">(
     callback: (item: SI) => TI[]
   ): DataPipeUnderConstruction<TI, TP> {
-    this.#transformers.push((input): unknown[] => input.flatMap(callback));
+    this._transformers.push((input): unknown[] => input.flatMap(callback));
     return (this as unknown) as DataPipeUnderConstruction<TI, TP>;
   }
 
@@ -289,6 +289,6 @@ class DataPipeUnderConstruction<
    * configured transformation on the processed items.
    */
   public to(target: DataSet<SI, SP>): DataPipe {
-    return new SimpleDataPipe(this._source, this.#transformers, target);
+    return new SimpleDataPipe(this._source, this._transformers, target);
   }
 }
