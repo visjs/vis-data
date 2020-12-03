@@ -88,7 +88,7 @@
     "@types/uuid": "8.3.0",
     "chai": "4.2.0",
     "eslint": "7.14.0",
-    "git-authors-cli": "1.0.31",
+    "git-authors-cli": "1.0.32",
     "husky": "4.3.0",
     "lint-staged": "10.5.2",
     "mocha": "8.2.1",
