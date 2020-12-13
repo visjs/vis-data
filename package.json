@@ -89,7 +89,7 @@
     "chai": "4.2.0",
     "eslint": "7.15.0",
     "git-authors-cli": "1.0.32",
-    "husky": "4.3.5",
+    "husky": "4.3.6",
     "lint-staged": "10.5.3",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
