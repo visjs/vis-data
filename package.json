@@ -90,7 +90,7 @@
     "chai": "4.2.0",
     "component-emitter": "1.3.0",
     "eslint": "7.17.0",
-    "git-authors-cli": "1.0.32",
+    "git-authors-cli": "1.0.33",
     "husky": "4.3.7",
     "lint-staged": "10.5.3",
     "mocha": "8.2.1",
