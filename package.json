@@ -82,7 +82,7 @@
   "devDependencies": {
     "@egjs/hammerjs": "2.0.17",
     "@rollup/plugin-commonjs": "20.0.0",
-    "@rollup/plugin-node-resolve": "11.2.1",
+    "@rollup/plugin-node-resolve": "13.0.4",
     "@types/chai": "4.2.21",
     "@types/mocha": "9.0.0",
     "@types/sinon": "9.0.11",
