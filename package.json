@@ -83,7 +83,7 @@
     "@egjs/hammerjs": "2.0.17",
     "@rollup/plugin-commonjs": "20.0.0",
     "@rollup/plugin-node-resolve": "13.0.4",
-    "@types/chai": "4.2.21",
+    "@types/chai": "4.2.22",
     "@types/mocha": "9.0.0",
     "@types/sinon": "10.0.2",
     "@types/uuid": "8.3.1",
