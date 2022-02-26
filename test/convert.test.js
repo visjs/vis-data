@@ -27,7 +27,6 @@ describe("Convert replacement from the docs", function () {
        * Test whether given object is a number
        *
        * @param {*} value - Input value of unknown type.
-       *
        * @returns {boolean} True if number, false otherwise.
        */
       function isNumber(value) {
@@ -38,7 +37,6 @@ describe("Convert replacement from the docs", function () {
        * Test whether given object is a string
        *
        * @param {*} value - Input value of unknown type.
-       *
        * @returns {boolean} True if string, false otherwise.
        */
       function isString(value) {
@@ -49,7 +47,6 @@ describe("Convert replacement from the docs", function () {
        * Get the type of an object, for example exports.getType([]) returns 'Array'
        *
        * @param {*} object - Input value of unknown type.
-       *
        * @returns {string} Detected type.
        */
       function getType(object) {
@@ -98,7 +95,6 @@ describe("Convert replacement from the docs", function () {
        *
        * @param {*} object - Value of unknown type.
        * @param {string} type - Name of the desired type.
-       *
        * @returns {*} Object in the desired type.
        * @throws Error
        */

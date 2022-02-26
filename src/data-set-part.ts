@@ -90,7 +90,6 @@ export abstract class DataSetPart<Item, IdProp extends string>
    * Subscribe to an event, add an event listener.
    *
    * @remarks Non-function callbacks are ignored.
-   *
    * @param event - Event name.
    * @param callback - Callback method.
    */
@@ -128,7 +127,6 @@ export abstract class DataSetPart<Item, IdProp extends string>
    * Unsubscribe from an event, remove an event listener.
    *
    * @remarks If the same callback was subscribed more than once **all** occurences will be removed.
-   *
    * @param event - Event name.
    * @param callback - Callback method.
    */

@@ -98,7 +98,6 @@ export class Queue<T = never> {
    *
    * @param object - The object to be extended.
    * @param options - Additional options.
-   *
    * @returns The created queue.
    */
   public static extend<O extends { flush?: () => void }, K extends string>(

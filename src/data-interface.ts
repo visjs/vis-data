@@ -12,7 +12,6 @@ export type OptId = undefined | null | Id;
  * Determine whether a value can be used as an id.
  *
  * @param value - Input value of unknown type.
- *
  * @returns True if the value is valid id, false otherwise.
  */
 export function isId(value: unknown): value is Id {
@@ -60,10 +59,8 @@ export type UpdateItem<
  *
  * @param item - The item to be tested.
  * @param idProp - Name of the id property.
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
- *
  * @returns True if this value is a [[FullItem]], false otherwise.
  */
 export function isFullItem<
@@ -201,7 +198,7 @@ export interface DataInterfaceGetOptionsBase<Item> {
    * An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items.
    *
    * @remarks
-   * **Warning**: There is no TypeScript support for this.
+   * Warning**: There is no TypeScript support for this.
    */
   fields?: string[] | Record<string, string>;
   /** Items can be filtered on specific properties by providing a filter function. A filter function is executed for each of the items in the DataSet, and is called with the item as parameter. The function must return a boolean. All items for which the filter function returns true will be emitted. */
@@ -217,7 +214,6 @@ export interface DataInterfaceGetOptionsBase<Item> {
  * Whether an item or and array of items is returned is determined by the type of the id(s) argument.
  * If an array of ids is requested an array of items will be returned.
  * If a single id is requested a single item (or null if the id doesn't correspond to any item) will be returned.
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsArray<Item>
@@ -230,7 +226,6 @@ export interface DataInterfaceGetOptionsArray<Item>
  *
  * @remarks
  * The returned object has ids as keys and items as values of corresponding ids.
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsObject<Item>
@@ -308,7 +303,6 @@ export interface DataInterface<
    * Add a universal event listener.
    *
    * @remarks The `*` event is triggered when any of the events `add`, `update`, and `remove` occurs.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
@@ -317,7 +311,6 @@ export interface DataInterface<
    * Add an `add` event listener.
    *
    * @remarks The `add` event is triggered when an item or a set of items is added, or when an item is updated while not yet existing.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
@@ -326,7 +319,6 @@ export interface DataInterface<
    * Add a `remove` event listener.
    *
    * @remarks The `remove` event is triggered when an item or a set of items is removed.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
@@ -338,7 +330,6 @@ export interface DataInterface<
    * Add an `update` event listener.
    *
    * @remarks The `update` event is triggered when an existing item or a set of existing items is updated.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
@@ -392,7 +383,6 @@ export interface DataInterface<
    * Get all the items.
    *
    * @param options - Additional options.
-   *
    * @returns An array containing requested items.
    */
   get(options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[];
@@ -400,7 +390,6 @@ export interface DataInterface<
    * Get all the items.
    *
    * @param options - Additional options.
-   *
    * @returns An object map of items (may be an empty object if there are no items).
    */
   get(
@@ -410,7 +399,6 @@ export interface DataInterface<
    * Get all the items.
    *
    * @param options - Additional options.
-   *
    * @returns An array containing requested items or if requested an object map of items (may be an empty object if there are no items).
    */
   get(
@@ -420,7 +408,6 @@ export interface DataInterface<
    * Get one item.
    *
    * @param id - The id of the item.
-   *
    * @returns The item or null if the id doesn't correspond to any item.
    */
   get(id: Id): null | FullItem<Item, IdProp>;
@@ -429,7 +416,6 @@ export interface DataInterface<
    *
    * @param id - The id of the item.
    * @param options - Additional options.
-   *
    * @returns The item or null if the id doesn't correspond to any item.
    */
   get(
@@ -441,7 +427,6 @@ export interface DataInterface<
    *
    * @param id - The id of the item.
    * @param options - Additional options.
-   *
    * @returns An object map of items (may be an empty object if no item was found).
    */
   get(
@@ -453,7 +438,6 @@ export interface DataInterface<
    *
    * @param id - The id of the item.
    * @param options - Additional options.
-   *
    * @returns The item if found or null otherwise. If requested an object map with 0 to 1 items.
    */
   get(
@@ -464,7 +448,6 @@ export interface DataInterface<
    * Get multiple items.
    *
    * @param ids - An array of requested ids.
-   *
    * @returns An array of found items (ids that do not correspond to any item are omitted).
    */
   get(ids: Id[]): FullItem<Item, IdProp>[];
@@ -473,7 +456,6 @@ export interface DataInterface<
    *
    * @param ids - An array of requested ids.
    * @param options - Additional options.
-   *
    * @returns An array of found items (ids that do not correspond to any item are omitted).
    */
   get(
@@ -485,7 +467,6 @@ export interface DataInterface<
    *
    * @param ids - An array of requested ids.
    * @param options - Additional options.
-   *
    * @returns An object map of items (may be an empty object if no item was found).
    */
   get(
@@ -497,7 +478,6 @@ export interface DataInterface<
    *
    * @param ids - An array of requested ids.
    * @param options - Additional options.
-   *
    * @returns An array of found items (ids that do not correspond to any item are omitted).
    * If requested an object map of items (may be an empty object if no item was found).
    */
@@ -510,7 +490,6 @@ export interface DataInterface<
    *
    * @param ids - Id or ids to be returned.
    * @param options - Options to specify iteration details.
-   *
    * @returns The items (format is determined by ids (single or array) and the options.
    */
   get(
@@ -535,9 +514,7 @@ export interface DataInterface<
    *
    * @remarks
    * No guarantee is given about the order of returned ids unless an ordering function is supplied.
-   *
    * @param options - Additional configuration.
-   *
    * @returns An array of requested ids.
    */
   getIds(options?: DataInterfaceGetIdsOptions<Item>): Id[];
@@ -547,7 +524,6 @@ export interface DataInterface<
    *
    * @remarks
    * No guarantee is given about the order of iteration unless an ordering function is supplied.
-   *
    * @param callback - Executed in similar fashion to Array.forEach callback, but instead of item, index, array receives item, id.
    * @param options - Options to specify iteration details.
    */
@@ -561,10 +537,8 @@ export interface DataInterface<
    *
    * @remarks
    * No guarantee is given about the order of iteration even if ordering function is supplied (the items are sorted after the mapping).
-   *
    * @param callback - Array.map-like callback, but only with the first two params.
    * @param options - Options to specify iteration details.
-   *
    * @returns The mapped items.
    */
   map<T>(
@@ -576,7 +550,6 @@ export interface DataInterface<
    * Stream.
    *
    * @param ids - Ids of the items to be included in this stream (missing are ignored), all if omitted.
-   *
    * @returns The data stream for this data set.
    */
   stream(ids?: Iterable<Id>): DataStream<Item>;
