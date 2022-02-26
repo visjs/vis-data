@@ -57,13 +57,10 @@ export interface DataSetOptions {
  *
  * @remarks
  * The item will be modified.
- *
  * @param item - The item that will have an id after a call to this function.
  * @param idProp - The key of the id property.
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
- *
  * @returns true
  */
 function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
@@ -248,9 +245,7 @@ export class DataSet<
    *
    * @param data - Items to be added (ids will be generated if missing).
    * @param senderId - Sender id.
-   *
    * @returns addedIds - Array with the ids (generated if not present) of the added items.
-   *
    * @throws When an item with the same id as any of the added items already exists.
    */
   public add(data: Item | Item[], senderId?: Id | null): (string | number)[] {
@@ -311,12 +306,9 @@ export class DataSet<
    *
    * ## Warning for TypeScript users
    * This method may introduce partial items into the data set. Use add or updateOnly instead for better type safety.
-   *
    * @param data - Items to be updated (if the id is already present) or added (if the id is missing).
    * @param senderId - Sender id.
-   *
    * @returns updatedIds - The ids of the added (these may be newly generated if there was no id in the item from the data) or updated items.
-   *
    * @throws When the supplied data is neither an item nor an array of items.
    */
   public update(
@@ -411,12 +403,9 @@ export class DataSet<
    *
    * console.log(ids) // [2]
    * ```
-   *
    * @param data - Updates (the id and optionally other props) to the items in this data set.
    * @param senderId - Sender id.
-   *
    * @returns updatedIds - The ids of the updated items.
-   *
    * @throws When the supplied data is neither an item nor an array of items, when the ids are missing.
    */
   public updateOnly(
@@ -799,9 +788,7 @@ export class DataSet<
    *
    * @param item - The item whose fields should be filtered.
    * @param fields - The names of the fields that will be kept.
-   *
    * @typeParam K - Field name type.
-   *
    * @returns The item without any additional fields.
    */
   private _filterFields<K extends string>(
@@ -832,7 +819,6 @@ export class DataSet<
    *
    * @param items - Items to be sorted in place.
    * @param order - A field name or custom sort function.
-   *
    * @typeParam T - The type of the items in the items array.
    */
   private _sort<T>(items: T[], order: DataInterfaceOrder<T>): void {
@@ -879,7 +865,6 @@ export class DataSet<
    *
    * @param id - One or more items or ids of items to be removed.
    * @param senderId - Sender id.
-   *
    * @returns The ids of the removed items.
    */
   public remove(id: Id | Item | (Id | Item)[], senderId?: Id | null): Id[] {
@@ -915,7 +900,6 @@ export class DataSet<
    * Remove an item by its id or reference.
    *
    * @param id - Id of an item or the item itself.
-   *
    * @returns The removed item if removed, null otherwise.
    */
   private _remove(id: Id | Item): FullItem<Item, IdProp> | null {
@@ -947,7 +931,6 @@ export class DataSet<
    * After the items are removed, the [[DataSet]] will trigger an event `remove` for all removed items. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
    *
    * @param senderId - Sender id.
-   *
    * @returns removedIds - The ids of all removed items.
    */
   public clear(senderId?: Id | null): Id[] {
@@ -970,7 +953,6 @@ export class DataSet<
    * Find the item with maximum value of a specified field.
    *
    * @param field - Name of the property that should be searched for max value.
-   *
    * @returns Item containing max value, or null if no items.
    */
   public max(field: keyof Item): Item | null {
@@ -995,7 +977,6 @@ export class DataSet<
    * Find the item with minimum value of a specified field.
    *
    * @param field - Name of the property that should be searched for min value.
-   *
    * @returns Item containing min value, or null if no items.
    */
   public min(field: keyof Item): Item | null {
@@ -1022,7 +1003,6 @@ export class DataSet<
    * Find all distinct values of a specified field
    *
    * @param prop - The property name whose distinct values should be returned.
-   *
    * @returns Unordered array containing all distinct values. Items without specified property are ignored.
    */
   public distinct<T extends string>(prop: T): unknown[] {
@@ -1055,7 +1035,6 @@ export class DataSet<
    * Add a single item. Will fail when an item with the same id already exists.
    *
    * @param item - A new item to be added.
-   *
    * @returns Added item's id. An id is generated when it is not present in the item.
    */
   private _addItem(item: Item): Id {
@@ -1081,7 +1060,6 @@ export class DataSet<
    * Will fail when the item has no id, or when there does not exist an item with the same id.
    *
    * @param update - The new item
-   *
    * @returns The id of the updated item.
    */
   private _updateItem(update: FullItem<Item, IdProp>): Id {

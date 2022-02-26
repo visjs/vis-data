@@ -38,7 +38,6 @@ export type DataPipeFactory = InstanceType<typeof DataPipeUnderConstruction>;
  * Create new data pipe.
  *
  * @param from - The source data set or data view.
- *
  * @remarks
  * Example usage:
  * ```typescript
@@ -65,7 +64,6 @@ export type DataPipeFactory = InstanceType<typeof DataPipeUnderConstruction>;
  *
  * pipe.start();
  * ```
- *
  * @returns A factory whose methods can be used to configure the pipe.
  */
 export function createNewDataPipeFrom<
@@ -143,7 +141,6 @@ class SimpleDataPipe<
    * Apply the transformers to the items.
    *
    * @param items - The items to be transformed.
-   *
    * @returns The transformed items.
    */
   private _transformItems(items: unknown[]): any[] {
@@ -234,7 +231,6 @@ class DataPipeUnderConstruction<
    *
    * @param callback - A filtering function that returns true if given item
    * should be piped and false if not.
-   *
    * @returns This factory for further configuration.
    */
   public filter(
@@ -249,10 +245,8 @@ class DataPipeUnderConstruction<
    *
    * @param callback - A mapping function that takes a source item and returns
    * corresponding mapped item.
-   *
    * @typeParam TI - Target item type.
    * @typeParam TP - Target item type's id property name.
-   *
    * @returns This factory for further configuration.
    */
   public map<TI extends PartItem<TP>, TP extends string = "id">(
@@ -267,10 +261,8 @@ class DataPipeUnderConstruction<
    *
    * @param callback - A mapping function that takes a source item and returns
    * an array of corresponding mapped items.
-   *
    * @typeParam TI - Target item type.
    * @typeParam TP - Target item type's id property name.
-   *
    * @returns This factory for further configuration.
    */
   public flatMap<TI extends PartItem<TP>, TP extends string = "id">(
@@ -284,7 +276,6 @@ class DataPipeUnderConstruction<
    * Connect this pipe to given data set.
    *
    * @param target - The data set that will receive the items from this pipe.
-   *
    * @returns The pipe connected between given data sets and performing
    * configured transformation on the processed items.
    */

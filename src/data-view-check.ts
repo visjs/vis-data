@@ -7,7 +7,6 @@ import { isDataSetLike } from "./data-set-check";
  *
  * @param idProp - The expected property to contain item id.
  * @param v - The value to be tested.
- *
  * @returns True if all expected values and methods match, false otherwise.
  */
 export function isDataViewLike<

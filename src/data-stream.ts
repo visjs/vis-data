@@ -7,7 +7,6 @@ import { Id } from "./data-interface";
  * [[DataStream]] offers an always up to date stream of items from a [[DataSet]] or [[DataView]].
  * That means that the stream is evaluated at the time of iteration, conversion to another data type or when [[cache]] is called, not when the [[DataStream]] was created.
  * Multiple invocations of for example [[toItemArray]] may yield different results (if the data source like for example [[DataSet]] gets modified).
- *
  * @typeParam Item - The item type this stream is going to work with.
  */
 export class DataStream<Item> implements Iterable<[Id, Item]> {
@@ -63,7 +62,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @remarks
    * The array may contain duplicities.
-   *
    * @returns The array with all ids from this stream.
    */
   public toIdArray(): Id[] {
@@ -75,7 +73,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @remarks
    * The array may contain duplicities.
-   *
    * @returns The array with all items from this stream.
    */
   public toItemArray(): Item[] {
@@ -87,7 +84,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @remarks
    * The array may contain duplicities.
-   *
    * @returns The array with all entries from this stream.
    */
   public toEntryArray(): [Id, Item][] {
@@ -99,7 +95,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @remarks
    * In case of duplicate ids (coerced to string so `7 == '7'`) the last encoutered appears in the returned object.
-   *
    * @returns The object map of all id → item pairs from this stream.
    */
   public toObjectMap(): Record<Id, Item> {
@@ -157,7 +152,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * ds.clear()
    * chachedStream // Still has all the items.
    * ```
-   *
    * @returns A new [[DataStream]] with cached items (detached from the original [[DataSet]]).
    */
   public cache(): DataStream<Item> {
@@ -168,9 +162,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Get the distinct values of given property.
    *
    * @param callback - The function that picks and possibly converts the property.
-   *
    * @typeParam T - The type of the distinct value.
-   *
    * @returns A set of all distinct properties.
    */
   public distinct<T>(callback: (item: Item, id: Id) => T): Set<T> {
@@ -187,7 +179,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Filter the items of the stream.
    *
    * @param callback - The function that decides whether an item will be included.
-   *
    * @returns A new data stream with the filtered items.
    */
   public filter(callback: (item: Item, id: Id) => boolean): DataStream<Item> {
@@ -218,9 +209,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Map the items into a different type.
    *
    * @param callback - The function that does the conversion.
-   *
    * @typeParam Mapped - The type of the item after mapping.
-   *
    * @returns A new data stream with the mapped items.
    */
   public map<Mapped>(
@@ -240,7 +229,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Get the item with the maximum value of given property.
    *
    * @param callback - The function that picks and possibly converts the property.
-   *
    * @returns The item with the maximum if found otherwise null.
    */
   public max(callback: (item: Item, id: Id) => number): Item | null {
@@ -268,7 +256,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Get the item with the minimum value of given property.
    *
    * @param callback - The function that picks and possibly converts the property.
-   *
    * @returns The item with the minimum if found otherwise null.
    */
   public min(callback: (item: Item, id: Id) => number): Item | null {
@@ -297,9 +284,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @param callback - The function that does the reduction.
    * @param accumulator - The initial value of the accumulator.
-   *
    * @typeParam T - The type of the accumulated value.
-   *
    * @returns The reduced value.
    */
   public reduce<T>(
@@ -316,7 +301,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * Sort the items.
    *
    * @param callback - Item comparator.
-   *
    * @returns A new stream with sorted items.
    */
   public sort(
