@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node:
     docker:
-      - image: circleci/node:16.7
+      - image: cimg/node:16.14.0-browsers
     working_directory: ~/repo
     environment:
       GIT_AUTHOR_EMAIL: visjsbot@gmail.com
@@ -79,8 +79,6 @@ jobs:
           at: .
 
       - run: npm pack
-
-      - run: npx ci-utils install-dependencies-for chromium cypress
 
       - run:
           command: npm run test:interop
