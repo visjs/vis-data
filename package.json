@@ -62,12 +62,8 @@
     "type-check": "tsc --noemit",
     "version": "npm run contributors:update && git add package.json",
     "watch": "rollup --watch --config rollup.config.js",
-    "watch-dev": "npm run watch-dev"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "watch-dev": "npm run watch-dev",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{js,ts,css,html,json,md,yml,yaml}": "prettier --write",
@@ -113,7 +109,7 @@
     "find-up": "5.0.0",
     "git-authors-cli": "1.0.36",
     "globby": "11.0.4",
-    "husky": "4.3.8",
+    "husky": "7.0.0",
     "jimp": "0.16.1",
     "lint-staged": "11.2.6",
     "mocha": "9.1.3",
