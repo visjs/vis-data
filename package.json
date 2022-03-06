@@ -117,7 +117,7 @@
     "opencollective": "1.0.3",
     "postcss-assets": "6.0.0",
     "prettier": "2.2.1",
-    "puppeteer": "10.2.0",
+    "puppeteer": "13.1.2",
     "rimraf": "3.0.2",
     "rollup": "2.61.1",
     "rollup-plugin-analyzer": "4.0.0",
