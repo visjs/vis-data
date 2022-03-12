@@ -93,12 +93,16 @@ jobs:
       - run: npm pack
 
       - run:
-          command: npm run test:interop
+          command: npm run test:interop -- --tmp-dir ../interop
           # This runs multiple things in parallel and only reports start and end
           # of individual commands, the full logs are printed at the end. Due to
           # this it's quite likely to go a long time without any output and
           # still finish successfully.
           no_output_timeout: 60m
+
+      - store_artifacts:
+          path: ../interop/repos/logs
+          destination: interop-logs
 
   release:
     executor: node
