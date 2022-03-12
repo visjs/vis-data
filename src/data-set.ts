@@ -139,7 +139,8 @@ export class DataSet<
     IdProp extends string = "id"
   >
   extends DataSetPart<Item, IdProp>
-  implements DataInterface<Item, IdProp> {
+  implements DataInterface<Item, IdProp>
+{
   /** Flush all queued calls. */
   public flush?: () => void;
   /** @inheritDoc */
@@ -417,32 +418,41 @@ export class DataSet<
     }
 
     const updateEventData = data
-      .map((update): {
-        oldData: FullItem<Item, IdProp>;
-        update: UpdateItem<Item, IdProp>;
-      } => {
-        const oldData = this._data.get(update[this._idProp]);
-        if (oldData == null) {
-          throw new Error("Updating non-existent items is not allowed.");
+      .map(
+        (
+          update
+        ): {
+          oldData: FullItem<Item, IdProp>;
+          update: UpdateItem<Item, IdProp>;
+        } => {
+          const oldData = this._data.get(update[this._idProp]);
+          if (oldData == null) {
+            throw new Error("Updating non-existent items is not allowed.");
+          }
+          return { oldData, update };
         }
-        return { oldData, update };
-      })
-      .map(({ oldData, update }): {
-        id: Id;
-        oldData: FullItem<Item, IdProp>;
-        updatedData: FullItem<Item, IdProp>;
-      } => {
-        const id = oldData[this._idProp];
-        const updatedData = pureDeepObjectAssign(oldData, update);
+      )
+      .map(
+        ({
+          oldData,
+          update,
+        }): {
+          id: Id;
+          oldData: FullItem<Item, IdProp>;
+          updatedData: FullItem<Item, IdProp>;
+        } => {
+          const id = oldData[this._idProp];
+          const updatedData = pureDeepObjectAssign(oldData, update);
 
-        this._data.set(id, updatedData);
+          this._data.set(id, updatedData);
 
-        return {
-          id,
-          oldData: oldData,
-          updatedData,
-        };
-      });
+          return {
+            id,
+            oldData: oldData,
+            updatedData,
+          };
+        }
+      );
 
     if (updateEventData.length) {
       const props: EventPayloads<Item, IdProp>["update"] = {
@@ -800,18 +810,19 @@ export class DataSet<
       return item;
     }
 
-    return (Array.isArray(fields)
-      ? // Use the supplied array
-        fields
-      : // Use the keys of the supplied object
-        (Object.keys(fields) as K[])
-    ).reduce<Record<string, unknown>>((filteredItem, field): Record<
-      string,
-      unknown
-    > => {
-      filteredItem[field] = item[field];
-      return filteredItem;
-    }, {});
+    return (
+      Array.isArray(fields)
+        ? // Use the supplied array
+          fields
+        : // Use the keys of the supplied object
+          (Object.keys(fields) as K[])
+    ).reduce<Record<string, unknown>>(
+      (filteredItem, field): Record<string, unknown> => {
+        filteredItem[field] = item[field];
+        return filteredItem;
+      },
+      {}
+    );
   }
 
   /**

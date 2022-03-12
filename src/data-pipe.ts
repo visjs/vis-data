@@ -89,7 +89,8 @@ class SimpleDataPipe<
   SP extends string,
   TI extends PartItem<TP>,
   TP extends string
-> implements DataPipe {
+> implements DataPipe
+{
   /**
    * Bound listeners for use with `DataInterface['on' | 'off']`.
    */
@@ -253,7 +254,7 @@ class DataPipeUnderConstruction<
     callback: (item: SI) => TI
   ): DataPipeUnderConstruction<TI, TP> {
     this._transformers.push((input): unknown[] => input.map(callback));
-    return (this as unknown) as DataPipeUnderConstruction<TI, TP>;
+    return this as unknown as DataPipeUnderConstruction<TI, TP>;
   }
 
   /**
@@ -269,7 +270,7 @@ class DataPipeUnderConstruction<
     callback: (item: SI) => TI[]
   ): DataPipeUnderConstruction<TI, TP> {
     this._transformers.push((input): unknown[] => input.flatMap(callback));
-    return (this as unknown) as DataPipeUnderConstruction<TI, TP>;
+    return this as unknown as DataPipeUnderConstruction<TI, TP>;
   }
 
   /**

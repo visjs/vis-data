@@ -86,7 +86,8 @@ export class DataView<
     IdProp extends string = "id"
   >
   extends DataSetPart<Item, IdProp>
-  implements DataInterface<Item, IdProp> {
+  implements DataInterface<Item, IdProp>
+{
   /** @inheritDoc */
   public length = 0;
   /** @inheritDoc */

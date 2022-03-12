@@ -94,9 +94,9 @@
     "sazerac": "2.0.0",
     "sinon": "11.1.2",
     "snap-shot-it": "7.9.6",
-    "typedoc": "0.20.37",
+    "typedoc": "0.22.13",
     "uuid": "8.3.2",
-    "vis-dev-utils": "3.0.0",
+    "vis-dev-utils": "3.0.4",
     "vis-util": "5.0.2"
   },
   "collective": {
