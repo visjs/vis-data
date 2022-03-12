@@ -126,10 +126,10 @@ export class Queue<T = never> {
         methods.push({
           name: name,
           // @TODO: better solution?
-          original: ((object as unknown) as Record<K, () => void>)[name],
+          original: (object as unknown as Record<K, () => void>)[name],
         });
         // @TODO: better solution?
-        queue.replace((object as unknown) as Record<K, () => void>, name);
+        queue.replace(object as unknown as Record<K, () => void>, name);
       }
     }
 
