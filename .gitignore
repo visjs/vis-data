@@ -22,6 +22,7 @@ vis-data-*.tgz
 /peer/
 /reports/
 /standalone/
+/tsdocs/
 coverage/
 dist
 gen/
