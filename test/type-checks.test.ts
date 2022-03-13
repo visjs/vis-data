@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { test, given } from "sazerac";
 
 import {
