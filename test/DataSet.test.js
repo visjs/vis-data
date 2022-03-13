@@ -516,12 +516,12 @@ describe("DataSet", function () {
 
     it("handles big values", function () {
       var dataset = new DataSet([
-        { id: 10000000000000001 },
-        { id: 10000000000000002 },
-        { id: 10000000000000003 },
+        { id: 1000000000000001 },
+        { id: 1000000000000002 },
+        { id: 1000000000000003 },
       ]);
       var minValue = dataset.min("id");
-      assert.deepEqual(minValue, { id: 10000000000000001 });
+      assert.deepEqual(minValue, { id: 1000000000000001 });
     });
   });
 
