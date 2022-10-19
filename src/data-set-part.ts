@@ -5,6 +5,7 @@ import {
   EventNameWithAny,
   EventPayloads,
   Id,
+  PartItem,
 } from "./data-interface";
 
 type EventSubscribers<Item, IdProp extends string> = {
@@ -17,8 +18,10 @@ type EventSubscribers<Item, IdProp extends string> = {
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
-export abstract class DataSetPart<Item, IdProp extends string>
-  implements Pick<DataInterface<Item, IdProp>, "on" | "off">
+export abstract class DataSetPart<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> implements Pick<DataInterface<Item, IdProp>, "on" | "off">
 {
   private readonly _subscribers: {
     [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][];
