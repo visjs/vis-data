@@ -72,7 +72,7 @@
     ".*.{js,ts}": "eslint --fix"
   },
   "peerDependencies": {
-    "uuid": "^7.0.0 || ^8.0.0",
+    "uuid": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "vis-util": "^4.0.0 || ^5.0.0"
   },
   "devDependencies": {
