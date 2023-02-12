@@ -8,7 +8,7 @@ import {
   PartItem,
 } from "./data-interface";
 
-type EventSubscribers<Item, IdProp extends string> = {
+type EventSubscribers<Item extends PartItem<IdProp>, IdProp extends string> = {
   [Name in keyof EventCallbacksWithAny<Item, IdProp>]: (...args: any[]) => void;
 };
 
