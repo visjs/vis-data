@@ -76,7 +76,10 @@ export interface AddEventPayload {
   items: Id[];
 }
 /** Update event payload. */
-export interface UpdateEventPayload<Item, IdProp extends string> {
+export interface UpdateEventPayload<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> {
   /** Ids of updated items. */
   items: Id[];
   /** Items as they were before this update. */
@@ -89,7 +92,10 @@ export interface UpdateEventPayload<Item, IdProp extends string> {
   data: FullItem<Item, IdProp>[];
 }
 /** Remove event payload. */
-export interface RemoveEventPayload<Item, IdProp extends string> {
+export interface RemoveEventPayload<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> {
   /** Ids of removed items. */
   items: Id[];
   /** Items as they were before their removal. */
@@ -102,7 +108,10 @@ export interface RemoveEventPayload<Item, IdProp extends string> {
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
-export interface EventPayloads<Item, IdProp extends string> {
+export interface EventPayloads<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> {
   add: AddEventPayload;
   update: UpdateEventPayload<Item, IdProp>;
   remove: RemoveEventPayload<Item, IdProp>;
@@ -113,8 +122,10 @@ export interface EventPayloads<Item, IdProp extends string> {
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
-export interface EventPayloadsWithAny<Item, IdProp extends string>
-  extends EventPayloads<Item, IdProp> {
+export interface EventPayloadsWithAny<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> extends EventPayloads<Item, IdProp> {
   "*": ValueOf<EventPayloads<Item, IdProp>>;
 }
 
@@ -124,7 +135,10 @@ export interface EventPayloadsWithAny<Item, IdProp extends string>
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
-export interface EventCallbacks<Item, IdProp extends string> {
+export interface EventCallbacks<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> {
   /**
    * @param name - The name of the event ([[EventName]]).
    * @param payload - Data about the items affected by this event.
@@ -158,8 +172,10 @@ export interface EventCallbacks<Item, IdProp extends string> {
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
-export interface EventCallbacksWithAny<Item, IdProp extends string>
-  extends EventCallbacks<Item, IdProp> {
+export interface EventCallbacksWithAny<
+  Item extends PartItem<IdProp>,
+  IdProp extends string
+> extends EventCallbacks<Item, IdProp> {
   /**
    * @param name - The name of the event ([[EventName]]).
    * @param payload - Data about the items affected by this event.
