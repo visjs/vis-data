@@ -76,7 +76,7 @@
     "vis-util": "^4.0.0 || ^5.0.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-object-rest-spread": "7.20.2",
+    "@babel/plugin-proposal-object-rest-spread": "7.20.7",
     "@egjs/hammerjs": "2.0.17",
     "@types/chai": "4.3.4",
     "@types/mocha": "10.0.1",
