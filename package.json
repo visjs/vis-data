@@ -93,7 +93,7 @@
     "rimraf": "3.0.2",
     "sazerac": "2.0.0",
     "sinon": "14.0.2",
-    "snap-shot-it": "7.9.6",
+    "snap-shot-it": "7.9.10",
     "typedoc": "0.22.17",
     "uuid": "8.3.2",
     "vis-dev-utils": "3.0.117",
