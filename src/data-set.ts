@@ -47,7 +47,7 @@ export interface DataSetOptions {
    * Queue configuration object or false if no queue should be used.
    *
    * - If false and there was a queue before it will be flushed and then removed.
-   * - If [[QueueOptions]] the existing queue will be reconfigured or a new queue will be created.
+   * - If {@link QueueOptions} the existing queue will be reconfigured or a new queue will be created.
    */
   queue?: Queue | QueueOptions | false;
 }
@@ -939,7 +939,7 @@ export class DataSet<
   /**
    * Clear the entire data set.
    *
-   * After the items are removed, the [[DataSet]] will trigger an event `remove` for all removed items. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
+   * After the items are removed, the {@link DataSet} will trigger an event `remove` for all removed items. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
    *
    * @param senderId - Sender id.
    * @returns removedIds - The ids of all removed items.
