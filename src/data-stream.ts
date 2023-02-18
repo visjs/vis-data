@@ -4,9 +4,9 @@ import { Id } from "./data-interface";
  * Data stream
  *
  * @remarks
- * [[DataStream]] offers an always up to date stream of items from a [[DataSet]] or [[DataView]].
- * That means that the stream is evaluated at the time of iteration, conversion to another data type or when [[cache]] is called, not when the [[DataStream]] was created.
- * Multiple invocations of for example [[toItemArray]] may yield different results (if the data source like for example [[DataSet]] gets modified).
+ * {@link DataStream} offers an always up to date stream of items from a {@link DataSet} or {@link DataView}.
+ * That means that the stream is evaluated at the time of iteration, conversion to another data type or when {@link cache} is called, not when the {@link DataStream} was created.
+ * Multiple invocations of for example {@link toItemArray} may yield different results (if the data source like for example {@link DataSet} gets modified).
  * @typeParam Item - The item type this stream is going to work with.
  */
 export class DataStream<Item> implements Iterable<[Id, Item]> {
@@ -137,7 +137,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    *
    * @remarks
    * This method allows for items to be fetched immediatelly and used (possibly multiple times) later.
-   * It can also be used to optimize performance as [[DataStream]] would otherwise reevaluate everything upon each iteration.
+   * It can also be used to optimize performance as {@link DataStream} would otherwise reevaluate everything upon each iteration.
    *
    * ## Example
    * ```javascript
@@ -152,7 +152,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * ds.clear()
    * chachedStream // Still has all the items.
    * ```
-   * @returns A new [[DataStream]] with cached items (detached from the original [[DataSet]]).
+   * @returns A new {@link DataStream} with cached items (detached from the original {@link DataSet}).
    */
   public cache(): DataStream<Item> {
     return new DataStream([...this._pairs]);

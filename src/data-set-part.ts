@@ -13,7 +13,7 @@ type EventSubscribers<Item extends PartItem<IdProp>, IdProp extends string> = {
 };
 
 /**
- * [[DataSet]] code that can be reused in [[DataView]] or other similar implementations of [[DataInterface]].
+ * {@link DataSet} code that can be reused in {@link DataView} or other similar implementations of {@link DataInterface}.
  *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.

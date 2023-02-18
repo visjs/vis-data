@@ -28,7 +28,7 @@ export type DeepPartial<T> = T extends any[] | Function | Node
   : T;
 
 /**
- * An item that may ([[Id]]) or may not (absent, undefined or null) have an id property.
+ * An item that may ({@link Id}) or may not (absent, undefined or null) have an id property.
  *
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -55,13 +55,13 @@ export type UpdateItem<
 > = Assignable<FullItem<Item, IdProp>> & Record<IdProp, Id>;
 
 /**
- * Test whether an item has an id (is a [[FullItem]]).
+ * Test whether an item has an id (is a {@link FullItem}).
  *
  * @param item - The item to be tested.
  * @param idProp - Name of the id property.
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
- * @returns True if this value is a [[FullItem]], false otherwise.
+ * @returns True if this value is a {@link FullItem}, false otherwise.
  */
 export function isFullItem<
   Item extends PartItem<IdProp>,
@@ -140,13 +140,13 @@ export interface EventCallbacks<
   IdProp extends string
 > {
   /**
-   * @param name - The name of the event ([[EventName]]).
+   * @param name - The name of the event ({@link EventName}).
    * @param payload - Data about the items affected by this event.
    * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
    */
   add(name: "add", payload: AddEventPayload | null, senderId?: Id | null): void;
   /**
-   * @param name - The name of the event ([[EventName]]).
+   * @param name - The name of the event ({@link EventName}).
    * @param payload - Data about the items affected by this event.
    * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
    */
@@ -156,7 +156,7 @@ export interface EventCallbacks<
     senderId?: Id | null
   ): void;
   /**
-   * @param name - The name of the event ([[EventName]]).
+   * @param name - The name of the event ({@link EventName}).
    * @param payload - Data about the items affected by this event.
    * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
    */
@@ -177,7 +177,7 @@ export interface EventCallbacksWithAny<
   IdProp extends string
 > extends EventCallbacks<Item, IdProp> {
   /**
-   * @param name - The name of the event ([[EventName]]).
+   * @param name - The name of the event ({@link EventName}).
    * @param payload - Data about the items affected by this event.
    * @param senderId - A senderId, optionally provided by the application code which triggered the event. If senderId is not provided, the argument will be `null`.
    */
