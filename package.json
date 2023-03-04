@@ -43,7 +43,7 @@
   },
   "scripts": {
     "build": "npm run build:types && npm run build:code && npm run build:docs",
-    "build:code": "rollup -c rollup.build.js && rollup -c rollup.config.js",
+    "build:code": "rollup --bundleConfigAsCjs --config rollup.build.js && rollup --bundleConfigAsCjs --config rollup.config.js",
     "build:docs": "typedoc",
     "build:types": "tsc -p tsconfig.types.json",
     "clean": "rimraf \"{declarations,dist,esnext,peer,standalone,tsdocs}/*\"",
@@ -61,7 +61,7 @@
     "test:unit": "BABEL_ENV=test mocha",
     "type-check": "tsc --noemit",
     "version": "npm run contributors:update && git add package.json",
-    "watch": "rollup --watch --config rollup.config.js",
+    "watch": "rollup --bundleConfigAsCjs --watch --config rollup.config.js",
     "watch-dev": "npm run watch-dev",
     "prepare": "husky install"
   },

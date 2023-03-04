@@ -1,6 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
-import babel from "rollup-plugin-babel";
+import babel from "@rollup/plugin-babel";
 import typescript from "rollup-plugin-typescript2";
 import { generateHeader } from "vis-dev-utils";
 
@@ -9,7 +9,8 @@ import { generateHeader } from "vis-dev-utils";
 
 const babelConfingBase = {
   extensions: [".ts", ".js"],
-  runtimeHelpers: true,
+  babelHelpers: "runtime",
+  exclude: "**/node_modules/**",
 };
 const resolveConfig = {
   browser: true,
