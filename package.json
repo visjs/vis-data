@@ -86,7 +86,7 @@
     "eslint": "8.18.0",
     "git-authors-cli": "1.0.45",
     "husky": "8.0.3",
-    "lint-staged": "13.1.2",
+    "lint-staged": "13.2.0",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
     "opencollective": "1.0.3",
