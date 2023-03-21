@@ -116,7 +116,7 @@ jobs:
           destination: interop-logs
 
   release:
-    executor: node
+    executor: node-build
 
     steps:
       - attach_workspace:
