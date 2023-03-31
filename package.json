@@ -46,7 +46,7 @@
     "build:code": "rollup --bundleConfigAsCjs --config rollup.build.js && rollup --bundleConfigAsCjs --config rollup.config.js",
     "build:docs": "typedoc",
     "build:types": "tsc -p tsconfig.types.json",
-    "clean": "rimraf \"{declarations,dist,esnext,peer,standalone,tsdocs}/*\"",
+    "clean": "rimraf --glob \"{declarations,dist,esnext,peer,standalone,tsdocs}/*\"",
     "contributors:update": "git-authors-cli",
     "style": "prettier --check .",
     "style-fix": "prettier --write .",
