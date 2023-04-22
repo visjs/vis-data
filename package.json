@@ -52,7 +52,6 @@
     "style-fix": "prettier --write .",
     "lint": "eslint --ext .js,.ts .",
     "lint-fix": "eslint --fix --ext .js,.ts .",
-    "postinstall": "opencollective postinstall || exit 0",
     "prepublishOnly": "npm run build",
     "test": "npm run test:coverage && npm run test:interop",
     "test:coverage": "BABEL_ENV=test-cov nyc mocha",
@@ -89,7 +88,6 @@
     "lint-staged": "13.2.1",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
-    "opencollective": "1.0.3",
     "rimraf": "5.0.0",
     "sazerac": "2.0.0",
     "sinon": "15.0.4",
@@ -98,10 +96,6 @@
     "uuid": "9.0.0",
     "vis-dev-utils": "4.0.13",
     "vis-util": "5.0.3"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/visjs"
   },
   "contributors": [
     "jos <wjosdejong@gmail.com>",
