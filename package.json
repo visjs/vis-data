@@ -83,7 +83,7 @@
     "@types/uuid": "9.0.5",
     "component-emitter": "1.3.0",
     "eslint": "8.51.0",
-    "git-authors-cli": "1.0.46",
+    "git-authors-cli": "1.0.47",
     "husky": "8.0.3",
     "lint-staged": "14.0.1",
     "mocha": "10.2.0",
