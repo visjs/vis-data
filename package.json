@@ -78,7 +78,7 @@
     "@babel/plugin-proposal-object-rest-spread": "7.20.7",
     "@egjs/hammerjs": "2.0.17",
     "@types/chai": "4.3.9",
-    "@types/mocha": "10.0.2",
+    "@types/mocha": "10.0.3",
     "@types/sinon": "10.0.19",
     "@types/uuid": "9.0.5",
     "component-emitter": "1.3.0",
