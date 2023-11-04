@@ -95,7 +95,7 @@
     "typedoc": "0.25.3",
     "uuid": "9.0.1",
     "vis-dev-utils": "4.0.41",
-    "vis-util": "5.0.5"
+    "vis-util": "5.0.6"
   },
   "contributors": [
     "jos <wjosdejong@gmail.com>",
