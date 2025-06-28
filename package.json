@@ -70,6 +70,10 @@
     ".*.{js,ts,css,html,json,md,yml,yaml}": "prettier --write",
     ".*.{js,ts}": "eslint --fix"
   },
+  "volta": {
+    "node": "21.7.3",
+    "npm": "11.4.2"
+  },
   "peerDependencies": {
     "uuid": "^3.4.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
     "vis-util": "^5.0.1"
