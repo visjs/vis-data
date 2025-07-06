@@ -5,9 +5,9 @@
 version: 2.1
 
 parameters:
-  skip-interop-test:
+  is-testing-interoperability:
     type: boolean
-    default: false
+    default: true
 
 executors:
   node:
@@ -108,7 +108,7 @@ jobs:
 
     steps:
       - when:
-          condition: << pipeline.parameters.skip-interop-test >>
+          condition: << pipeline.parameters.is-testing-interoperability >>
           steps:
             - attach_workspace:
                 at: .
@@ -128,7 +128,7 @@ jobs:
                 destination: interop-logs
 
       - unless:
-          condition: << pipeline.parameters.skip-interop-test >>
+          condition: << pipeline.parameters.is-testing-interoperability >>
           steps:
             - run: printf -- '%s\n' 'The interop test was skipped as per params.'
 
