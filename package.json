@@ -85,7 +85,7 @@
     "@types/mocha": "10.0.6",
     "@types/node": "^20.9.0",
     "@types/sinon": "17.0.2",
-    "@types/uuid": "9.0.7",
+    "@types/uuid": "9.0.8",
     "component-emitter": "2.0.0",
     "eslint": "8.55.0",
     "git-authors-cli": "1.0.47",
