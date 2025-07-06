@@ -1,4 +1,13 @@
+# Javascript Node CircleCI 2.1 configuration file
+#
+# Check https://circleci.com/docs/2.1/language-javascript/ for more details
+
 version: 2.1
+
+parameters:
+  skip-interop-test:
+    type: boolean
+    default: false
 
 executors:
   node:
@@ -98,22 +107,32 @@ jobs:
     executor: node-interop
 
     steps:
-      - attach_workspace:
-          at: .
+      - when:
+          condition:
+            equal: << pipeline.parameters.skip-interop-test >>
+          steps:
+            - attach_workspace:
+                at: .
 
-      - run: npm pack
+            - run: npm pack
 
-      - run:
-          command: npm run test:interop -- --tmp-dir ../interop
-          # This runs multiple things in parallel and only reports start and end
-          # of individual commands, the full logs are printed at the end. Due to
-          # this it's quite likely to go a long time without any output and
-          # still finish successfully.
-          no_output_timeout: 60m
+            - run:
+                command: npm run test:interop -- --tmp-dir ../interop
+                # This runs multiple things in parallel and only reports start
+                # and end of individual commands, the full logs are printed at
+                # the end. Due to this it's quite likely to go a long time
+                # without any output and still finish successfully.
+                no_output_timeout: 60m
 
-      - store_artifacts:
-          path: ../interop/repos/logs
-          destination: interop-logs
+            - store_artifacts:
+                path: ../interop/repos/logs
+                destination: interop-logs
+
+      - unless:
+          condition:
+            equal: << pipeline.parameters.skip-interop-test >>
+          steps:
+            - run: printf -- '%s\n' 'The interop test was skipped as per params.'
 
   release:
     executor: node-build
