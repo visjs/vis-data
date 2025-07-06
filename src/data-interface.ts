@@ -10,7 +10,6 @@ export type Id = number | string;
 export type OptId = undefined | null | Id;
 /**
  * Determine whether a value can be used as an id.
- *
  * @param value - Input value of unknown type.
  * @returns True if the value is valid id, false otherwise.
  */
@@ -29,13 +28,11 @@ export type DeepPartial<T> = T extends any[] | Function | Node
 
 /**
  * An item that may ({@link Id}) or may not (absent, undefined or null) have an id property.
- *
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export type PartItem<IdProp extends string> = Partial<Record<IdProp, OptId>>;
 /**
  * An item that has a property containing an id and all other required properties of given item type.
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -45,7 +42,6 @@ export type FullItem<
 > = Item & Record<IdProp, Id>;
 /**
  * An item that has a property containing an id and optionally other properties of given item type.
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -56,7 +52,6 @@ export type UpdateItem<
 
 /**
  * Test whether an item has an id (is a {@link FullItem}).
- *
  * @param item - The item to be tested.
  * @param idProp - Name of the id property.
  * @typeParam Item - Item type that may or may not have an id.
@@ -86,7 +81,6 @@ export interface UpdateEventPayload<
   oldData: FullItem<Item, IdProp>[];
   /**
    * Items as they are now.
-   *
    * @deprecated Just get the data from the data set or data view.
    */
   data: FullItem<Item, IdProp>[];
@@ -104,7 +98,6 @@ export interface RemoveEventPayload<
 
 /**
  * Map of event payload types (event name → payload).
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -118,7 +111,6 @@ export interface EventPayloads<
 }
 /**
  * Map of event payload types including any event (event name → payload).
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -131,7 +123,6 @@ export interface EventPayloadsWithAny<
 
 /**
  * Map of event callback types (event name → callback).
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -168,7 +159,6 @@ export interface EventCallbacks<
 }
 /**
  * Map of event callback types including any event (event name → callback).
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -197,7 +187,6 @@ export type EventNameWithAny = keyof EventPayloadsWithAny<never, "">;
  * Data interface order parameter.
  * - A string value determines which property will be used for sorting (using < and > operators for numeric comparison).
  * - A function will be used the same way as in Array.sort.
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceOrder<Item> =
@@ -206,13 +195,11 @@ export type DataInterfaceOrder<Item> =
 
 /**
  * Data interface get options (return type independent).
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetOptionsBase<Item> {
   /**
    * An array with field names, or an object with current field name and new field name that the field is returned as. By default, all properties of the items are emitted. When fields is defined, only the properties whose name is specified in fields will be included in the returned items.
-   *
    * @remarks
    * Warning**: There is no TypeScript support for this.
    */
@@ -225,7 +212,6 @@ export interface DataInterfaceGetOptionsBase<Item> {
 
 /**
  * Data interface get options (returns a single item or an array).
- *
  * @remarks
  * Whether an item or and array of items is returned is determined by the type of the id(s) argument.
  * If an array of ids is requested an array of items will be returned.
@@ -239,7 +225,6 @@ export interface DataInterfaceGetOptionsArray<Item>
 }
 /**
  * Data interface get options (returns an object).
- *
  * @remarks
  * The returned object has ids as keys and items as values of corresponding ids.
  * @typeParam Item - Item type that may or may not have an id.
@@ -251,7 +236,6 @@ export interface DataInterfaceGetOptionsObject<Item>
 }
 /**
  * Data interface get options (returns single item, an array or object).
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export type DataInterfaceGetOptions<Item> =
@@ -260,7 +244,6 @@ export type DataInterfaceGetOptions<Item> =
 
 /**
  * Data interface get ids options.
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceGetIdsOptions<Item> {
@@ -272,7 +255,6 @@ export interface DataInterfaceGetIdsOptions<Item> {
 
 /**
  * Data interface for each options.
- *
  * @typeParam Item - Item type that may or may not have an id.
  */
 export interface DataInterfaceForEachOptions<Item> {
@@ -286,7 +268,6 @@ export interface DataInterfaceForEachOptions<Item> {
 
 /**
  * Data interface map oprions.
- *
  * @typeParam Original - The original item type in the data.
  * @typeParam Mapped - The type after mapping.
  */
@@ -301,7 +282,6 @@ export interface DataInterfaceMapOptions<Original, Mapped> {
 
 /**
  * Common interface for data sets and data view.
- *
  * @typeParam Item - Item type that may or may not have an id (missing ids will be generated upon insertion).
  * @typeParam IdProp - Name of the property on the Item type that contains the id.
  */
@@ -317,7 +297,6 @@ export interface DataInterface<
 
   /**
    * Add a universal event listener.
-   *
    * @remarks The `*` event is triggered when any of the events `add`, `update`, and `remove` occurs.
    * @param event - Event name.
    * @param callback - Callback function.
@@ -325,7 +304,6 @@ export interface DataInterface<
   on(event: "*", callback: EventCallbacksWithAny<Item, IdProp>["*"]): void;
   /**
    * Add an `add` event listener.
-   *
    * @remarks The `add` event is triggered when an item or a set of items is added, or when an item is updated while not yet existing.
    * @param event - Event name.
    * @param callback - Callback function.
@@ -333,7 +311,6 @@ export interface DataInterface<
   on(event: "add", callback: EventCallbacksWithAny<Item, IdProp>["add"]): void;
   /**
    * Add a `remove` event listener.
-   *
    * @remarks The `remove` event is triggered when an item or a set of items is removed.
    * @param event - Event name.
    * @param callback - Callback function.
@@ -344,7 +321,6 @@ export interface DataInterface<
   ): void;
   /**
    * Add an `update` event listener.
-   *
    * @remarks The `update` event is triggered when an existing item or a set of existing items is updated.
    * @param event - Event name.
    * @param callback - Callback function.
@@ -356,21 +332,18 @@ export interface DataInterface<
 
   /**
    * Remove a universal event listener.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
   off(event: "*", callback: EventCallbacksWithAny<Item, IdProp>["*"]): void;
   /**
    * Remove an `add` event listener.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
   off(event: "add", callback: EventCallbacksWithAny<Item, IdProp>["add"]): void;
   /**
    * Remove a `remove` event listener.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
@@ -380,7 +353,6 @@ export interface DataInterface<
   ): void;
   /**
    * Remove an `update` event listener.
-   *
    * @param event - Event name.
    * @param callback - Callback function.
    */
@@ -391,20 +363,17 @@ export interface DataInterface<
 
   /**
    * Get all the items.
-   *
    * @returns An array containing all the items.
    */
   get(): FullItem<Item, IdProp>[];
   /**
    * Get all the items.
-   *
    * @param options - Additional options.
    * @returns An array containing requested items.
    */
   get(options: DataInterfaceGetOptionsArray<Item>): FullItem<Item, IdProp>[];
   /**
    * Get all the items.
-   *
    * @param options - Additional options.
    * @returns An object map of items (may be an empty object if there are no items).
    */
@@ -413,7 +382,6 @@ export interface DataInterface<
   ): Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get all the items.
-   *
    * @param options - Additional options.
    * @returns An array containing requested items or if requested an object map of items (may be an empty object if there are no items).
    */
@@ -422,14 +390,12 @@ export interface DataInterface<
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get one item.
-   *
    * @param id - The id of the item.
    * @returns The item or null if the id doesn't correspond to any item.
    */
   get(id: Id): null | FullItem<Item, IdProp>;
   /**
    * Get one item.
-   *
    * @param id - The id of the item.
    * @param options - Additional options.
    * @returns The item or null if the id doesn't correspond to any item.
@@ -440,7 +406,6 @@ export interface DataInterface<
   ): null | FullItem<Item, IdProp>;
   /**
    * Get one item.
-   *
    * @param id - The id of the item.
    * @param options - Additional options.
    * @returns An object map of items (may be an empty object if no item was found).
@@ -451,7 +416,6 @@ export interface DataInterface<
   ): Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get one item.
-   *
    * @param id - The id of the item.
    * @param options - Additional options.
    * @returns The item if found or null otherwise. If requested an object map with 0 to 1 items.
@@ -462,14 +426,12 @@ export interface DataInterface<
   ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get multiple items.
-   *
    * @param ids - An array of requested ids.
    * @returns An array of found items (ids that do not correspond to any item are omitted).
    */
   get(ids: Id[]): FullItem<Item, IdProp>[];
   /**
    * Get multiple items.
-   *
    * @param ids - An array of requested ids.
    * @param options - Additional options.
    * @returns An array of found items (ids that do not correspond to any item are omitted).
@@ -480,7 +442,6 @@ export interface DataInterface<
   ): FullItem<Item, IdProp>[];
   /**
    * Get multiple items.
-   *
    * @param ids - An array of requested ids.
    * @param options - Additional options.
    * @returns An object map of items (may be an empty object if no item was found).
@@ -491,7 +452,6 @@ export interface DataInterface<
   ): Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get multiple items.
-   *
    * @param ids - An array of requested ids.
    * @param options - Additional options.
    * @returns An array of found items (ids that do not correspond to any item are omitted).
@@ -503,7 +463,6 @@ export interface DataInterface<
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get items.
-   *
    * @param ids - Id or ids to be returned.
    * @param options - Options to specify iteration details.
    * @returns The items (format is determined by ids (single or array) and the options.
@@ -520,14 +479,12 @@ export interface DataInterface<
   /**
    * Get the DataSet to which the instance implementing this interface is connected.
    * In case there is a chain of multiple DataViews, the root DataSet of this chain is returned.
-   *
    * @returns The data set that actually contains the data.
    */
   getDataSet(): DataSet<Item, IdProp>;
 
   /**
    * Get ids of items.
-   *
    * @remarks
    * No guarantee is given about the order of returned ids unless an ordering function is supplied.
    * @param options - Additional configuration.
@@ -537,7 +494,6 @@ export interface DataInterface<
 
   /**
    * Execute a callback function for each item.
-   *
    * @remarks
    * No guarantee is given about the order of iteration unless an ordering function is supplied.
    * @param callback - Executed in similar fashion to Array.forEach callback, but instead of item, index, array receives item, id.
@@ -550,7 +506,6 @@ export interface DataInterface<
 
   /**
    * Map each item into different item and return them as an array.
-   *
    * @remarks
    * No guarantee is given about the order of iteration even if ordering function is supplied (the items are sorted after the mapping).
    * @param callback - Array.map-like callback, but only with the first two params.
@@ -564,7 +519,6 @@ export interface DataInterface<
 
   /**
    * Stream.
-   *
    * @param ids - Ids of the items to be included in this stream (missing are ignored), all if omitted.
    * @returns The data stream for this data set.
    */

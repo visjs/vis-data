@@ -26,7 +26,6 @@ import { DataStream } from "./data-stream";
 
 /**
  * Initial DataSet configuration object.
- *
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export interface DataSetInitialOptions<IdProp extends string> {
@@ -54,7 +53,6 @@ export interface DataSetOptions {
 
 /**
  * Add an id to given item if it doesn't have one already.
- *
  * @remarks
  * The item will be modified.
  * @param item - The item that will have an id after a call to this function.
@@ -97,15 +95,15 @@ function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
  * // add items
  * // note that the data items can contain different properties and data formats
  * data.add([
- *   {id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true},
- *   {id: 2, text: 'item 2', date: '2013-06-23', group: 2},
- *   {id: 3, text: 'item 3', date: '2013-06-25', group: 2},
- *   {id: 4, text: 'item 4'}
+ * {id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true},
+ * {id: 2, text: 'item 2', date: '2013-06-23', group: 2},
+ * {id: 3, text: 'item 3', date: '2013-06-25', group: 2},
+ * {id: 4, text: 'item 4'}
  * ]);
  *
  * // subscribe to any change in the DataSet
  * data.on('*', function (event, properties, senderId) {
- *   console.log('event', event, properties);
+ * console.log('event', event, properties);
  * });
  *
  * // update an existing item
@@ -124,13 +122,12 @@ function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
  *
  * // retrieve a filtered subset of the data
  * var items = data.get({
- *   filter: function (item) {
- *     return item.group == 1;
- *   }
+ * filter: function (item) {
+ * return item.group == 1;
+ * }
  * });
  * console.log('filtered items', items);
  * ```
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -166,7 +163,6 @@ export class DataSet<
   public constructor(data: Item[], options?: DataSetInitialOptions<IdProp>);
   /**
    * Construct a new DataSet.
-   *
    * @param data - Initial data or options.
    * @param options - Options (type error if data is also options).
    */
@@ -197,7 +193,6 @@ export class DataSet<
 
   /**
    * Set new options.
-   *
    * @param options - The new options.
    */
   public setOptions(options?: DataSetOptions): void {
@@ -236,14 +231,13 @@ export class DataSet<
    *
    * // add items
    * const ids = data.add([
-   *   { id: 1, text: 'item 1' },
-   *   { id: 2, text: 'item 2' },
-   *   { text: 'item without an id' }
+   * { id: 1, text: 'item 1' },
+   * { id: 2, text: 'item 2' },
+   * { text: 'item without an id' }
    * ])
    *
    * console.log(ids) // [1, 2, '<UUIDv4>']
    * ```
-   *
    * @param data - Items to be added (ids will be generated if missing).
    * @param senderId - Sender id.
    * @returns addedIds - Array with the ids (generated if not present) of the added items.
@@ -280,7 +274,6 @@ export class DataSet<
 
   /**
    * Update existing items. When an item does not exist, it will be created.
-   *
    * @remarks
    * The provided properties will be merged in the existing item. When an item does not exist, it will be created.
    *
@@ -377,7 +370,6 @@ export class DataSet<
 
   /**
    * Update existing items. When an item does not exist, an error will be thrown.
-   *
    * @remarks
    * The provided properties will be deeply merged into the existing item.
    * When an item does not exist (id not present in the data set or absent), an error will be thrown and nothing will be changed.
@@ -795,7 +787,6 @@ export class DataSet<
   ): any;
   /**
    * Filter the fields of an item.
-   *
    * @param item - The item whose fields should be filtered.
    * @param fields - The names of the fields that will be kept.
    * @typeParam K - Field name type.
@@ -827,7 +818,6 @@ export class DataSet<
 
   /**
    * Sort the provided array with items.
-   *
    * @param items - Items to be sorted in place.
    * @param order - A field name or custom sort function.
    * @typeParam T - The type of the items in the items array.
@@ -863,9 +853,9 @@ export class DataSet<
    * ```javascript
    * // create a DataSet
    * const data = new vis.DataSet([
-   *   { id: 1, text: 'item 1' },
-   *   { id: 2, text: 'item 2' },
-   *   { id: 3, text: 'item 3' }
+   * { id: 1, text: 'item 1' },
+   * { id: 2, text: 'item 2' },
+   * { id: 3, text: 'item 3' }
    * ])
    *
    * // remove items
@@ -873,7 +863,6 @@ export class DataSet<
    *
    * console.log(ids) // [2, 3]
    * ```
-   *
    * @param id - One or more items or ids of items to be removed.
    * @param senderId - Sender id.
    * @returns The ids of the removed items.
@@ -909,7 +898,6 @@ export class DataSet<
 
   /**
    * Remove an item by its id or reference.
-   *
    * @param id - Id of an item or the item itself.
    * @returns The removed item if removed, null otherwise.
    */
@@ -940,7 +928,6 @@ export class DataSet<
    * Clear the entire data set.
    *
    * After the items are removed, the {@link DataSet} will trigger an event `remove` for all removed items. When a `senderId` is provided, this id will be passed with the triggered event to all subscribers.
-   *
    * @param senderId - Sender id.
    * @returns removedIds - The ids of all removed items.
    */
@@ -962,7 +949,6 @@ export class DataSet<
 
   /**
    * Find the item with maximum value of a specified field.
-   *
    * @param field - Name of the property that should be searched for max value.
    * @returns Item containing max value, or null if no items.
    */
@@ -986,7 +972,6 @@ export class DataSet<
 
   /**
    * Find the item with minimum value of a specified field.
-   *
    * @param field - Name of the property that should be searched for min value.
    * @returns Item containing min value, or null if no items.
    */
@@ -1012,7 +997,6 @@ export class DataSet<
   public distinct(prop: string): unknown[];
   /**
    * Find all distinct values of a specified field
-   *
    * @param prop - The property name whose distinct values should be returned.
    * @returns Unordered array containing all distinct values. Items without specified property are ignored.
    */
@@ -1044,7 +1028,6 @@ export class DataSet<
 
   /**
    * Add a single item. Will fail when an item with the same id already exists.
-   *
    * @param item - A new item to be added.
    * @returns Added item's id. An id is generated when it is not present in the item.
    */
@@ -1069,7 +1052,6 @@ export class DataSet<
   /**
    * Update a single item: merge with existing item.
    * Will fail when the item has no id, or when there does not exist an item with the same id.
-   *
    * @param update - The new item
    * @returns The id of the updated item.
    */

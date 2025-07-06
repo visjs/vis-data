@@ -4,7 +4,6 @@ import { isDataSetLike } from "./data-set-check";
 
 /**
  * Check that given value is compatible with Vis Data View interface.
- *
  * @param idProp - The expected property to contain item id.
  * @param v - The value to be tested.
  * @returns True if all expected values and methods match, false otherwise.

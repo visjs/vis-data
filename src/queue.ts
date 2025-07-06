@@ -7,7 +7,6 @@ export interface QueueOptions {
 }
 /**
  * Queue extending options.
- *
  * @typeParam T - The type of method names to be replaced by queued versions.
  */
 export interface QueueExtendOptions<T> {
@@ -45,7 +44,6 @@ interface QueueExtended<O> {
 
 /**
  * A queue.
- *
  * @typeParam T - The type of method names to be replaced by queued versions.
  */
 export class Queue<T = never> {
@@ -65,7 +63,6 @@ export class Queue<T = never> {
 
   /**
    * Construct a new Queue.
-   *
    * @param options - Queue configuration.
    */
   public constructor(options?: QueueOptions) {
@@ -78,7 +75,6 @@ export class Queue<T = never> {
 
   /**
    * Update the configuration of the queue.
-   *
    * @param options - Queue configuration.
    */
   public setOptions(options?: QueueOptions): void {
@@ -95,7 +91,6 @@ export class Queue<T = never> {
   /**
    * Extend an object with queuing functionality.
    * The object will be extended with a function flush, and the methods provided in options.replace will be replaced with queued ones.
-   *
    * @param object - The object to be extended.
    * @param options - Additional options.
    * @returns The created queue.
@@ -166,7 +161,6 @@ export class Queue<T = never> {
 
   /**
    * Replace a method on an object with a queued version.
-   *
    * @param object - Object having the method.
    * @param method - The method name.
    */
@@ -193,7 +187,6 @@ export class Queue<T = never> {
 
   /**
    * Queue a call.
-   *
    * @param entry - The function or entry to be queued.
    */
   public queue(entry: QueueCallEntry): void {

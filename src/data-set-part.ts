@@ -14,7 +14,6 @@ type EventSubscribers<Item extends PartItem<IdProp>, IdProp extends string> = {
 
 /**
  * {@link DataSet} code that can be reused in {@link DataView} or other similar implementations of {@link DataInterface}.
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -49,7 +48,6 @@ export abstract class DataSetPart<
   ): void;
   /**
    * Trigger an event
-   *
    * @param event - Event name.
    * @param payload - Event payload.
    * @param senderId - Id of the sender.
@@ -92,7 +90,6 @@ export abstract class DataSetPart<
   ): void;
   /**
    * Subscribe to an event, add an event listener.
-   *
    * @remarks Non-function callbacks are ignored.
    * @param event - Event name.
    * @param callback - Callback method.
@@ -129,7 +126,6 @@ export abstract class DataSetPart<
   ): void;
   /**
    * Unsubscribe from an event, remove an event listener.
-   *
    * @remarks If the same callback was subscribed more than once **all** occurences will be removed.
    * @param event - Event name.
    * @param callback - Callback method.

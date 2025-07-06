@@ -23,7 +23,6 @@ import { DataStream } from "./data-stream";
 
 /**
  * Data view options.
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -46,25 +45,25 @@ export interface DataViewOptions<Item, IdProp extends string> {
  * // create a DataSet
  * var data = new vis.DataSet();
  * data.add([
- *   {id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true},
- *   {id: 2, text: 'item 2', date: '2013-06-23', group: 2},
- *   {id: 3, text: 'item 3', date: '2013-06-25', group: 2},
- *   {id: 4, text: 'item 4'}
+ * {id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true},
+ * {id: 2, text: 'item 2', date: '2013-06-23', group: 2},
+ * {id: 3, text: 'item 3', date: '2013-06-25', group: 2},
+ * {id: 4, text: 'item 4'}
  * ]);
  *
  * // create a DataView
  * // the view will only contain items having a property group with value 1,
  * // and will only output fields id, text, and date.
  * var view = new vis.DataView(data, {
- *   filter: function (item) {
- *     return (item.group == 1);
- *   },
- *   fields: ['id', 'text', 'date']
+ * filter: function (item) {
+ * return (item.group == 1);
+ * },
+ * fields: ['id', 'text', 'date']
  * });
  *
  * // subscribe to any change in the DataView
  * view.on('*', function (event, properties, senderId) {
- *   console.log('event', event, properties);
+ * console.log('event', event, properties);
  * });
  *
  * // update an item in the data set
@@ -77,7 +76,6 @@ export interface DataViewOptions<Item, IdProp extends string> {
  * // get all items in the view
  * var items = view.get();
  * ```
- *
  * @typeParam Item - Item type that may or may not have an id.
  * @typeParam IdProp - Name of the property that contains the id.
  */
@@ -102,7 +100,6 @@ export class DataView<
 
   /**
    * Create a DataView.
-   *
    * @param data - The instance containing data (directly or indirectly).
    * @param options - Options to configure this data view.
    */
@@ -124,7 +121,6 @@ export class DataView<
 
   /**
    * Set a data source for the view.
-   *
    * @param data - The instance containing data (directly or indirectly).
    * @remarks
    * Note that when the data view is bound to a data set it won't be garbage
@@ -431,7 +427,6 @@ export class DataView<
 
   /**
    * Render the instance unusable prior to garbage collection.
-   *
    * @remarks
    * The intention of this method is to help discover scenarios where the data
    * view is being used when the programmer thinks it has been garbage collected
@@ -460,7 +455,6 @@ export class DataView<
 
   /**
    * Event listener. Will propagate all events from the connected data set to the subscribers of the DataView, but will filter the items and only trigger when there are changes in the filtered data set.
-   *
    * @param event - The name of the event.
    * @param params - Parameters of the event.
    * @param senderId - Id supplied by the sender.

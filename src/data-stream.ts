@@ -2,7 +2,6 @@ import { Id } from "./data-interface";
 
 /**
  * Data stream
- *
  * @remarks
  * {@link DataStream} offers an always up to date stream of items from a {@link DataSet} or {@link DataView}.
  * That means that the stream is evaluated at the time of iteration, conversion to another data type or when {@link cache} is called, not when the {@link DataStream} was created.
@@ -14,7 +13,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Create a new data stream.
-   *
    * @param pairs - The id, item pairs.
    */
   public constructor(pairs: Iterable<[Id, Item]>) {
@@ -59,7 +57,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return an array containing all the ids in this stream.
-   *
    * @remarks
    * The array may contain duplicities.
    * @returns The array with all ids from this stream.
@@ -70,7 +67,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return an array containing all the items in this stream.
-   *
    * @remarks
    * The array may contain duplicities.
    * @returns The array with all items from this stream.
@@ -81,7 +77,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return an array containing all the entries in this stream.
-   *
    * @remarks
    * The array may contain duplicities.
    * @returns The array with all entries from this stream.
@@ -92,7 +87,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return an object map containing all the items in this stream accessible by ids.
-   *
    * @remarks
    * In case of duplicate ids (coerced to string so `7 == '7'`) the last encoutered appears in the returned object.
    * @returns The object map of all id → item pairs from this stream.
@@ -107,7 +101,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return a map containing all the items in this stream accessible by ids.
-   *
    * @returns The map of all id → item pairs from this stream.
    */
   public toMap(): Map<Id, Item> {
@@ -116,7 +109,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return a set containing all the (unique) ids in this stream.
-   *
    * @returns The set of all ids from this stream.
    */
   public toIdSet(): Set<Id> {
@@ -125,7 +117,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Return a set containing all the (unique) items in this stream.
-   *
    * @returns The set of all items from this stream.
    */
   public toItemSet(): Set<Item> {
@@ -134,7 +125,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Cache the items from this stream.
-   *
    * @remarks
    * This method allows for items to be fetched immediatelly and used (possibly multiple times) later.
    * It can also be used to optimize performance as {@link DataStream} would otherwise reevaluate everything upon each iteration.
@@ -160,7 +150,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Get the distinct values of given property.
-   *
    * @param callback - The function that picks and possibly converts the property.
    * @typeParam T - The type of the distinct value.
    * @returns A set of all distinct properties.
@@ -177,7 +166,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Filter the items of the stream.
-   *
    * @param callback - The function that decides whether an item will be included.
    * @returns A new data stream with the filtered items.
    */
@@ -196,7 +184,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Execute a callback for each item of the stream.
-   *
    * @param callback - The function that will be invoked for each item.
    */
   public forEach(callback: (item: Item, id: Id) => boolean): void {
@@ -207,7 +194,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Map the items into a different type.
-   *
    * @param callback - The function that does the conversion.
    * @typeParam Mapped - The type of the item after mapping.
    * @returns A new data stream with the mapped items.
@@ -227,7 +213,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Get the item with the maximum value of given property.
-   *
    * @param callback - The function that picks and possibly converts the property.
    * @returns The item with the maximum if found otherwise null.
    */
@@ -254,7 +239,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Get the item with the minimum value of given property.
-   *
    * @param callback - The function that picks and possibly converts the property.
    * @returns The item with the minimum if found otherwise null.
    */
@@ -281,7 +265,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Reduce the items into a single value.
-   *
    * @param callback - The function that does the reduction.
    * @param accumulator - The initial value of the accumulator.
    * @typeParam T - The type of the accumulated value.
@@ -299,7 +282,6 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
 
   /**
    * Sort the items.
-   *
    * @param callback - Item comparator.
    * @returns A new stream with sorted items.
    */

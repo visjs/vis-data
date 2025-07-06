@@ -14,7 +14,6 @@ export interface DataPipe {
   /**
    * Start observing the source data set or data view, transforming the items
    * and updating the target data set.
-   *
    * @remarks
    * The current content of the source data set will be ignored. If you for
    * example want to process all the items that are already there use:
@@ -36,7 +35,6 @@ export type DataPipeFactory = InstanceType<typeof DataPipeUnderConstruction>;
 
 /**
  * Create new data pipe.
- *
  * @param from - The source data set or data view.
  * @remarks
  * Example usage:
@@ -78,7 +76,6 @@ type Transformer<T> = (input: T[]) => T[];
 /**
  * Internal implementation of the pipe. This should be accessible only through
  * `createNewDataPipeFrom` from the outside.
- *
  * @typeParam SI - Source item type.
  * @typeParam SP - Source item type's id property name.
  * @typeParam TI - Target item type.
@@ -102,7 +99,6 @@ class SimpleDataPipe<
 
   /**
    * Create a new data pipe.
-   *
    * @param _source - The data set or data view that will be observed.
    * @param _transformers - An array of transforming functions to be used to
    * filter or transform the items in the pipe.
@@ -140,7 +136,6 @@ class SimpleDataPipe<
 
   /**
    * Apply the transformers to the items.
-   *
    * @param items - The items to be transformed.
    * @returns The transformed items.
    */
@@ -152,7 +147,6 @@ class SimpleDataPipe<
 
   /**
    * Handle an add event.
-   *
    * @param _name - Ignored.
    * @param payload - The payload containing the ids of the added items.
    */
@@ -169,7 +163,6 @@ class SimpleDataPipe<
 
   /**
    * Handle an update event.
-   *
    * @param _name - Ignored.
    * @param payload - The payload containing the ids of the updated items.
    */
@@ -186,7 +179,6 @@ class SimpleDataPipe<
 
   /**
    * Handle a remove event.
-   *
    * @param _name - Ignored.
    * @param payload - The payload containing the data of the removed items.
    */
@@ -205,7 +197,6 @@ class SimpleDataPipe<
 /**
  * Internal implementation of the pipe factory. This should be accessible
  * only through `createNewDataPipeFrom` from the outside.
- *
  * @typeParam TI - Target item type.
  * @typeParam TP - Target item type's id property name.
  */
@@ -222,14 +213,12 @@ class DataPipeUnderConstruction<
   /**
    * Create a new data pipe factory. This is an internal constructor that
    * should never be called from outside of this file.
-   *
    * @param _source - The source data set or data view for this pipe.
    */
   public constructor(private readonly _source: DataInterface<SI, SP>) {}
 
   /**
    * Filter the items.
-   *
    * @param callback - A filtering function that returns true if given item
    * should be piped and false if not.
    * @returns This factory for further configuration.
@@ -243,7 +232,6 @@ class DataPipeUnderConstruction<
 
   /**
    * Map each source item to a new type.
-   *
    * @param callback - A mapping function that takes a source item and returns
    * corresponding mapped item.
    * @typeParam TI - Target item type.
@@ -259,7 +247,6 @@ class DataPipeUnderConstruction<
 
   /**
    * Map each source item to zero or more items of a new type.
-   *
    * @param callback - A mapping function that takes a source item and returns
    * an array of corresponding mapped items.
    * @typeParam TI - Target item type.
@@ -275,7 +262,6 @@ class DataPipeUnderConstruction<
 
   /**
    * Connect this pipe to given data set.
-   *
    * @param target - The data set that will receive the items from this pipe.
    * @returns The pipe connected between given data sets and performing
    * configured transformation on the processed items.

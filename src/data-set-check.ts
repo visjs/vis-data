@@ -3,7 +3,6 @@ import { DataSet } from "./data-set";
 
 /**
  * Check that given value is compatible with Vis Data Set interface.
- *
  * @param idProp - The expected property to contain item id.
  * @param v - The value to be tested.
  * @returns True if all expected values and methods match, false otherwise.
