@@ -108,8 +108,7 @@ jobs:
 
     steps:
       - when:
-          condition:
-            equal: << pipeline.parameters.skip-interop-test >>
+          condition: << pipeline.parameters.skip-interop-test >>
           steps:
             - attach_workspace:
                 at: .
@@ -129,8 +128,7 @@ jobs:
                 destination: interop-logs
 
       - unless:
-          condition:
-            equal: << pipeline.parameters.skip-interop-test >>
+          condition: << pipeline.parameters.skip-interop-test >>
           steps:
             - run: printf -- '%s\n' 'The interop test was skipped as per params.'
 
