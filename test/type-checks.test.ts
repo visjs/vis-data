@@ -5,7 +5,7 @@ import {
   DataView,
   isDataSetLike,
   isDataViewLike,
-} from "../src/entry-esnext";
+} from "../src/entry-esnext.ts";
 
 function createFakeDataSet(idProp: string): any {
   const v = {

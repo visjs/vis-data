@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { DELETE, DataSet } from "../src";
+import { DELETE, DataSet } from "../src/index.ts";
 
 interface Item1 {
   whoami: number;

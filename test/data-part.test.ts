@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { DataSet, DataView } from "../src";
+import { DataSet, DataView } from "../src/index.ts";
 
 describe("Data part edge cases", function (): void {
   const ds = new DataSet([]);

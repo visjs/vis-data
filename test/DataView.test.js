@@ -1,7 +1,6 @@
-var assert = require("assert");
+import assert from "assert";
 
-var DataSet = require("../src").DataSet;
-var DataView = require("../src").DataView;
+import { DataSet, DataView } from "../src/index.ts";
 // TODO: test the source code immediately, but this is ES6
 
 // TODO: improve DataView tests, split up in one test per function

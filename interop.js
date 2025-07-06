@@ -4,7 +4,7 @@
 // to force Windows users to install Shell and configure it to be used to run
 // npm scripts (and break their Windows only projects?).
 
-const { spawnSync } = require("child_process");
+import { spawnSync } from "child_process";
 
 const { status } = spawnSync(
   "npx",

@@ -1,5 +1,5 @@
-import { PartItem } from "./data-interface";
-import { DataSet } from "./data-set";
+import type { PartItem } from "./data-interface.ts";
+import type { DataSet } from "./data-set.ts";
 
 /**
  * Check that given value is compatible with Vis Data Set interface.

@@ -1,4 +1,4 @@
-import {
+import type {
   DataInterface,
   EventCallbacksWithAny,
   EventName,
@@ -6,7 +6,7 @@ import {
   EventPayloads,
   Id,
   PartItem,
-} from "./data-interface";
+} from "./data-interface.ts";
 
 type EventSubscribers<Item extends PartItem<IdProp>, IdProp extends string> = {
   [Name in keyof EventCallbacksWithAny<Item, IdProp>]: (...args: any[]) => void;

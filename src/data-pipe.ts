@@ -1,5 +1,9 @@
-import { DataInterface, EventCallbacks, PartItem } from "./data-interface";
-import { DataSet } from "./data-set";
+import type {
+  DataInterface,
+  EventCallbacks,
+  PartItem,
+} from "./data-interface.ts";
+import type { DataSet } from "./data-set.ts";
 
 /**
  * This interface is used to control the pipe.
@@ -88,6 +92,10 @@ class SimpleDataPipe<
   TP extends string,
 > implements DataPipe
 {
+  private readonly _source: DataInterface<SI, SP>;
+  private readonly _transformers: readonly Transformer<unknown>[];
+  private readonly _target: DataSet<TI, TP>;
+
   /**
    * Bound listeners for use with `DataInterface['on' | 'off']`.
    */
@@ -99,16 +107,20 @@ class SimpleDataPipe<
 
   /**
    * Create a new data pipe.
-   * @param _source - The data set or data view that will be observed.
-   * @param _transformers - An array of transforming functions to be used to
+   * @param source - The data set or data view that will be observed.
+   * @param transformers - An array of transforming functions to be used to
    * filter or transform the items in the pipe.
-   * @param _target - The data set or data view that will receive the items.
+   * @param target - The data set or data view that will receive the items.
    */
   public constructor(
-    private readonly _source: DataInterface<SI, SP>,
-    private readonly _transformers: readonly Transformer<unknown>[],
-    private readonly _target: DataSet<TI, TP>,
-  ) {}
+    source: DataInterface<SI, SP>,
+    transformers: readonly Transformer<unknown>[],
+    target: DataSet<TI, TP>,
+  ) {
+    this._source = source;
+    this._transformers = transformers;
+    this._target = target;
+  }
 
   /** @inheritDoc */
   public all(): this {
@@ -204,6 +216,8 @@ class DataPipeUnderConstruction<
   SI extends PartItem<SP>,
   SP extends string = "id",
 > {
+  private readonly _source: DataInterface<SI, SP>;
+
   /**
    * Array transformers used to transform items within the pipe. This is typed
    * as any for the sake of simplicity.
@@ -213,9 +227,11 @@ class DataPipeUnderConstruction<
   /**
    * Create a new data pipe factory. This is an internal constructor that
    * should never be called from outside of this file.
-   * @param _source - The source data set or data view for this pipe.
+   * @param source - The source data set or data view for this pipe.
    */
-  public constructor(private readonly _source: DataInterface<SI, SP>) {}
+  public constructor(source: DataInterface<SI, SP>) {
+    this._source = source;
+  }
 
   /**
    * Filter the items.

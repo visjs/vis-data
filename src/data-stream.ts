@@ -1,4 +1,4 @@
-import { Id } from "./data-interface";
+import type { Id } from "./data-interface.ts";
 
 /**
  * Data stream

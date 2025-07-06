@@ -1,6 +1,6 @@
-import { DataView } from "./data-view";
-import { PartItem } from "./data-interface";
-import { isDataSetLike } from "./data-set-check";
+import type { DataView } from "./data-view.ts";
+import type { PartItem } from "./data-interface.ts";
+import { isDataSetLike } from "./data-set-check.ts";
 
 /**
  * Check that given value is compatible with Vis Data View interface.

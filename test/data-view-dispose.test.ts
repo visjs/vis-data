@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { DataSet, DataView } from "../src";
+import { DataSet, DataView } from "../src/index.ts";
 
 interface Item {
   id: number;

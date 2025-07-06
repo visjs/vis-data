@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { spy, stub } from "sinon";
 
-import { DataSet, DataStream, DataView } from "../src";
-import { Id } from "../src/data-interface";
+import { DataSet, DataStream, DataView } from "../src/index.ts";
+import type { Id } from "../src/data-interface.ts";
 
 interface CreateDataStreamRet<Item> {
   stream: DataStream<Item>;
@@ -849,7 +849,9 @@ const testStreamAPI = function (
 describe("Stream API", function (): void {
   describe("Data Stream", function (): void {
     testStreamAPI(
-      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+      <Item extends { id: number }>(
+        data: readonly [Id, Item][],
+      ): CreateDataStreamRet<Item> => {
         const streamData = data.slice();
         return {
           stream: new DataStream(streamData),
@@ -870,7 +872,9 @@ describe("Stream API", function (): void {
 
   describe("Data Set", function (): void {
     testStreamAPI(
-      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+      <Item extends { id: number }>(
+        data: readonly [Id, Item][],
+      ): CreateDataStreamRet<Item> => {
         const ds = new DataSet(data.map((pair): Item => pair[1]));
         return {
           stream: ds.stream(),
@@ -890,7 +894,9 @@ describe("Stream API", function (): void {
 
   describe("Data View", function (): void {
     testStreamAPI(
-      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+      <Item extends { id: number }>(
+        data: readonly [Id, Item][],
+      ): CreateDataStreamRet<Item> => {
         const ids = new Set(data.map(([id]): Id => id));
         const dsData = data.map(([, Item]): Item => Item);
 
@@ -929,7 +935,9 @@ describe("Stream API", function (): void {
 
   describe("Chained Data View", function (): void {
     testStreamAPI(
-      <Item>(data: readonly [Id, Item][]): CreateDataStreamRet<Item> => {
+      <Item extends { id: number }>(
+        data: readonly [Id, Item][],
+      ): CreateDataStreamRet<Item> => {
         const ids = new Set(data.map(([id]): Id => id));
         const dsData = data.map(([, Item]): Item => Item);
 

@@ -24,11 +24,133 @@
     "network",
     "browser"
   ],
-  "browser": "peer/umd/vis-data.min.js",
-  "jsnext": "esnext/esm/vis-data.js",
-  "main": "peer/umd/vis-data.js",
-  "module": "peer/esm/vis-data.js",
-  "types": "declarations/index.d.ts",
+  "browser": "./peer/umd/vis-data.min.cjs",
+  "jsnext": "./esnext/esm/vis-data.mjs",
+  "main": "./peer/umd/vis-data.cjs",
+  "module": "./peer/esm/vis-data.mjs",
+  "types": "./declarations/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./peer/esm/vis-data.mjs",
+      "require": "./peer/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./declarations/index.d.ts": {
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone": {
+      "import": "./standalone/esm/vis-data.mjs",
+      "require": "./standalone/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/esm/vis-data.js": {
+      "import": "./standalone/esm/vis-data.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/esm/vis-data.mjs": {
+      "import": "./standalone/esm/vis-data.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/esm/vis-data.min.js": {
+      "import": "./standalone/esm/vis-data.min.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/esm/vis-data.min.mjs": {
+      "import": "./standalone/esm/vis-data.min.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/umd/vis-data.js": {
+      "require": "./standalone/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/umd/vis-data.cjs": {
+      "require": "./standalone/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/umd/vis-data.min.js": {
+      "require": "./standalone/umd/vis-data.min.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./standalone/umd/vis-data.min.cjs": {
+      "require": "./standalone/umd/vis-data.min.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer": {
+      "import": "./peer/esm/vis-data.mjs",
+      "require": "./peer/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/esm/vis-data.js": {
+      "import": "./peer/esm/vis-data.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/esm/vis-data.mjs": {
+      "import": "./peer/esm/vis-data.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/esm/vis-data.min.js": {
+      "import": "./peer/esm/vis-data.min.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/esm/vis-data.min.mjs": {
+      "import": "./peer/esm/vis-data.min.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/umd/vis-data.js": {
+      "require": "./peer/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/umd/vis-data.cjs": {
+      "require": "./peer/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/umd/vis-data.min.js": {
+      "require": "./peer/umd/vis-data.min.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./peer/umd/vis-data.min.cjs": {
+      "require": "./peer/umd/vis-data.min.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext": {
+      "import": "./esnext/esm/vis-data.mjs",
+      "require": "./esnext/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/esm/vis-data.js": {
+      "import": "./esnext/esm/vis-data.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/esm/vis-data.mjs": {
+      "import": "./esnext/esm/vis-data.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/esm/vis-data.min.js": {
+      "import": "./esnext/esm/vis-data.min.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/esm/vis-data.min.mjs": {
+      "import": "./esnext/esm/vis-data.min.mjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/umd/vis-data.js": {
+      "require": "./esnext/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/umd/vis-data.cjs": {
+      "require": "./esnext/umd/vis-data.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/umd/vis-data.min.js": {
+      "require": "./esnext/umd/vis-data.min.cjs",
+      "types": "./declarations/index.d.ts"
+    },
+    "./esnext/umd/vis-data.min.cjs": {
+      "require": "./esnext/umd/vis-data.min.cjs",
+      "types": "./declarations/index.d.ts"
+    }
+  },
   "files": [
     "LICENSE*",
     "declarations",
@@ -41,9 +163,10 @@
     "type": "opencollective",
     "url": "https://opencollective.com/visjs"
   },
+  "type": "module",
   "scripts": {
     "build": "npm run build:types && npm run build:code && npm run build:docs",
-    "build:code": "rollup --bundleConfigAsCjs --config rollup.build.js && rollup --bundleConfigAsCjs --config rollup.config.js",
+    "build:code": "rollup --config rollup.build.js && rollup --config rollup.config.js",
     "build:docs": "typedoc",
     "build:types": "tsc -p tsconfig.types.json",
     "clean": "shx rm -rf \"{declarations,dist,esnext,peer,standalone,tsdocs}/*\"",
@@ -53,16 +176,16 @@
     "lint": "eslint --ext .js,.ts .",
     "lint-fix": "eslint --fix --ext .js,.ts .",
     "prepublishOnly": "npm run build",
-    "test": "npm run test:coverage && npm run test:interop",
+    "test": "npm run test:unit && npm run test:interop",
     "test:coverage": "BABEL_ENV=test-cov nyc mocha",
     "test:interop": "node interop.js",
     "test:interop:debug": "npm run test:interop -- --fail-command \"$SHELL\"",
     "test:unit": "BABEL_ENV=test mocha",
     "type-check": "tsc --noemit",
     "version": "npm run contributors:update && git add package.json",
-    "watch": "rollup --bundleConfigAsCjs --watch --config rollup.config.js",
+    "watch": "rollup --watch --config rollup.config.js",
     "watch-dev": "npm run watch-dev",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,ts,css,html,json,md,yml,yaml}": "prettier --write",
@@ -71,36 +194,37 @@
     ".*.{js,ts}": "eslint --fix"
   },
   "volta": {
-    "node": "21.7.3",
-    "npm": "11.4.2"
+    "node": "24.3.0",
+    "npm": "11.4.2",
+    "pnpm": "10.12.4"
   },
   "peerDependencies": {
     "uuid": "^3.4.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
-    "vis-util": "^5.0.1"
+    "vis-util": "*"
   },
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "7.20.7",
     "@egjs/hammerjs": "2.0.17",
-    "@types/chai": "4.3.11",
-    "@types/mocha": "10.0.6",
-    "@types/node": "^20.9.0",
-    "@types/sinon": "17.0.2",
-    "@types/uuid": "9.0.7",
+    "@types/chai": "5.2.2",
+    "@types/mocha": "10.0.10",
+    "@types/node": "24.0.3",
+    "@types/sinon": "17.0.4",
+    "@types/uuid": "10.0.0",
     "component-emitter": "2.0.0",
     "eslint": "8.55.0",
-    "git-authors-cli": "1.0.47",
-    "husky": "8.0.3",
-    "lint-staged": "15.2.0",
-    "mocha": "10.2.0",
-    "nyc": "15.1.0",
+    "git-authors-cli": "1.0.52",
+    "husky": "9.1.7",
+    "lint-staged": "16.1.2",
+    "mocha": "11.7.0",
+    "nyc": "17.1.0",
     "sazerac": "2.0.0",
-    "shx": "^0.4.0",
-    "sinon": "17.0.1",
+    "shx": "0.4.0",
+    "sinon": "21.0.0",
     "snap-shot-it": "7.9.10",
-    "typedoc": "0.25.4",
-    "uuid": "9.0.1",
-    "vis-dev-utils": "4.0.41",
-    "vis-util": "5.0.7"
+    "typedoc": "0.28.5",
+    "uuid": "11.1.0",
+    "vis-dev-utils": "^4.0.45",
+    "vis-util": "^5.0.7"
   },
   "contributors": [
     "jos <wjosdejong@gmail.com>",

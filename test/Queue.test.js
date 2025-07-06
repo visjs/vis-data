@@ -1,5 +1,5 @@
-var assert = require("assert");
-var Queue = require("../src").Queue;
+import assert from "assert";
+import { Queue } from "../src/index.ts";
 
 describe("Queue", function () {
   it("queue actions", function () {

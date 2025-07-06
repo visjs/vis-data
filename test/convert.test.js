@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { DataSet } from "../src/data-set";
-import { createNewDataPipeFrom } from "../src/data-pipe";
+import { DataSet } from "../src/data-set.ts";
+import { createNewDataPipeFrom } from "../src/data-pipe.ts";
 
 // Mock of Moment.js.
 const moment = (v) => {

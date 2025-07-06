@@ -2,7 +2,7 @@
 console.warn("You're running a development build.");
 /* develblock:end */
 
-export {
+export type {
   DataInterface,
   DataInterfaceGetIdsOptions,
   DataInterfaceGetOptions,
@@ -14,13 +14,13 @@ export {
   EventCallbacksWithAny,
   EventName,
   EventNameWithAny,
-} from "./data-interface";
+} from "./data-interface.ts";
 
-export * from "./data-pipe";
+export * from "./data-pipe.ts";
 export { DELETE } from "vis-util/esnext";
-export { DataSet, DataSetOptions } from "./data-set";
-export { DataStream } from "./data-stream";
-export { DataView, DataViewOptions } from "./data-view";
-export { Queue } from "./queue";
-export { isDataSetLike } from "./data-set-check";
-export { isDataViewLike } from "./data-view-check";
+export { DataSet, type DataSetOptions } from "./data-set.ts";
+export { DataStream } from "./data-stream.ts";
+export { DataView, type DataViewOptions } from "./data-view.ts";
+export { Queue } from "./queue.ts";
+export { isDataSetLike } from "./data-set-check.ts";
+export { isDataViewLike } from "./data-view-check.ts";

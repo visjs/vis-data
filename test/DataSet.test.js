@@ -1,6 +1,6 @@
-var assert = require("assert");
+import assert from "assert";
 
-var DataSet = require("../src").DataSet;
+import { DataSet } from "../src/index.ts";
 
 var now = new Date();
 

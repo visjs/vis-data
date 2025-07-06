@@ -1,25 +1,25 @@
 import {
-  DataInterface,
-  DataInterfaceForEachOptions,
-  DataInterfaceGetIdsOptions,
-  DataInterfaceGetOptions,
-  DataInterfaceGetOptionsArray,
-  DataInterfaceGetOptionsObject,
-  DataInterfaceMapOptions,
-  EventCallbacksWithAny,
-  EventName,
-  EventPayloads,
-  FullItem,
-  Id,
-  PartItem,
-  RemoveEventPayload,
-  UpdateEventPayload,
+  type DataInterface,
+  type DataInterfaceForEachOptions,
+  type DataInterfaceGetIdsOptions,
+  type DataInterfaceGetOptions,
+  type DataInterfaceGetOptionsArray,
+  type DataInterfaceGetOptionsObject,
+  type DataInterfaceMapOptions,
+  type EventCallbacksWithAny,
+  type EventName,
+  type EventPayloads,
+  type FullItem,
+  type Id,
+  type PartItem,
+  type RemoveEventPayload,
+  type UpdateEventPayload,
   isId,
-} from "./data-interface";
+} from "./data-interface.ts";
 
-import { DataSet } from "./data-set";
-import { DataSetPart } from "./data-set-part";
-import { DataStream } from "./data-stream";
+import { DataSet } from "./data-set.ts";
+import { DataSetPart } from "./data-set-part.ts";
+import { DataStream } from "./data-stream.ts";
 
 /**
  * Data view options.

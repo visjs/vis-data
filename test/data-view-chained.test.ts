@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { spy } from "sinon";
 
-import { DataSet, DataView } from "../src";
+import { DataSet, DataView } from "../src/index.ts";
 
 interface Item {
   whoami: number;
