@@ -81,7 +81,7 @@ export interface DataViewOptions<Item, IdProp extends string> {
  */
 export class DataView<
     Item extends PartItem<IdProp>,
-    IdProp extends string = "id"
+    IdProp extends string = "id",
   >
   extends DataSetPart<Item, IdProp>
   implements DataInterface<Item, IdProp>
@@ -105,7 +105,7 @@ export class DataView<
    */
   public constructor(
     data: DataInterface<Item, IdProp>,
-    options?: DataViewOptions<Item, IdProp>
+    options?: DataViewOptions<Item, IdProp>,
   ) {
     super();
 
@@ -221,54 +221,54 @@ export class DataView<
   public get(): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(id: Id): null | FullItem<Item, IdProp>;
   /** @inheritDoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): null | FullItem<Item, IdProp>;
   /** @inheritDoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(ids: Id[]): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
     ids: Id | Id[],
-    options?: DataInterfaceGetOptions<Item>
+    options?: DataInterfaceGetOptions<Item>,
   ):
     | null
     | FullItem<Item, IdProp>
@@ -278,7 +278,7 @@ export class DataView<
   /** @inheritDoc */
   public get(
     first?: DataInterfaceGetOptions<Item> | Id | Id[],
-    second?: DataInterfaceGetOptions<Item>
+    second?: DataInterfaceGetOptions<Item>,
   ):
     | null
     | FullItem<Item, IdProp>
@@ -302,7 +302,7 @@ export class DataView<
     const viewOptions: DataInterfaceGetOptions<Item> = Object.assign(
       {},
       this._options,
-      options
+      options,
     );
 
     // create a combined filter method when needed
@@ -352,7 +352,7 @@ export class DataView<
   /** @inheritDoc */
   public forEach(
     callback: (item: Item, id: Id) => void,
-    options?: DataInterfaceForEachOptions<Item>
+    options?: DataInterfaceForEachOptions<Item>,
   ): void {
     if (this._data) {
       const defaultFilter = this._options.filter;
@@ -381,7 +381,7 @@ export class DataView<
   /** @inheritDoc */
   public map<T>(
     callback: (item: Item, id: Id) => T,
-    options?: DataInterfaceMapOptions<Item, T>
+    options?: DataInterfaceMapOptions<Item, T>,
   ): T[] {
     type Filter = NonNullable<DataInterfaceMapOptions<Item, T>["filter"]>;
 
@@ -421,7 +421,7 @@ export class DataView<
     return this._data.stream(
       ids || {
         [Symbol.iterator]: this._ids.keys.bind(this._ids),
-      }
+      },
     );
   }
 
@@ -462,7 +462,7 @@ export class DataView<
   private _onEvent<EN extends EventName>(
     event: EN,
     params: EventPayloads<Item, IdProp>[EN],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void {
     if (!params || !params.items || !this._data) {
       return;
@@ -501,10 +501,10 @@ export class DataView<
             if (this._ids.has(id)) {
               updatedIds.push(id);
               updatedItems.push(
-                (params as UpdateEventPayload<Item, IdProp>).data[i]
+                (params as UpdateEventPayload<Item, IdProp>).data[i],
               );
               oldItems.push(
-                (params as UpdateEventPayload<Item, IdProp>).oldData[i]
+                (params as UpdateEventPayload<Item, IdProp>).oldData[i],
               );
             } else {
               this._ids.add(id);
@@ -515,7 +515,7 @@ export class DataView<
               this._ids.delete(id);
               removedIds.push(id);
               removedItems.push(
-                (params as UpdateEventPayload<Item, IdProp>).oldData[i]
+                (params as UpdateEventPayload<Item, IdProp>).oldData[i],
               );
             } else {
               // nothing interesting for me :-(
@@ -533,7 +533,7 @@ export class DataView<
             this._ids.delete(id);
             removedIds.push(id);
             removedItems.push(
-              (params as RemoveEventPayload<Item, IdProp>).oldData[i]
+              (params as RemoveEventPayload<Item, IdProp>).oldData[i],
             );
           }
         }
@@ -550,14 +550,14 @@ export class DataView<
       this._trigger(
         "update",
         { items: updatedIds, oldData: oldItems, data: updatedItems },
-        senderId
+        senderId,
       );
     }
     if (removedIds.length) {
       this._trigger(
         "remove",
         { items: removedIds, oldData: removedItems },
-        senderId
+        senderId,
       );
     }
   }

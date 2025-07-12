@@ -32,7 +32,7 @@ describe("Data Set", function (): void {
           { whoami: 8, foo: "8", bar: false },
           { whoami: 9, foo: "9", bar: true },
         ],
-        { fieldId: "whoami" }
+        { fieldId: "whoami" },
       );
 
       expect((): void => {
@@ -41,7 +41,7 @@ describe("Data Set", function (): void {
 
       expect(
         ds.length,
-        "There should be no new items or old missing."
+        "There should be no new items or old missing.",
       ).to.equal(3);
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
@@ -67,7 +67,7 @@ describe("Data Set", function (): void {
           { whoami: 8, foo: "8", bar: false },
           { whoami: 9, foo: "9", bar: true },
         ],
-        { fieldId: "whoami" }
+        { fieldId: "whoami" },
       );
 
       expect((): void => {
@@ -76,7 +76,7 @@ describe("Data Set", function (): void {
 
       expect(
         ds.length,
-        "There should be no new items or old missing."
+        "There should be no new items or old missing.",
       ).to.equal(3);
       expect(ds.get(1), "New items shouldn’t be created.").to.be.null;
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
@@ -104,14 +104,14 @@ describe("Data Set", function (): void {
           originalItem8,
           { whoami: 9, foo: "9", bar: true },
         ],
-        { fieldId: "whoami" }
+        { fieldId: "whoami" },
       );
 
       ds.updateOnly({ whoami: 8 });
 
       expect(
         ds.length,
-        "There should be no new items or old missing."
+        "There should be no new items or old missing.",
       ).to.equal(3);
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
@@ -120,7 +120,7 @@ describe("Data Set", function (): void {
       });
       expect(
         ds.get(8),
-        "There were no other props, nothing should be changed."
+        "There were no other props, nothing should be changed.",
       ).to.deep.equal({
         whoami: 8,
         foo: "8",
@@ -133,7 +133,7 @@ describe("Data Set", function (): void {
       });
       expect(
         ds.get(8),
-        "Update should not modify the item in place (a new object should be created)."
+        "Update should not modify the item in place (a new object should be created).",
       ).to.not.equal(originalItem8);
     });
 
@@ -145,14 +145,14 @@ describe("Data Set", function (): void {
           originalItem8,
           { whoami: 9, foo: "9", bar: true },
         ],
-        { fieldId: "whoami" }
+        { fieldId: "whoami" },
       );
 
       ds.updateOnly({ whoami: 8, foo: "#8" });
 
       expect(
         ds.length,
-        "There should be no new items or old missing."
+        "There should be no new items or old missing.",
       ).to.equal(3);
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
@@ -171,7 +171,7 @@ describe("Data Set", function (): void {
       });
       expect(
         ds.get(8),
-        "Update should not modify the item in place (a new object should be created)."
+        "Update should not modify the item in place (a new object should be created).",
       ).to.not.equal(originalItem8);
     });
 
@@ -183,14 +183,14 @@ describe("Data Set", function (): void {
           originalItem8,
           { whoami: 9, payload: { foo: "9", bar: true } },
         ],
-        { fieldId: "whoami" }
+        { fieldId: "whoami" },
       );
 
       ds.updateOnly({ whoami: 8, payload: { foo: "#8" } });
 
       expect(
         ds.length,
-        "There should be no new items or old missing."
+        "There should be no new items or old missing.",
       ).to.equal(3);
       expect(ds.get(7), "Other items should be intact.").to.deep.equal({
         whoami: 7,
@@ -215,14 +215,14 @@ describe("Data Set", function (): void {
       });
       expect(
         ds.get(8),
-        "Update should not modify the item in place (a new object should be created)."
+        "Update should not modify the item in place (a new object should be created).",
       ).to.not.equal(originalItem8);
     });
 
     it("Delete props through updateOnly", function (): void {
       const ds = new DataSet<Item3, "whoami">(
         [{ whoami: 7, payload: { p1: "7", p2: 7, p3: true } }],
-        { fieldId: "whoami" }
+        { fieldId: "whoami" },
       );
 
       ds.updateOnly({ whoami: 7, payload: { p1: DELETE } });
@@ -259,14 +259,14 @@ describe("Data Set", function (): void {
     ds.add(generateItems());
 
     expect(ds.get(), "The items should be present before clear").to.deep.equal(
-      generateItems()
+      generateItems(),
     );
 
     ds.clear();
 
     expect(
       ds.get(),
-      "The items shouldn't be present after clear"
+      "The items shouldn't be present after clear",
     ).to.deep.equal([]);
 
     expect((): void => {
@@ -275,7 +275,7 @@ describe("Data Set", function (): void {
 
     expect(
       ds.get(),
-      "The items should be present again since they were readded"
+      "The items should be present again since they were readded",
     ).to.deep.equal(generateItems());
   });
 });

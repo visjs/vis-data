@@ -97,7 +97,7 @@ export class Queue<T = never> {
    */
   public static extend<O extends { flush?: () => void }, K extends string>(
     object: O,
-    options: QueueExtendOptions<K>
+    options: QueueExtendOptions<K>,
   ): Queue<O> {
     const queue = new Queue<O>(options);
 
@@ -166,7 +166,7 @@ export class Queue<T = never> {
    */
   public replace<M extends string>(
     object: Record<M, () => void>,
-    method: M
+    method: M,
   ): void {
     /* eslint-disable-next-line @typescript-eslint/no-this-alias -- Function this is necessary in the function bellow, so class this has to be saved into a variable here. */
     const me = this;

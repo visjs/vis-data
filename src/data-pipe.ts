@@ -66,7 +66,7 @@ export type DataPipeFactory = InstanceType<typeof DataPipeUnderConstruction>;
  */
 export function createNewDataPipeFrom<
   SI extends PartItem<SP>,
-  SP extends string = "id"
+  SP extends string = "id",
 >(from: DataInterface<SI, SP>): DataPipeUnderConstruction<SI, SP> {
   return new DataPipeUnderConstruction(from);
 }
@@ -85,7 +85,7 @@ class SimpleDataPipe<
   SI extends PartItem<SP>,
   SP extends string,
   TI extends PartItem<TP>,
-  TP extends string
+  TP extends string,
 > implements DataPipe
 {
   /**
@@ -107,7 +107,7 @@ class SimpleDataPipe<
   public constructor(
     private readonly _source: DataInterface<SI, SP>,
     private readonly _transformers: readonly Transformer<unknown>[],
-    private readonly _target: DataSet<TI, TP>
+    private readonly _target: DataSet<TI, TP>,
   ) {}
 
   /** @inheritDoc */
@@ -152,7 +152,7 @@ class SimpleDataPipe<
    */
   private _add(
     _name: Parameters<EventCallbacks<SI, SP>["add"]>[0],
-    payload: Parameters<EventCallbacks<SI, SP>["add"]>[1]
+    payload: Parameters<EventCallbacks<SI, SP>["add"]>[1],
   ): void {
     if (payload == null) {
       return;
@@ -168,7 +168,7 @@ class SimpleDataPipe<
    */
   private _update(
     _name: Parameters<EventCallbacks<SI, SP>["update"]>[0],
-    payload: Parameters<EventCallbacks<SI, SP>["update"]>[1]
+    payload: Parameters<EventCallbacks<SI, SP>["update"]>[1],
   ): void {
     if (payload == null) {
       return;
@@ -184,7 +184,7 @@ class SimpleDataPipe<
    */
   private _remove(
     _name: Parameters<EventCallbacks<SI, SP>["remove"]>[0],
-    payload: Parameters<EventCallbacks<SI, SP>["remove"]>[1]
+    payload: Parameters<EventCallbacks<SI, SP>["remove"]>[1],
   ): void {
     if (payload == null) {
       return;
@@ -202,7 +202,7 @@ class SimpleDataPipe<
  */
 class DataPipeUnderConstruction<
   SI extends PartItem<SP>,
-  SP extends string = "id"
+  SP extends string = "id",
 > {
   /**
    * Array transformers used to transform items within the pipe. This is typed
@@ -224,7 +224,7 @@ class DataPipeUnderConstruction<
    * @returns This factory for further configuration.
    */
   public filter(
-    callback: (item: SI) => boolean
+    callback: (item: SI) => boolean,
   ): DataPipeUnderConstruction<SI, SP> {
     this._transformers.push((input): unknown[] => input.filter(callback));
     return this;
@@ -239,7 +239,7 @@ class DataPipeUnderConstruction<
    * @returns This factory for further configuration.
    */
   public map<TI extends PartItem<TP>, TP extends string = "id">(
-    callback: (item: SI) => TI
+    callback: (item: SI) => TI,
   ): DataPipeUnderConstruction<TI, TP> {
     this._transformers.push((input): unknown[] => input.map(callback));
     return this as unknown as DataPipeUnderConstruction<TI, TP>;
@@ -254,7 +254,7 @@ class DataPipeUnderConstruction<
    * @returns This factory for further configuration.
    */
   public flatMap<TI extends PartItem<TP>, TP extends string = "id">(
-    callback: (item: SI) => TI[]
+    callback: (item: SI) => TI[],
   ): DataPipeUnderConstruction<TI, TP> {
     this._transformers.push((input): unknown[] => input.flatMap(callback));
     return this as unknown as DataPipeUnderConstruction<TI, TP>;

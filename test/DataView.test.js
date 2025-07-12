@@ -44,7 +44,7 @@ describe("DataView", function () {
           return item.id > 2;
         },
       }),
-      [{ id: 3, content: "Item 3", group: 2 }]
+      [{ id: 3, content: "Item 3", group: 2 }],
     );
 
     // test event subscription

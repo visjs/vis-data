@@ -63,7 +63,7 @@ export interface DataSetOptions {
  */
 function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
   item: Item,
-  idProp: IdProp
+  idProp: IdProp,
 ): FullItem<Item, IdProp> {
   if (item[idProp] == null) {
     // generate an id
@@ -133,7 +133,7 @@ function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
  */
 export class DataSet<
     Item extends PartItem<IdProp>,
-    IdProp extends string = "id"
+    IdProp extends string = "id",
   >
   extends DataSetPart<Item, IdProp>
   implements DataInterface<Item, IdProp>
@@ -168,7 +168,7 @@ export class DataSet<
    */
   public constructor(
     data?: Item[] | DataSetInitialOptions<IdProp>,
-    options?: DataSetInitialOptions<IdProp>
+    options?: DataSetInitialOptions<IdProp>,
   ) {
     super();
 
@@ -307,7 +307,7 @@ export class DataSet<
    */
   public update(
     data: DeepPartial<Item> | DeepPartial<Item>[],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): Id[] {
     const addedIds: Id[] = [];
     const updatedIds: Id[] = [];
@@ -339,7 +339,7 @@ export class DataSet<
           addOrUpdate(data[i]);
         } else {
           console.warn(
-            "Ignoring input item, which is not an object at index " + i
+            "Ignoring input item, which is not an object at index " + i,
           );
         }
       }
@@ -403,7 +403,7 @@ export class DataSet<
    */
   public updateOnly(
     data: UpdateItem<Item, IdProp> | UpdateItem<Item, IdProp>[],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): Id[] {
     if (!Array.isArray(data)) {
       data = [data];
@@ -412,7 +412,7 @@ export class DataSet<
     const updateEventData = data
       .map(
         (
-          update
+          update,
         ): {
           oldData: FullItem<Item, IdProp>;
           update: UpdateItem<Item, IdProp>;
@@ -422,7 +422,7 @@ export class DataSet<
             throw new Error("Updating non-existent items is not allowed.");
           }
           return { oldData, update };
-        }
+        },
       )
       .map(
         ({
@@ -443,17 +443,17 @@ export class DataSet<
             oldData: oldData,
             updatedData,
           };
-        }
+        },
       );
 
     if (updateEventData.length) {
       const props: EventPayloads<Item, IdProp>["update"] = {
         items: updateEventData.map((value): Id => value.id),
         oldData: updateEventData.map(
-          (value): FullItem<Item, IdProp> => value.oldData
+          (value): FullItem<Item, IdProp> => value.oldData,
         ),
         data: updateEventData.map(
-          (value): FullItem<Item, IdProp> => value.updatedData
+          (value): FullItem<Item, IdProp> => value.updatedData,
         ),
       };
       // TODO: remove deprecated property 'data' some day
@@ -475,54 +475,54 @@ export class DataSet<
   public get(): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(id: Id): null | FullItem<Item, IdProp>;
   /** @inheritDoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): null | FullItem<Item, IdProp>;
   /** @inheritDoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
     id: Id,
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(ids: Id[]): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): FullItem<Item, IdProp>[];
   /** @inheritDoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
     ids: Id[],
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /** @inheritDoc */
   public get(
     ids: Id | Id[],
-    options?: DataInterfaceGetOptions<Item>
+    options?: DataInterfaceGetOptions<Item>,
   ):
     | null
     | FullItem<Item, IdProp>
@@ -532,7 +532,7 @@ export class DataSet<
   /** @inheritDoc */
   public get(
     first?: DataInterfaceGetOptions<Item> | Id | Id[],
-    second?: DataInterfaceGetOptions<Item>
+    second?: DataInterfaceGetOptions<Item>,
   ):
     | null
     | FullItem<Item, IdProp>
@@ -722,7 +722,7 @@ export class DataSet<
   /** @inheritDoc */
   public forEach(
     callback: (item: Item, id: Id) => void,
-    options?: DataInterfaceForEachOptions<Item>
+    options?: DataInterfaceForEachOptions<Item>,
   ): void {
     const filter = options && options.filter;
     const data = this._data;
@@ -752,7 +752,7 @@ export class DataSet<
   /** @inheritDoc */
   public map<T>(
     callback: (item: Item, id: Id) => T,
-    options?: DataInterfaceMapOptions<Item, T>
+    options?: DataInterfaceMapOptions<Item, T>,
   ): T[] {
     const filter = options && options.filter;
     const mappedItems: T[] = [];
@@ -779,11 +779,11 @@ export class DataSet<
   private _filterFields<K extends string>(item: null, fields: K[]): null;
   private _filterFields<K extends string>(
     item: Record<K, unknown>,
-    fields: K[]
+    fields: K[],
   ): Record<K, unknown>;
   private _filterFields<K extends string>(
     item: Record<K, unknown>,
-    fields: K[] | Record<K, string>
+    fields: K[] | Record<K, string>,
   ): any;
   /**
    * Filter the fields of an item.
@@ -794,7 +794,7 @@ export class DataSet<
    */
   private _filterFields<K extends string>(
     item: Record<K, unknown> | null,
-    fields: K[] | Record<K, unknown>
+    fields: K[] | Record<K, unknown>,
   ): Record<K, unknown> | null {
     if (!item) {
       // item is null
@@ -812,7 +812,7 @@ export class DataSet<
         filteredItem[field] = item[field];
         return filteredItem;
       },
-      {}
+      {},
     );
   }
 
@@ -889,7 +889,7 @@ export class DataSet<
       this._trigger(
         "remove",
         { items: removedIds, oldData: removedItems },
-        senderId
+        senderId,
       );
     }
 
@@ -1039,7 +1039,7 @@ export class DataSet<
     if (this._data.has(id)) {
       // item already exists
       throw new Error(
-        "Cannot add item: item with id " + id + " already exists"
+        "Cannot add item: item with id " + id + " already exists",
       );
     }
 
@@ -1061,7 +1061,7 @@ export class DataSet<
       throw new Error(
         "Cannot update item: item has no id (item: " +
           JSON.stringify(update) +
-          ")"
+          ")",
       );
     }
     const item = this._data.get(id);

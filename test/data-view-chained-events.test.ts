@@ -107,7 +107,7 @@ describe("Data view chaining events", function (): void {
         { whoami: -21, payload: "new -21" },
         { whoami: -23, payload: "new -23" },
       ],
-      "U2"
+      "U2",
     );
     ds.remove(42, "this doesn‘t exist");
     ds.remove(-21);
@@ -224,17 +224,17 @@ describe("Data view chaining events", function (): void {
       });
       it("add #1 is * #1", function (): void {
         expect(spies.ds["add"].getCall(0).args).to.deep.equal(
-          spies.ds["*"].getCall(0).args
+          spies.ds["*"].getCall(0).args,
         );
       });
       it("add #2 is * #2", function (): void {
         expect(spies.ds["add"].getCall(1).args).to.deep.equal(
-          spies.ds["*"].getCall(1).args
+          spies.ds["*"].getCall(1).args,
         );
       });
       it("add #3 is * #4", function (): void {
         expect(spies.ds["add"].getCall(2).args).to.deep.equal(
-          spies.ds["*"].getCall(3).args
+          spies.ds["*"].getCall(3).args,
         );
       });
     });
@@ -245,12 +245,12 @@ describe("Data view chaining events", function (): void {
       });
       it("remove #1 is * #6", function (): void {
         expect(spies.ds["remove"].getCall(0).args).to.deep.equal(
-          spies.ds["*"].getCall(5).args
+          spies.ds["*"].getCall(5).args,
         );
       });
       it("remove #2 is * #7", function (): void {
         expect(spies.ds["remove"].getCall(1).args).to.deep.equal(
-          spies.ds["*"].getCall(6).args
+          spies.ds["*"].getCall(6).args,
         );
       });
     });
@@ -261,12 +261,12 @@ describe("Data view chaining events", function (): void {
       });
       it("update #1 is * #3", function (): void {
         expect(spies.ds["update"].getCall(0).args).to.deep.equal(
-          spies.ds["*"].getCall(2).args
+          spies.ds["*"].getCall(2).args,
         );
       });
       it("update #2 is * #5", function (): void {
         expect(spies.ds["update"].getCall(1).args).to.deep.equal(
-          spies.ds["*"].getCall(4).args
+          spies.ds["*"].getCall(4).args,
         );
       });
     });
@@ -341,12 +341,12 @@ describe("Data view chaining events", function (): void {
       });
       it("add #1 is * #1", function (): void {
         expect(spies.dv1["add"].getCall(0).args).to.deep.equal(
-          spies.dv1["*"].getCall(0).args
+          spies.dv1["*"].getCall(0).args,
         );
       });
       it("add #2 is * #3", function (): void {
         expect(spies.dv1["add"].getCall(1).args).to.deep.equal(
-          spies.dv1["*"].getCall(2).args
+          spies.dv1["*"].getCall(2).args,
         );
       });
     });
@@ -357,12 +357,12 @@ describe("Data view chaining events", function (): void {
       });
       it("remove #1 is * #5", function (): void {
         expect(spies.dv1["remove"].getCall(0).args).to.deep.equal(
-          spies.dv1["*"].getCall(4).args
+          spies.dv1["*"].getCall(4).args,
         );
       });
       it("remove #2 is * #6", function (): void {
         expect(spies.dv1["remove"].getCall(1).args).to.deep.equal(
-          spies.dv1["*"].getCall(5).args
+          spies.dv1["*"].getCall(5).args,
         );
       });
     });
@@ -373,12 +373,12 @@ describe("Data view chaining events", function (): void {
       });
       it("update #1 is * #2", function (): void {
         expect(spies.dv1["update"].getCall(0).args).to.deep.equal(
-          spies.dv1["*"].getCall(1).args
+          spies.dv1["*"].getCall(1).args,
         );
       });
       it("update #2 is * #4", function (): void {
         expect(spies.dv1["update"].getCall(1).args).to.deep.equal(
-          spies.dv1["*"].getCall(3).args
+          spies.dv1["*"].getCall(3).args,
         );
       });
     });
@@ -432,12 +432,12 @@ describe("Data view chaining events", function (): void {
       });
       it("add #1 is * #1", function (): void {
         expect(spies.dv2["add"].getCall(0).args).to.deep.equal(
-          spies.dv2["*"].getCall(0).args
+          spies.dv2["*"].getCall(0).args,
         );
       });
       it("add #2 is * #2", function (): void {
         expect(spies.dv2["add"].getCall(1).args).to.deep.equal(
-          spies.dv2["*"].getCall(1).args
+          spies.dv2["*"].getCall(1).args,
         );
       });
     });
@@ -448,7 +448,7 @@ describe("Data view chaining events", function (): void {
       });
       it("remove #1 is * #4", function (): void {
         expect(spies.dv2["remove"].getCall(0).args).to.deep.equal(
-          spies.dv2["*"].getCall(3).args
+          spies.dv2["*"].getCall(3).args,
         );
       });
     });
@@ -459,7 +459,7 @@ describe("Data view chaining events", function (): void {
       });
       it("update #1 is * #3", function (): void {
         expect(spies.dv2["update"].getCall(0).args).to.deep.equal(
-          spies.dv2["*"].getCall(2).args
+          spies.dv2["*"].getCall(2).args,
         );
       });
     });

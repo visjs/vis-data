@@ -10,7 +10,7 @@ import { isDataSetLike } from "./data-set-check";
  */
 export function isDataViewLike<
   Item extends PartItem<IdProp>,
-  IdProp extends string = "id"
+  IdProp extends string = "id",
 >(idProp: IdProp, v: any): v is DataView<Item, IdProp> {
   return (
     typeof v === "object" &&

@@ -30,7 +30,7 @@ const generateItem = (index: number, updated = "no"): Item1 =>
 const skippedItem: (index: 3 | 6 | 9, updated?: string) => Item1 = generateItem;
 const pipedItem: (
   index: 1 | 2 | 4 | 5 | 7 | 8 | 10 | 11,
-  updated?: string
+  updated?: string,
 ) => Item1 = generateItem;
 
 type Config = {
@@ -40,7 +40,7 @@ type Config = {
   operation(
     ds1: DataSet<Item1, "whoami">,
     pipe: DataPipe,
-    ds2: DataSet<Item2, "myId">
+    ds2: DataSet<Item2, "myId">,
   ): void;
 };
 
@@ -89,7 +89,7 @@ describe("Data Pipe", function (): void {
           ds1.add([skippedItem(6), pipedItem(7), pipedItem(8)]);
           expect(
             ds2.length,
-            "Items should have been piped into the second data set by now"
+            "Items should have been piped into the second data set by now",
           ).to.equal(2);
           ds1.remove([skippedItem(6), pipedItem(7)]);
         },
@@ -146,7 +146,7 @@ describe("Data Pipe", function (): void {
       it(name, function (): void {
         const ds1 = new DataSet<Item1, "whoami">(
           [pipedItem(1), pipedItem(2), skippedItem(3), pipedItem(4)],
-          { fieldId: "whoami" }
+          { fieldId: "whoami" },
         );
 
         const ds2 = new DataSet<Item2, "myId">([], { fieldId: "myId" });
@@ -166,7 +166,7 @@ describe("Data Pipe", function (): void {
   it("FlatMap", function (): void {
     const ds1 = new DataSet<Item1, "whoami">(
       [pipedItem(1), pipedItem(2), skippedItem(3), pipedItem(4)],
-      { fieldId: "whoami" }
+      { fieldId: "whoami" },
     );
 
     const ds2 = new DataSet<Item2, "myId">([], { fieldId: "myId" });
@@ -175,7 +175,7 @@ describe("Data Pipe", function (): void {
       .flatMap<Item2, "myId">((item): Item2[] =>
         item.vis.myId % 3 === 0
           ? []
-          : [item.vis, { ...item.vis, myId: -item.vis.myId }]
+          : [item.vis, { ...item.vis, myId: -item.vis.myId }],
       )
       .to(ds2);
 
@@ -187,7 +187,7 @@ describe("Data Pipe", function (): void {
 
     expect(
       ds2.get(),
-      "Unexpected items found, expected missing or corrupted"
+      "Unexpected items found, expected missing or corrupted",
     ).to.deep.equal([
       pipedItem(1).vis,
       { ...pipedItem(1).vis, myId: -1 },

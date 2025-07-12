@@ -28,6 +28,6 @@ const { status } = spawnSync(
     // for debugging).
     ...process.argv.slice(2),
   ],
-  { stdio: "inherit" }
+  { stdio: "inherit" },
 );
 process.exitCode = status;

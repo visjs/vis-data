@@ -23,8 +23,8 @@ export function isId(value: unknown): value is Id {
 export type DeepPartial<T> = T extends any[] | Function | Node
   ? T
   : T extends object
-  ? { [key in keyof T]?: DeepPartial<T[key]> }
-  : T;
+    ? { [key in keyof T]?: DeepPartial<T[key]> }
+    : T;
 
 /**
  * An item that may ({@link Id}) or may not (absent, undefined or null) have an id property.
@@ -38,7 +38,7 @@ export type PartItem<IdProp extends string> = Partial<Record<IdProp, OptId>>;
  */
 export type FullItem<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > = Item & Record<IdProp, Id>;
 /**
  * An item that has a property containing an id and optionally other properties of given item type.
@@ -47,7 +47,7 @@ export type FullItem<
  */
 export type UpdateItem<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > = Assignable<FullItem<Item, IdProp>> & Record<IdProp, Id>;
 
 /**
@@ -60,7 +60,7 @@ export type UpdateItem<
  */
 export function isFullItem<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 >(item: Item, idProp: IdProp): item is FullItem<Item, IdProp> {
   return item[idProp] != null;
 }
@@ -73,7 +73,7 @@ export interface AddEventPayload {
 /** Update event payload. */
 export interface UpdateEventPayload<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > {
   /** Ids of updated items. */
   items: Id[];
@@ -88,7 +88,7 @@ export interface UpdateEventPayload<
 /** Remove event payload. */
 export interface RemoveEventPayload<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > {
   /** Ids of removed items. */
   items: Id[];
@@ -103,7 +103,7 @@ export interface RemoveEventPayload<
  */
 export interface EventPayloads<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > {
   add: AddEventPayload;
   update: UpdateEventPayload<Item, IdProp>;
@@ -116,7 +116,7 @@ export interface EventPayloads<
  */
 export interface EventPayloadsWithAny<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > extends EventPayloads<Item, IdProp> {
   "*": ValueOf<EventPayloads<Item, IdProp>>;
 }
@@ -128,7 +128,7 @@ export interface EventPayloadsWithAny<
  */
 export interface EventCallbacks<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > {
   /**
    * @param name - The name of the event ({@link EventName}).
@@ -144,7 +144,7 @@ export interface EventCallbacks<
   update(
     name: "update",
     payload: UpdateEventPayload<Item, IdProp> | null,
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void;
   /**
    * @param name - The name of the event ({@link EventName}).
@@ -154,7 +154,7 @@ export interface EventCallbacks<
   remove(
     name: "remove",
     payload: RemoveEventPayload<Item, IdProp> | null,
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void;
 }
 /**
@@ -164,7 +164,7 @@ export interface EventCallbacks<
  */
 export interface EventCallbacksWithAny<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > extends EventCallbacks<Item, IdProp> {
   /**
    * @param name - The name of the event ({@link EventName}).
@@ -174,7 +174,7 @@ export interface EventCallbacksWithAny<
   "*"<N extends keyof EventCallbacks<Item, IdProp>>(
     name: N,
     payload: EventPayloads<Item, IdProp>[N],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void;
 }
 
@@ -287,7 +287,7 @@ export interface DataInterfaceMapOptions<Original, Mapped> {
  */
 export interface DataInterface<
   Item extends PartItem<IdProp>,
-  IdProp extends string = "id"
+  IdProp extends string = "id",
 > {
   /** The number of items. */
   length: number;
@@ -317,7 +317,7 @@ export interface DataInterface<
    */
   on(
     event: "remove",
-    callback: EventCallbacksWithAny<Item, IdProp>["remove"]
+    callback: EventCallbacksWithAny<Item, IdProp>["remove"],
   ): void;
   /**
    * Add an `update` event listener.
@@ -327,7 +327,7 @@ export interface DataInterface<
    */
   on(
     event: "update",
-    callback: EventCallbacksWithAny<Item, IdProp>["update"]
+    callback: EventCallbacksWithAny<Item, IdProp>["update"],
   ): void;
 
   /**
@@ -349,7 +349,7 @@ export interface DataInterface<
    */
   off(
     event: "remove",
-    callback: EventCallbacksWithAny<Item, IdProp>["remove"]
+    callback: EventCallbacksWithAny<Item, IdProp>["remove"],
   ): void;
   /**
    * Remove an `update` event listener.
@@ -358,7 +358,7 @@ export interface DataInterface<
    */
   off(
     event: "update",
-    callback: EventCallbacksWithAny<Item, IdProp>["update"]
+    callback: EventCallbacksWithAny<Item, IdProp>["update"],
   ): void;
 
   /**
@@ -378,7 +378,7 @@ export interface DataInterface<
    * @returns An object map of items (may be an empty object if there are no items).
    */
   get(
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get all the items.
@@ -386,7 +386,7 @@ export interface DataInterface<
    * @returns An array containing requested items or if requested an object map of items (may be an empty object if there are no items).
    */
   get(
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get one item.
@@ -402,7 +402,7 @@ export interface DataInterface<
    */
   get(
     id: Id,
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): null | FullItem<Item, IdProp>;
   /**
    * Get one item.
@@ -412,7 +412,7 @@ export interface DataInterface<
    */
   get(
     id: Id,
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get one item.
@@ -422,7 +422,7 @@ export interface DataInterface<
    */
   get(
     id: Id,
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): null | FullItem<Item, IdProp> | Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get multiple items.
@@ -438,7 +438,7 @@ export interface DataInterface<
    */
   get(
     ids: Id[],
-    options: DataInterfaceGetOptionsArray<Item>
+    options: DataInterfaceGetOptionsArray<Item>,
   ): FullItem<Item, IdProp>[];
   /**
    * Get multiple items.
@@ -448,7 +448,7 @@ export interface DataInterface<
    */
   get(
     ids: Id[],
-    options: DataInterfaceGetOptionsObject<Item>
+    options: DataInterfaceGetOptionsObject<Item>,
   ): Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get multiple items.
@@ -459,7 +459,7 @@ export interface DataInterface<
    */
   get(
     ids: Id[],
-    options: DataInterfaceGetOptions<Item>
+    options: DataInterfaceGetOptions<Item>,
   ): FullItem<Item, IdProp>[] | Record<Id, FullItem<Item, IdProp>>;
   /**
    * Get items.
@@ -469,7 +469,7 @@ export interface DataInterface<
    */
   get(
     ids: Id | Id[],
-    options?: DataInterfaceGetOptions<Item>
+    options?: DataInterfaceGetOptions<Item>,
   ):
     | null
     | FullItem<Item, IdProp>
@@ -501,7 +501,7 @@ export interface DataInterface<
    */
   forEach(
     callback: (item: Item, id: Id) => void,
-    options?: DataInterfaceForEachOptions<Item>
+    options?: DataInterfaceForEachOptions<Item>,
   ): void;
 
   /**
@@ -514,7 +514,7 @@ export interface DataInterface<
    */
   map<T>(
     callback: (item: Item, id: Id) => T,
-    options?: DataInterfaceMapOptions<Item, T>
+    options?: DataInterfaceMapOptions<Item, T>,
   ): T[];
 
   /**

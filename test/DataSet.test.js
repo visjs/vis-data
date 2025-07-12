@@ -50,7 +50,7 @@ describe("DataSet", function () {
         { id: 2, content: "Item 2" },
         { id: 3, content: "Item 3" },
         { id: 4, content: "Item 4" },
-      ]
+      ],
     );
 
     // convert dates
@@ -65,7 +65,7 @@ describe("DataSet", function () {
         { id: 2, start: now.toISOString() },
         { id: 3, start: now },
         { id: 4, start: `/Date(${now.valueOf()})/` },
-      ]
+      ],
     );
 
     // get a single item
@@ -76,7 +76,7 @@ describe("DataSet", function () {
       {
         id: 1,
         start: now,
-      }
+      },
     );
 
     // remove an item
@@ -87,7 +87,7 @@ describe("DataSet", function () {
           fields: ["id"],
         })
         .sort(sort),
-      [{ id: 1 }, { id: 3 }, { id: 4 }]
+      [{ id: 1 }, { id: 3 }, { id: 4 }],
     );
     assert.equal(data.length, 3);
 
@@ -99,7 +99,7 @@ describe("DataSet", function () {
           fields: ["id"],
         })
         .sort(sort),
-      [{ id: 1 }, { id: 3 }, { id: 4 }, { id: 5 }]
+      [{ id: 1 }, { id: 3 }, { id: 4 }, { id: 5 }],
     );
     assert.equal(data.length, 4);
 
@@ -158,7 +158,7 @@ describe("DataSet", function () {
         },
         fields: ["id"],
       }),
-      [{ id: 3 }, { id: 1 }]
+      [{ id: 3 }, { id: 1 }],
     );
     assert.deepEqual(
       data.getIds({
@@ -167,7 +167,7 @@ describe("DataSet", function () {
           return item.group == 2;
         },
       }),
-      [3, 1]
+      [3, 1],
     );
 
     data.clear();
@@ -191,7 +191,7 @@ describe("DataSet", function () {
         { _id: 1, content: "Item 1", start: new Date(now.valueOf()) },
         { _id: 2, content: "Item 2", start: now.toISOString() },
       ],
-      { fieldId: "_id" }
+      { fieldId: "_id" },
     );
     assert.deepEqual(data.getIds(), [1, 2]);
   });
@@ -202,7 +202,7 @@ describe("DataSet", function () {
         new DataSet([{ id: "duplicate" }, { id: "duplicate" }]);
       },
       Error,
-      "duplicate id throws error"
+      "duplicate id throws error",
     );
   });
 
@@ -213,7 +213,7 @@ describe("DataSet", function () {
         dataset.add({ id: "duplicate" });
       },
       Error,
-      "duplicate id throws error"
+      "duplicate id throws error",
     );
   });
 
@@ -224,7 +224,7 @@ describe("DataSet", function () {
         { id: 1, content: "Item 1" },
         { id: 2, content: "Item 2" },
       ],
-      options
+      options,
     );
 
     assert.deepEqual(dataset.get(), [
@@ -256,7 +256,7 @@ describe("DataSet", function () {
         { id: 1, content: "Item 1" },
         { id: 2, content: "Item 2" },
       ],
-      options
+      options,
     );
 
     assert.deepEqual(dataset.get(), [
@@ -290,7 +290,7 @@ describe("DataSet", function () {
         { id: 1, content: "Item 1" },
         { id: 2, content: "Item 2" },
       ],
-      options
+      options,
     );
 
     assert.deepEqual(dataset.get(), [
@@ -356,23 +356,23 @@ describe("DataSet", function () {
           dataset.add(null);
         },
         Error,
-        "null type throws error"
+        "null type throws error",
       );
       assert.throws(
         function () {
           dataset.add(undefined);
         },
         Error,
-        "undefined type throws error"
+        "undefined type throws error",
       );
     });
 
     it("throws an error when passed a duplicate id", () => {
       const dataset = new DataSet([{ id: 1 }, { id: 2 }]);
       assert.throws(() => {
-        dataset.add([{ id: 3 }, { id: 1 }, { id: 4 }, { id: 5 }]),
+        (dataset.add([{ id: 3 }, { id: 1 }, { id: 4 }, { id: 5 }]),
           Error,
-          "duplicate ids throws error.";
+          "duplicate ids throws error.");
       });
       assert.deepStrictEqual(dataset.getIds(), [1, 2]);
     });
@@ -381,7 +381,7 @@ describe("DataSet", function () {
   describe("setOptions", function () {
     var dataset = new DataSet(
       [{ _id: 1, content: "Item 1", start: new Date(now.valueOf()) }],
-      { queue: true }
+      { queue: true },
     );
 
     it("does not update queue when passed an undefined queue", function () {

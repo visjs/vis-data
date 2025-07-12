@@ -44,19 +44,19 @@ describe("Data view chaining", function (): void {
     it(".getIds", function (): void {
       expect(
         ds.getIds(),
-        "The data set should contain all 10 items."
+        "The data set should contain all 10 items.",
       ).to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
       expect(
         dv1.getIds(),
-        "The 1st data view should filter item.whoami < 9."
+        "The 1st data view should filter item.whoami < 9.",
       ).to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8]);
       expect(
         dv2.getIds(),
-        "The 2nd data view should get only odd ids from the 1st data view."
+        "The 2nd data view should get only odd ids from the 1st data view.",
       ).to.deep.equal([1, 3, 5, 7]);
       expect(
         dv3.getIds(),
-        "The 3rd data view should get even ids from the 2nd data view (there are none)."
+        "The 3rd data view should get even ids from the 2nd data view (there are none).",
       ).to.deep.equal([]);
     });
 

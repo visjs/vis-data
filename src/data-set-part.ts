@@ -19,7 +19,7 @@ type EventSubscribers<Item extends PartItem<IdProp>, IdProp extends string> = {
  */
 export abstract class DataSetPart<
   Item extends PartItem<IdProp>,
-  IdProp extends string
+  IdProp extends string,
 > implements Pick<DataInterface<Item, IdProp>, "on" | "off">
 {
   private readonly _subscribers: {
@@ -34,17 +34,17 @@ export abstract class DataSetPart<
   protected _trigger(
     event: "add",
     payload: EventPayloads<Item, IdProp>["add"],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void;
   protected _trigger(
     event: "update",
     payload: EventPayloads<Item, IdProp>["update"],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void;
   protected _trigger(
     event: "remove",
     payload: EventPayloads<Item, IdProp>["remove"],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void;
   /**
    * Trigger an event
@@ -55,7 +55,7 @@ export abstract class DataSetPart<
   protected _trigger<Name extends EventName>(
     event: Name,
     payload: EventPayloads<Item, IdProp>[Name],
-    senderId?: Id | null
+    senderId?: Id | null,
   ): void {
     if ((event as string) === "*") {
       throw new Error("Cannot trigger event *");
@@ -64,29 +64,29 @@ export abstract class DataSetPart<
     [...this._subscribers[event], ...this._subscribers["*"]].forEach(
       (subscriber): void => {
         subscriber(event, payload, senderId != null ? senderId : null);
-      }
+      },
     );
   }
 
   /** @inheritDoc */
   public on(
     event: "*",
-    callback: EventCallbacksWithAny<Item, IdProp>["*"]
+    callback: EventCallbacksWithAny<Item, IdProp>["*"],
   ): void;
   /** @inheritDoc */
   public on(
     event: "add",
-    callback: EventCallbacksWithAny<Item, IdProp>["add"]
+    callback: EventCallbacksWithAny<Item, IdProp>["add"],
   ): void;
   /** @inheritDoc */
   public on(
     event: "remove",
-    callback: EventCallbacksWithAny<Item, IdProp>["remove"]
+    callback: EventCallbacksWithAny<Item, IdProp>["remove"],
   ): void;
   /** @inheritDoc */
   public on(
     event: "update",
-    callback: EventCallbacksWithAny<Item, IdProp>["update"]
+    callback: EventCallbacksWithAny<Item, IdProp>["update"],
   ): void;
   /**
    * Subscribe to an event, add an event listener.
@@ -96,7 +96,7 @@ export abstract class DataSetPart<
    */
   public on<Name extends EventNameWithAny>(
     event: Name,
-    callback: EventCallbacksWithAny<Item, IdProp>[Name]
+    callback: EventCallbacksWithAny<Item, IdProp>[Name],
   ): void {
     if (typeof callback === "function") {
       this._subscribers[event].push(callback);
@@ -107,22 +107,22 @@ export abstract class DataSetPart<
   /** @inheritDoc */
   public off(
     event: "*",
-    callback: EventCallbacksWithAny<Item, IdProp>["*"]
+    callback: EventCallbacksWithAny<Item, IdProp>["*"],
   ): void;
   /** @inheritDoc */
   public off(
     event: "add",
-    callback: EventCallbacksWithAny<Item, IdProp>["add"]
+    callback: EventCallbacksWithAny<Item, IdProp>["add"],
   ): void;
   /** @inheritDoc */
   public off(
     event: "remove",
-    callback: EventCallbacksWithAny<Item, IdProp>["remove"]
+    callback: EventCallbacksWithAny<Item, IdProp>["remove"],
   ): void;
   /** @inheritDoc */
   public off(
     event: "update",
-    callback: EventCallbacksWithAny<Item, IdProp>["update"]
+    callback: EventCallbacksWithAny<Item, IdProp>["update"],
   ): void;
   /**
    * Unsubscribe from an event, remove an event listener.
@@ -132,10 +132,10 @@ export abstract class DataSetPart<
    */
   public off<Name extends EventNameWithAny>(
     event: Name,
-    callback: EventCallbacksWithAny<Item, IdProp>[Name]
+    callback: EventCallbacksWithAny<Item, IdProp>[Name],
   ): void {
     this._subscribers[event] = this._subscribers[event].filter(
-      (subscriber): boolean => subscriber !== callback
+      (subscriber): boolean => subscriber !== callback,
     );
   }
 

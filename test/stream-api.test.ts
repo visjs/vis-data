@@ -17,8 +17,8 @@ const itemById = ({ id: a }: { id: Id }, { id: b }: { id: Id }): number =>
 
 const testStreamAPI = function (
   createDataStream: <Item extends { id: number }>(
-    data: readonly [Id, Item][]
-  ) => CreateDataStreamRet<Item>
+    data: readonly [Id, Item][],
+  ) => CreateDataStreamRet<Item>,
 ): void {
   function testReuse<T extends { id: number }>({
     data,
@@ -42,11 +42,11 @@ const testStreamAPI = function (
 
           expect(
             [...stream],
-            "The original stream shouldn’t be used up."
+            "The original stream shouldn’t be used up.",
           ).to.have.lengthOf(data.length);
           expect(
             second.length,
-            "The processed stream shouldn’t be used up."
+            "The processed stream shouldn’t be used up.",
           ).to.equal(first.length);
         });
 
@@ -81,7 +81,7 @@ const testStreamAPI = function (
           // Warning: the updateArgs content has to change the callback return value.
           expect(
             after,
-            "If the source is changed the stream should work with the new data."
+            "If the source is changed the stream should work with the new data.",
           ).to.not.deep.equal(before);
         });
       } else if (valueCallback) {
@@ -93,11 +93,11 @@ const testStreamAPI = function (
 
           expect(
             [...stream],
-            "The original stream shouldn’t be used up."
+            "The original stream shouldn’t be used up.",
           ).to.have.lengthOf(data.length);
           expect(
             second,
-            "The processed streams should return equal values."
+            "The processed streams should return equal values.",
           ).to.deep.equal(first);
         });
       } else {
@@ -166,7 +166,7 @@ const testStreamAPI = function (
         expect(fofSpy.callCount).to.equal(2);
 
         expect(
-          fofSpy.getCalls().map((call): any => call.args[0])
+          fofSpy.getCalls().map((call): any => call.args[0]),
         ).to.deep.equal([
           [7, { id: 7 }],
           [10, { id: 10 }],
@@ -190,7 +190,7 @@ const testStreamAPI = function (
         expect(fofSpy.callCount).to.equal(4);
 
         expect(
-          fofSpy.getCalls().map((call): any => call.args[0])
+          fofSpy.getCalls().map((call): any => call.args[0]),
         ).to.deep.equal([
           [7, { id: 7 }],
           [10, { id: 10 }],
@@ -215,7 +215,7 @@ const testStreamAPI = function (
       expect(idArray, "An array should be returned.").to.be.an("array");
       expect(
         idArray,
-        "All ids should be included in the array."
+        "All ids should be included in the array.",
       ).to.have.lengthOf(4);
       expect(idArray.sort()).to.deep.equal([3, 7, 10, 13].sort());
     });
@@ -233,10 +233,10 @@ const testStreamAPI = function (
       expect(itemArray, "An array should be returned.").to.be.an("array");
       expect(
         itemArray,
-        "All items should be included in the array."
+        "All items should be included in the array.",
       ).to.have.lengthOf(4);
       expect(itemArray.sort(itemById)).to.deep.equal(
-        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById)
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById),
       );
     });
 
@@ -253,7 +253,7 @@ const testStreamAPI = function (
       expect(entryArray, "An array should be returned.").to.be.an("array");
       expect(
         entryArray,
-        "All items should be included in the array."
+        "All items should be included in the array.",
       ).to.have.lengthOf(4);
       expect(entryArray.sort(pairById)).to.deep.equal(
         [
@@ -261,7 +261,7 @@ const testStreamAPI = function (
           [7, { id: 7 }],
           [10, { id: 10 }],
           [13, { id: 13 }],
-        ].sort(pairById as any)
+        ].sort(pairById as any),
       );
     });
 
@@ -277,21 +277,21 @@ const testStreamAPI = function (
 
       expect(
         Object.getPrototypeOf(map),
-        "An object should be returned."
+        "An object should be returned.",
       ).to.equal(null);
       expect(
         Object.keys(map),
-        "All items should be included in the map."
+        "All items should be included in the map.",
       ).to.have.lengthOf(4);
       expect(
         Object.values(map),
-        "All items should be included in the map."
+        "All items should be included in the map.",
       ).to.have.lengthOf(4);
       expect(Object.keys(map).sort()).to.deep.equal(
-        ["3", "7", "10", "13"].sort()
+        ["3", "7", "10", "13"].sort(),
       );
       expect(Object.values(map).sort(itemById)).to.deep.equal(
-        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById)
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById),
       );
     });
 
@@ -307,7 +307,7 @@ const testStreamAPI = function (
 
       expect(map, "A Map instance should be returned.").to.instanceof(Map);
       expect(map, "All items should be included in the map.").to.have.lengthOf(
-        4
+        4,
       );
       expect([...map.entries()].sort(pairById)).to.deep.equal(
         [
@@ -315,7 +315,7 @@ const testStreamAPI = function (
           [7, { id: 7 }],
           [10, { id: 10 }],
           [13, { id: 13 }],
-        ].sort(pairById as any)
+        ].sort(pairById as any),
       );
     });
 
@@ -331,7 +331,7 @@ const testStreamAPI = function (
 
       expect(idSet, "A Set instance should be returned.").to.instanceof(Set);
       expect(idSet, "All ids should be included in the set.").to.have.lengthOf(
-        4
+        4,
       );
       expect([...idSet.values()].sort()).to.deep.equal([3, 7, 10, 13].sort());
     });
@@ -349,10 +349,10 @@ const testStreamAPI = function (
       expect(itemSet, "A Set instance should be returned.").to.instanceof(Set);
       expect(
         itemSet,
-        "All items should be included in the set."
+        "All items should be included in the set.",
       ).to.have.lengthOf(4);
       expect([...itemSet.values()].sort(itemById)).to.deep.equal(
-        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById)
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById),
       );
     });
   });
@@ -517,7 +517,7 @@ const testStreamAPI = function (
         stream.forEach(forEachSpy);
 
         expect(
-          forEachSpy.getCalls().map((call): any => call.args)
+          forEachSpy.getCalls().map((call): any => call.args),
         ).to.deep.equal([
           [{ id: 7 }, 7],
           [{ id: 10 }, 10],
@@ -724,7 +724,7 @@ const testStreamAPI = function (
         expect([...stream.sort(sortSpy)]).to.deep.equal([]);
         expect(
           sortSpy.callCount,
-          "There are no items, so the callback shouldn‘t be called."
+          "There are no items, so the callback shouldn‘t be called.",
         ).to.equal(0);
       });
 
@@ -774,7 +774,7 @@ const testStreamAPI = function (
 
         expect([
           ...stream.sort(
-            (a, b, idA, idB): number => a.value - b.value || +idA - +idB
+            (a, b, idA, idB): number => a.value - b.value || +idA - +idB,
           ),
         ]).to.deep.equal([
           [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
@@ -857,14 +857,14 @@ describe("Stream API", function (): void {
             streamData.splice(
               streamData.findIndex((pair): boolean => pair[0] === id),
               1,
-              [id, item]
+              [id, item],
             );
           },
           pop: (): void => {
             streamData.pop();
           },
         };
-      }
+      },
     );
   });
 
@@ -884,7 +884,7 @@ describe("Stream API", function (): void {
             }
           },
         };
-      }
+      },
     );
   });
 
@@ -923,7 +923,7 @@ describe("Stream API", function (): void {
             }
           },
         };
-      }
+      },
     );
   });
 
@@ -975,7 +975,7 @@ describe("Stream API", function (): void {
             }
           },
         };
-      }
+      },
     );
   });
 });

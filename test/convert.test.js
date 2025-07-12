@@ -152,7 +152,7 @@ describe("Convert replacement from the docs", function () {
               throw new Error(
                 "Cannot convert object of type " +
                   getType(object) +
-                  " to type Date"
+                  " to type Date",
               );
             }
 
@@ -177,7 +177,7 @@ describe("Convert replacement from the docs", function () {
               throw new Error(
                 "Cannot convert object of type " +
                   getType(object) +
-                  " to type Date"
+                  " to type Date",
               );
             }
 
@@ -200,7 +200,7 @@ describe("Convert replacement from the docs", function () {
               throw new Error(
                 "Cannot convert object of type " +
                   getType(object) +
-                  " to type ISODate"
+                  " to type ISODate",
               );
             }
 
@@ -223,7 +223,7 @@ describe("Convert replacement from the docs", function () {
               throw new Error(
                 "Cannot convert object of type " +
                   getType(object) +
-                  " to type ASPDate"
+                  " to type ASPDate",
               );
             }
 
@@ -255,7 +255,7 @@ describe("Convert replacement from the docs", function () {
         Object.keys(item).reduce((acc, key) => {
           acc[key] = convert(item[key], types[key]);
           return acc;
-        }, {})
+        }, {}),
       )
       .to(coercedDS);
 

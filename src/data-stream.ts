@@ -199,7 +199,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns A new data stream with the mapped items.
    */
   public map<Mapped>(
-    callback: (item: Item, id: Id) => Mapped
+    callback: (item: Item, id: Id) => Mapped,
   ): DataStream<Mapped> {
     const pairs = this._pairs;
     return new DataStream<Mapped>({
@@ -272,7 +272,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    */
   public reduce<T>(
     callback: (accumulator: T, item: Item, id: Id) => T,
-    accumulator: T
+    accumulator: T,
   ): T {
     for (const [id, item] of this._pairs) {
       accumulator = callback(accumulator, item, id);
@@ -286,13 +286,13 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
    * @returns A new stream with sorted items.
    */
   public sort(
-    callback: (itemA: Item, itemB: Item, idA: Id, idB: Id) => number
+    callback: (itemA: Item, itemB: Item, idA: Id, idB: Id) => number,
   ): DataStream<Item> {
     return new DataStream({
       [Symbol.iterator]: (): IterableIterator<[Id, Item]> =>
         [...this._pairs]
           .sort(([idA, itemA], [idB, itemB]): number =>
-            callback(itemA, itemB, idA, idB)
+            callback(itemA, itemB, idA, idB),
           )
           [Symbol.iterator](),
     });

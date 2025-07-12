@@ -9,7 +9,7 @@ import { DataSet } from "./data-set";
  */
 export function isDataSetLike<
   Item extends PartItem<IdProp>,
-  IdProp extends string = "id"
+  IdProp extends string = "id",
 >(idProp: IdProp, v: any): v is DataSet<Item, IdProp> {
   return (
     typeof v === "object" &&
