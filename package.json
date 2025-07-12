@@ -223,8 +223,8 @@
     "snap-shot-it": "7.9.10",
     "typedoc": "0.28.5",
     "uuid": "11.1.0",
-    "vis-dev-utils": "^4.0.45",
-    "vis-util": "^5.0.7"
+    "vis-dev-utils": "5.0.0",
+    "vis-util": "5.0.7"
   },
   "contributors": [
     "jos <wjosdejong@gmail.com>",
