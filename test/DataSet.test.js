@@ -386,30 +386,75 @@ describe("DataSet", function () {
 
     it("does not update queue when passed an undefined queue", function () {
       var dataset = new DataSet([], { queue: true });
+
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 1 });
+      assert.equal(dataset.length, 0);
+
       dataset.setOptions({ queue: undefined });
-      assert.notEqual(dataset.testLeakQueue, undefined);
+
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 2 });
+      assert.equal(dataset.length, 0);
+
+      dataset.flush();
+
+      assert.equal(dataset.length, 2);
+      dataset.add({ id: 3 });
+      assert.equal(dataset.length, 2);
     });
 
     it("destroys the queue when queue set to false", function () {
-      var dataset = new DataSet([]);
+      var dataset = new DataSet([], { queue: true });
+
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 1 });
+      assert.equal(dataset.length, 0);
+
       dataset.setOptions({ queue: false });
-      assert.equal(dataset.testLeakQueue, undefined);
+
+      assert.equal(dataset.length, 1);
+      dataset.add({ id: 2 });
+      assert.equal(dataset.length, 2);
     });
 
     it("udpates queue options", function () {
-      var dataset = new DataSet([]);
-      dataset.setOptions({ queue: { max: 5, delay: 3 } });
-      assert.equal(dataset.testLeakQueue.max, 5);
-      assert.equal(dataset.testLeakQueue.delay, 3);
+      var dataset = new DataSet([], { queue: true });
+
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 1 });
+      assert.equal(dataset.length, 0);
+
+      dataset.setOptions({ queue: { max: 5 } });
+
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 2 });
+      dataset.add({ id: 3 });
+      dataset.add({ id: 4 });
+      dataset.add({ id: 5 });
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 6 });
+      assert.equal(dataset.length, 6);
     });
 
     it("creates new queue given if none is set", function () {
-      var dataset = new DataSet([], { queue: true });
-      dataset.testLeakQueue.destroy();
-      dataset.testLeakQueue = null;
-      dataset.setOptions({ queue: { max: 5, delay: 3 } });
-      assert.equal(dataset.testLeakQueue.max, 5);
-      assert.equal(dataset.testLeakQueue.delay, 3);
+      var dataset = new DataSet([]);
+
+      assert.equal(dataset.length, 0);
+      dataset.add({ id: 1 });
+      assert.equal(dataset.length, 1);
+
+      dataset.setOptions({ queue: { max: 5 } });
+
+      assert.equal(dataset.length, 1);
+      dataset.add({ id: 2 });
+      dataset.add({ id: 3 });
+      dataset.add({ id: 4 });
+      dataset.add({ id: 5 });
+      dataset.add({ id: 6 });
+      assert.equal(dataset.length, 1);
+      dataset.add({ id: 7 });
+      assert.equal(dataset.length, 7);
     });
   });
 
