@@ -148,10 +148,4 @@ export abstract class DataSetPart<
    */
   public unsubscribe: DataSetPart<Item, IdProp>["off"] =
     DataSetPart.prototype.off;
-
-  /* develblock:start */
-  public get testLeakSubscribers(): any {
-    return this._subscribers;
-  }
-  /* develblock:end */
 }
