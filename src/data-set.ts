@@ -1096,22 +1096,4 @@ export class DataSet<
       });
     }
   }
-
-  /* develblock:start */
-  public get testLeakData(): Map<Id, FullItem<Item, IdProp>> {
-    return this._data;
-  }
-  public get testLeakIdProp(): IdProp {
-    return this._idProp;
-  }
-  public get testLeakOptions(): DataSetInitialOptions<IdProp> {
-    return this._options;
-  }
-  public get testLeakQueue(): Queue<this> | null {
-    return this._queue;
-  }
-  public set testLeakQueue(v: Queue<this> | null) {
-    this._queue = v;
-  }
-  /* develblock:end */
 }
