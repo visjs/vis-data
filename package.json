@@ -209,7 +209,6 @@
     "@types/mocha": "10.0.10",
     "@types/node": "24.5.2",
     "@types/sinon": "17.0.4",
-    "@types/uuid": "10.0.0",
     "component-emitter": "2.0.0",
     "eslint": "8.57.1",
     "git-authors-cli": "1.0.52",
