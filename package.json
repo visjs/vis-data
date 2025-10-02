@@ -214,7 +214,7 @@
     "git-authors-cli": "1.0.52",
     "husky": "9.1.7",
     "lint-staged": "16.2.3",
-    "mocha": "11.7.3",
+    "mocha": "11.7.4",
     "nyc": "17.1.0",
     "sazerac": "2.0.0",
     "shx": "0.4.0",
