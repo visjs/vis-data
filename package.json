@@ -194,7 +194,7 @@
     ".*.{js,ts}": "eslint --fix"
   },
   "volta": {
-    "node": "24.12.0",
+    "node": "24.13.0",
     "npm": "11.7.0",
     "pnpm": "10.28.0"
   },
@@ -207,7 +207,7 @@
     "@egjs/hammerjs": "2.0.17",
     "@types/chai": "5.2.3",
     "@types/mocha": "10.0.10",
-    "@types/node": "24.10.7",
+    "@types/node": "24.10.8",
     "@types/sinon": "17.0.4",
     "component-emitter": "2.0.0",
     "eslint": "8.57.1",
