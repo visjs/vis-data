@@ -210,7 +210,7 @@
     "@types/node": "24.10.13",
     "@types/sinon": "17.0.4",
     "component-emitter": "2.0.0",
-    "eslint": "8.57.1",
+    "eslint": "10.0.0",
     "git-authors-cli": "1.0.53",
     "husky": "9.1.7",
     "lint-staged": "16.2.7",
