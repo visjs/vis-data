@@ -1,8 +1,19 @@
 {
-  "extends": ["config:base"],
+  "extends": ["config:best-practices"],
+  "dependencyDashboard": false,
   "packageRules": [
     {
-      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["dependencies", "peerDependencies"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "matchDepTypes": ["dependencies", "peerDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     }
   ]
