@@ -1,20 +1,15 @@
 {
-  "extends": ["config:best-practices"],
+  "extends": ["config:best-practices", ":pinOnlyDevDependencies"],
   "dependencyDashboard": false,
   "packageRules": [
     {
-      "matchDepTypes": ["devDependencies"],
+      "updateTypes": ["major", "minor", "patch", "pin", "digest"],
       "automerge": true
     },
     {
       "matchDepTypes": ["dependencies", "peerDependencies"],
       "matchUpdateTypes": ["major"],
       "automerge": false
-    },
-    {
-      "matchDepTypes": ["dependencies", "peerDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
     }
   ]
 }
