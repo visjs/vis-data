@@ -1,4 +1,4 @@
-import { test, given } from "sazerac";
+import { expect } from "chai";
 
 import {
   DataSet,
@@ -48,47 +48,49 @@ function createFakeDataView(idProp: string): any {
 }
 
 describe("Type checks", function (): void {
-  test(isDataViewLike, function (): void {
-    given("id").expect(false);
-    given("id", undefined).expect(false);
-    given("id", null).expect(false);
-    given("id", {}).expect(false);
-    given("id", []).expect(false);
+  it("isDataViewLike", function (): void {
+    expect(isDataViewLike("id", undefined)).to.equal(false);
+    expect(isDataViewLike("id", null)).to.equal(false);
+    expect(isDataViewLike("id", {})).to.equal(false);
+    expect(isDataViewLike("id", [])).to.equal(false);
 
-    given("id", new DataSet()).expect(true);
-    given("ds", new DataSet()).expect(false);
-    given("ds", new DataSet({ fieldId: "ds" })).expect(true);
+    expect(isDataViewLike("id", new DataSet())).to.equal(true);
+    expect(isDataViewLike("ds", new DataSet())).to.equal(false);
+    expect(isDataViewLike("ds", new DataSet({ fieldId: "ds" }))).to.equal(true);
 
-    given("id", new DataView(new DataSet())).expect(true);
-    given("dv", new DataView(new DataSet())).expect(false);
-    given("dv", new DataView(new DataSet({ fieldId: "dv" }))).expect(true);
+    expect(isDataViewLike("id", new DataView(new DataSet()))).to.equal(true);
+    expect(isDataViewLike("dv", new DataView(new DataSet()))).to.equal(false);
+    expect(
+      isDataViewLike("dv", new DataView(new DataSet({ fieldId: "dv" }))),
+    ).to.equal(true);
 
-    given("id", createFakeDataSet("fds")).expect(false);
-    given("fds", createFakeDataSet("fds")).expect(true);
+    expect(isDataViewLike("id", createFakeDataSet("fds"))).to.equal(false);
+    expect(isDataViewLike("fds", createFakeDataSet("fds"))).to.equal(true);
 
-    given("id", createFakeDataView("fdv")).expect(false);
-    given("fdv", createFakeDataView("fdv")).expect(true);
+    expect(isDataViewLike("id", createFakeDataView("fdv"))).to.equal(false);
+    expect(isDataViewLike("fdv", createFakeDataView("fdv"))).to.equal(true);
   });
 
-  test(isDataSetLike, function (): void {
-    given("id").expect(false);
-    given("id", undefined).expect(false);
-    given("id", null).expect(false);
-    given("id", {}).expect(false);
-    given("id", []).expect(false);
+  it("isDataSetLike", function (): void {
+    expect(isDataSetLike("id", undefined)).to.equal(false);
+    expect(isDataSetLike("id", null)).to.equal(false);
+    expect(isDataSetLike("id", {})).to.equal(false);
+    expect(isDataSetLike("id", [])).to.equal(false);
 
-    given("id", new DataSet()).expect(true);
-    given("ds", new DataSet()).expect(false);
-    given("ds", new DataSet({ fieldId: "ds" })).expect(true);
+    expect(isDataSetLike("id", new DataSet())).to.equal(true);
+    expect(isDataSetLike("ds", new DataSet())).to.equal(false);
+    expect(isDataSetLike("ds", new DataSet({ fieldId: "ds" }))).to.equal(true);
 
-    given("id", new DataView(new DataSet())).expect(false);
-    given("dv", new DataView(new DataSet())).expect(false);
-    given("dv", new DataView(new DataSet({ fieldId: "dv" }))).expect(false);
+    expect(isDataSetLike("id", new DataView(new DataSet()))).to.equal(false);
+    expect(isDataSetLike("dv", new DataView(new DataSet()))).to.equal(false);
+    expect(
+      isDataSetLike("dv", new DataView(new DataSet({ fieldId: "dv" }))),
+    ).to.equal(false);
 
-    given("id", createFakeDataSet("fds")).expect(false);
-    given("fds", createFakeDataSet("fds")).expect(true);
+    expect(isDataSetLike("id", createFakeDataSet("fds"))).to.equal(false);
+    expect(isDataSetLike("fds", createFakeDataSet("fds"))).to.equal(true);
 
-    given("id", createFakeDataView("fdv")).expect(false);
-    given("fdv", createFakeDataView("fdv")).expect(false);
+    expect(isDataSetLike("id", createFakeDataView("fdv"))).to.equal(false);
+    expect(isDataSetLike("fdv", createFakeDataView("fdv"))).to.equal(false);
   });
 });
