@@ -132,9 +132,9 @@ function ensureFullItem<Item extends PartItem<IdProp>, IdProp extends string>(
  * @typeParam IdProp - Name of the property that contains the id.
  */
 export class DataSet<
-    Item extends PartItem<IdProp>,
-    IdProp extends string = "id",
-  >
+  Item extends PartItem<IdProp>,
+  IdProp extends string = "id",
+>
   extends DataSetPart<Item, IdProp>
   implements DataInterface<Item, IdProp>
 {

@@ -90,8 +90,7 @@ class SimpleDataPipe<
   SP extends string,
   TI extends PartItem<TP>,
   TP extends string,
-> implements DataPipe
-{
+> implements DataPipe {
   private readonly _source: DataInterface<SI, SP>;
   private readonly _transformers: readonly Transformer<unknown>[];
   private readonly _target: DataSet<TI, TP>;
