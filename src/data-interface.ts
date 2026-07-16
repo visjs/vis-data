@@ -218,8 +218,9 @@ export interface DataInterfaceGetOptionsBase<Item> {
  * If a single id is requested a single item (or null if the id doesn't correspond to any item) will be returned.
  * @typeParam Item - Item type that may or may not have an id.
  */
-export interface DataInterfaceGetOptionsArray<Item>
-  extends DataInterfaceGetOptionsBase<Item> {
+export interface DataInterfaceGetOptionsArray<
+  Item,
+> extends DataInterfaceGetOptionsBase<Item> {
   /** Items will be returned as a single item (if invoked with an id) or an array of items (if invoked with an array of ids). */
   returnType?: undefined | "Array";
 }
@@ -229,8 +230,9 @@ export interface DataInterfaceGetOptionsArray<Item>
  * The returned object has ids as keys and items as values of corresponding ids.
  * @typeParam Item - Item type that may or may not have an id.
  */
-export interface DataInterfaceGetOptionsObject<Item>
-  extends DataInterfaceGetOptionsBase<Item> {
+export interface DataInterfaceGetOptionsObject<
+  Item,
+> extends DataInterfaceGetOptionsBase<Item> {
   /** Items will be returned as an object map (id → item). */
   returnType: "Object";
 }

@@ -20,8 +20,7 @@ type EventSubscribers<Item extends PartItem<IdProp>, IdProp extends string> = {
 export abstract class DataSetPart<
   Item extends PartItem<IdProp>,
   IdProp extends string,
-> implements Pick<DataInterface<Item, IdProp>, "on" | "off">
-{
+> implements Pick<DataInterface<Item, IdProp>, "on" | "off"> {
   private readonly _subscribers: {
     [Name in EventNameWithAny]: EventSubscribers<Item, IdProp>[Name][];
   } = {
