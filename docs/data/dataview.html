@@ -142,8 +142,7 @@ console.log('ids', ids); // will output [1, 2]
 
 // get all items in the view
 var items = view.get();
-</pre
-      >
+</pre>
 
       <h2 id="Construction">Construction</h2>
 
@@ -151,8 +150,7 @@ var items = view.get();
 
       <pre class="prettyprint lang-js">
 var data = new vis.DataView(dataset, options)
-</pre
-      >
+</pre>
 
       <p>where:</p>
 
@@ -297,8 +295,7 @@ var view = new vis.DataView(data, {
   filter: function (item) {
     return item.value > threshold;
   }
-});</pre
-            >
+});</pre>
             In this example, <code>threshold</code> is an external parameter.
             When the value of <code>threshold</code> changes, the DataView must
             be notified that the filter results may have changed by calling
@@ -346,8 +343,7 @@ var view = new vis.DataView(data, {
 
       <pre class="prettyprint lang-js">
 var items = view.get();
-</pre
-      >
+</pre>
 
       <p>
         Data of a DataView can be filtered and formatted again, in exactly the
@@ -364,8 +360,7 @@ var items = view.get({
     return (item.score > 50);
   }
 });
-</pre
-      >
+</pre>
 
       <h2 id="Subscriptions">Subscriptions</h2>
       <p>
@@ -390,8 +385,7 @@ view.on('*', function (event, properties, senderId) {
 });
 
 // add, update, and remove data in the DataSet...
-</pre
-      >
+</pre>
     </div>
 
     <!-- Bootstrap core JavaScript

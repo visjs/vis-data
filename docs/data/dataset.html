@@ -161,8 +161,7 @@ var items = data.get({
   }
 });
 console.log('formatted items', items);
-</pre
-      >
+</pre>
 
       <h2 id="Construction">Construction</h2>
 
@@ -170,8 +169,7 @@ console.log('formatted items', items);
 
       <pre class="prettyprint lang-js">
 var data = new vis.DataSet([data] [, options])
-</pre
-      >
+</pre>
 
       <p>
         After construction, data can be added to the DataSet using the methods
@@ -534,8 +532,7 @@ data.update(
 
 // triggers an 'remove' event
 data.remove(1);
-</pre
-      >
+</pre>
 
       <h3 id="On">On</h3>
 
@@ -618,8 +615,7 @@ data.remove(1);
 function (event, properties, senderId) {
   // handle the event
 });
-</pre
-      >
+</pre>
 
       <p>where the parameters are defined as</p>
 
@@ -694,8 +690,7 @@ data.updateOnly({id: 2, text: 'item 2 (updated)'});
 
 // remove an item
 data.remove(3);
-</pre
-      >
+</pre>
 
       <h3 id="Add">Add</h3>
 
@@ -703,8 +698,7 @@ data.remove(3);
 
       Syntax:
       <pre class="prettyprint lang-js">
-var addedIds = DataSet.add(data [, senderId])</pre
-      >
+var addedIds = DataSet.add(data [, senderId])</pre>
 
       The argument <code>data</code> can contain:
       <ul>
@@ -736,8 +730,7 @@ var addedIds = DataSet.add(data [, senderId])</pre
 
       Syntax:
       <pre class="prettyprint lang-js">
-var updatedIds = DataSet.updateOnly(data [, senderId])</pre
-      >
+var updatedIds = DataSet.updateOnly(data [, senderId])</pre>
 
       The argument <code>data</code> can contain:
       <ul>
@@ -772,8 +765,7 @@ var updatedIds = DataSet.updateOnly(data [, senderId])</pre
 
       Syntax:
       <pre class="prettyprint lang-js">
-var updatedIds = DataSet.update(data [, senderId])</pre
-      >
+var updatedIds = DataSet.update(data [, senderId])</pre>
 
       The argument <code>data</code> can contain:
       <ul>
@@ -812,8 +804,7 @@ var updatedIds = DataSet.update(data [, senderId])</pre
 
       Syntax:
       <pre class="prettyprint lang-js">
-var removedIds = DataSet.remove(id [, senderId])</pre
-      >
+var removedIds = DataSet.remove(id [, senderId])</pre>
 
       <p>The argument <code>id</code> can be:</p>
       <ul>
@@ -847,8 +838,7 @@ var removedIds = DataSet.remove(id [, senderId])</pre
 
       Syntax:
       <pre class="prettyprint lang-js">
-var removedIds = DataSet.clear([senderId])</pre
-      >
+var removedIds = DataSet.clear([senderId])</pre>
 
       <p>
         After the items are removed, the DataSet will trigger an event
@@ -871,8 +861,7 @@ DataSet.get([id] [, options]);
 DataSet.getIds([options]);
 DataSet.forEach(callback [, options]);
 DataSet.map(callback [, options]);
-</pre
-      >
+</pre>
 
       <p>
         Where <code>options</code> is an Object which can have the following
@@ -972,8 +961,7 @@ var items = data.get({
     group: 'String'                 // convert the group fields to Strings
   }
 });
-</pre
-      >
+</pre>
 
       <h3 id="Getting_Data">Getting Data</h3>
 
@@ -987,8 +975,7 @@ var items = data.get({
 
       <pre class="prettyprint lang-js">
 var item1 = dataset.get(1);
-</pre
-      >
+</pre>
 
       <p>
         A selection of items can be retrieved by providing an array with ids:
@@ -996,8 +983,7 @@ var item1 = dataset.get(1);
 
       <pre class="prettyprint lang-js">
 var items = dataset.get([1, 3, 4]); // retrieve items 1, 3, and 4
-</pre
-      >
+</pre>
 
       <p>
         All items can be retrieved by simply calling <code>get</code> without
@@ -1006,8 +992,7 @@ var items = dataset.get([1, 3, 4]); // retrieve items 1, 3, and 4
 
       <pre class="prettyprint lang-js">
 var items = dataset.get();          // retrieve all items
-</pre
-      >
+</pre>
 
       <h3 id="Data_Filtering">Data Filtering</h3>
 
@@ -1034,8 +1019,7 @@ var positiveBalance = dataset.get({
   }
 });
 
-</pre
-      >
+</pre>
 
       <h3 id="Data_Types">Data Types</h3>
 

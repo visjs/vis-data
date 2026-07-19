@@ -1,4 +1,5 @@
 import type { Assignable } from "vis-util/esnext";
+
 import type { DataSet } from "./data-set.ts";
 import type { DataStream } from "./data-stream.ts";
 

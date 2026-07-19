@@ -1,6 +1,7 @@
 import { expect } from "chai";
-import { DataSet } from "../src/data-set.ts";
+
 import { createNewDataPipeFrom } from "../src/data-pipe.ts";
+import { DataSet } from "../src/data-set.ts";
 
 // Mock of Moment.js.
 const moment = (v) => {
@@ -241,8 +242,9 @@ describe("Convert replacement from the docs", function () {
       { id: false, label: 4, date: "2017-10-04" },
       { id: "test", label: true, date: "2017-11-04" },
     ]);
-    const coercedDS =
-      new DataSet(/* the data with coerced types will be piped here */);
+    const coercedDS = new DataSet(
+      /* the data with coerced types will be piped here */
+    );
 
     const types = {
       id: "string",

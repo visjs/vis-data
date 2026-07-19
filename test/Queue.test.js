@@ -1,11 +1,12 @@
-import assert from "assert";
+import assert from "node:assert";
+
 import { Queue } from "../src/index.ts";
 
 describe("Queue", function () {
   it("queue actions", function () {
-    var queue = new Queue();
+    const queue = new Queue();
 
-    var count = 0;
+    let count = 0;
     function inc() {
       count++;
     }
@@ -18,9 +19,9 @@ describe("Queue", function () {
   });
 
   it("queue actions with a delay", function (done) {
-    var queue = new Queue({ delay: 25 });
+    const queue = new Queue({ delay: 25 });
 
-    var count = 0;
+    let count = 0;
     function inc() {
       count++;
     }
@@ -36,9 +37,9 @@ describe("Queue", function () {
   });
 
   it("queue multiple actions with a delay", function (done) {
-    var queue = new Queue({ delay: 100 });
+    const queue = new Queue({ delay: 100 });
 
-    var count = 0;
+    let count = 0;
     function inc() {
       count++;
     }
@@ -64,9 +65,9 @@ describe("Queue", function () {
   });
 
   it("flush when the configured maximum is exceeded", function () {
-    var queue = new Queue({ max: 4 });
+    const queue = new Queue({ max: 4 });
 
-    var count = 0;
+    let count = 0;
     function inc() {
       count++;
     }
@@ -82,9 +83,9 @@ describe("Queue", function () {
   });
 
   it("queue actions with args", function () {
-    var queue = new Queue();
+    const queue = new Queue();
 
-    var count = 0;
+    let count = 0;
     function add(value) {
       count += value;
     }
@@ -97,9 +98,9 @@ describe("Queue", function () {
   });
 
   it("queue actions with args and context", function () {
-    var queue = new Queue();
+    const queue = new Queue();
 
-    var obj = {
+    const obj = {
       count: 0,
       add: function (value) {
         this.count += value;
@@ -114,9 +115,9 @@ describe("Queue", function () {
   });
 
   it("replace functions on an object", function () {
-    var queue = new Queue();
+    const queue = new Queue();
 
-    var obj = {
+    const obj = {
       count: 0,
       add: function (value) {
         this.count += value;
@@ -133,7 +134,7 @@ describe("Queue", function () {
   });
 
   it("extend an object", function () {
-    var obj = {
+    const obj = {
       count: 0,
       add: function (value) {
         this.count += value;
@@ -154,36 +155,36 @@ describe("Queue", function () {
   });
 
   it("set options in constructor", function () {
-    var queue = new Queue({ delay: 3, max: 5 });
+    const queue = new Queue({ delay: 3, max: 5 });
     assert.equal(queue.delay, 3);
     assert.equal(queue.max, 5);
   });
 
   it("set options explicitly", function () {
-    var queue = new Queue();
+    const queue = new Queue();
     queue.setOptions({ delay: 3, max: 5 });
     assert.equal(queue.delay, 3);
     assert.equal(queue.max, 5);
   });
 
   it("set option delay", function () {
-    var queue = new Queue();
+    const queue = new Queue();
     queue.setOptions({ delay: 3 });
     assert.equal(queue.delay, 3);
     assert.equal(queue.max, Infinity);
   });
 
   it("set option max", function () {
-    var queue = new Queue();
+    const queue = new Queue();
     queue.setOptions({ max: 5 });
     assert.equal(queue.delay, null);
     assert.equal(queue.max, 5);
   });
 
   it("destroy flushes the queue", function () {
-    var queue = new Queue({ max: 4 });
+    const queue = new Queue({ max: 4 });
 
-    var count = 0;
+    let count = 0;
     function inc() {
       count++;
     }
@@ -193,7 +194,7 @@ describe("Queue", function () {
   });
 
   it("destroy removes extensions", function () {
-    var obj = {
+    const obj = {
       count: 0,
       add: function (value) {
         this.count += value;
@@ -203,7 +204,7 @@ describe("Queue", function () {
       },
     };
 
-    var queue = Queue.extend(obj, { replace: ["add", "subtract"] });
+    const queue = Queue.extend(obj, { replace: ["add", "subtract"] });
     queue.destroy();
     assert.equal(queue._extended, null);
   });

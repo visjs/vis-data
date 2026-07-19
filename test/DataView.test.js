@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 
 import { DataSet, DataView } from "../src/index.ts";
 // TODO: test the source code immediately, but this is ES6
@@ -6,7 +6,7 @@ import { DataSet, DataView } from "../src/index.ts";
 // TODO: improve DataView tests, split up in one test per function
 describe("DataView", function () {
   it("should work", function () {
-    var groups = new DataSet();
+    const groups = new DataSet();
 
     // add items with different groups
     groups.add([
@@ -17,7 +17,7 @@ describe("DataView", function () {
       { id: 5, content: "Item 5", group: 3 },
     ]);
 
-    var group2 = new DataView(groups, {
+    const group2 = new DataView(groups, {
       filter: function (item) {
         return item.group == 2;
       },
@@ -47,11 +47,11 @@ describe("DataView", function () {
     );
 
     // test event subscription
-    var groupsTriggerCount = 0;
+    let groupsTriggerCount = 0;
     groups.on("*", function () {
       groupsTriggerCount++;
     });
-    var group2TriggerCount = 0;
+    let group2TriggerCount = 0;
     group2.on("*", function () {
       group2TriggerCount++;
     });
@@ -102,22 +102,22 @@ describe("DataView", function () {
   });
 
   it("should refresh a DataView with filter", function () {
-    var data = new DataSet([
+    const data = new DataSet([
       { id: 1, value: 2 },
       { id: 2, value: 4 },
       { id: 3, value: 7 },
     ]);
 
-    var threshold = 5;
+    let threshold = 5;
 
     // create a view. The view has a filter with a dynamic property `threshold`
-    var view = new DataView(data, {
+    const view = new DataView(data, {
       filter: function (item) {
         return item.value < threshold;
       },
     });
 
-    var added, updated, removed;
+    let added, updated, removed;
     view.on("add", function (event, props) {
       added = added.concat(props.items);
     });
@@ -161,25 +161,25 @@ describe("DataView", function () {
   });
 
   it("should pass data of changed items when updating a DataSet", function () {
-    var data = new DataSet([
+    const data = new DataSet([
       { id: 1, title: "Item 1", group: 1 },
       { id: 2, title: "Item 2", group: 2 },
       { id: 3, title: "Item 3", group: 2 },
     ]);
-    var view = new DataView(data, {
+    const view = new DataView(data, {
       filter: function (item) {
         return item.group === 2;
       },
     });
 
-    var dataUpdates = [];
-    var viewUpdates = [];
+    const dataUpdates = [];
+    const viewUpdates = [];
 
-    data.on("update", function (event, properties, senderId) {
+    data.on("update", function (event, properties) {
       dataUpdates.push([event, properties]);
     });
 
-    view.on("update", function (event, properties, senderId) {
+    view.on("update", function (event, properties) {
       viewUpdates.push([event, properties]);
     });
 

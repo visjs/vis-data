@@ -291,7 +291,7 @@ export class DataStream<Item> implements Iterable<[Id, Item]> {
     return new DataStream({
       [Symbol.iterator]: (): IterableIterator<[Id, Item]> =>
         [...this._pairs]
-          .sort(([idA, itemA], [idB, itemB]): number =>
+          .toSorted(([idA, itemA], [idB, itemB]): number =>
             callback(itemA, itemB, idA, idB),
           )
           [Symbol.iterator](),

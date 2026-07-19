@@ -1,7 +1,8 @@
 import { expect } from "chai";
 
+import { createNewDataPipeFrom } from "../src/data-pipe.ts";
+import type { DataPipe } from "../src/data-pipe.ts";
 import { DataSet } from "../src/index.ts";
-import { type DataPipe, createNewDataPipeFrom } from "../src/data-pipe.ts";
 
 interface Item1 {
   whoami: string;

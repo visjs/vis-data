@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { spy, stub } from "sinon";
 
-import { DataSet, DataStream, DataView } from "../src/index.ts";
 import type { Id } from "../src/data-interface.ts";
+import { DataSet, DataStream, DataView } from "../src/index.ts";
 
 interface CreateDataStreamRet<Item> {
   stream: DataStream<Item>;
@@ -217,7 +217,7 @@ const testStreamAPI = function (
         idArray,
         "All ids should be included in the array.",
       ).to.have.lengthOf(4);
-      expect(idArray.sort()).to.deep.equal([3, 7, 10, 13].sort());
+      expect(idArray.toSorted()).to.deep.equal([3, 7, 10, 13].toSorted());
     });
 
     it("Item Array", function (): void {
@@ -235,8 +235,8 @@ const testStreamAPI = function (
         itemArray,
         "All items should be included in the array.",
       ).to.have.lengthOf(4);
-      expect(itemArray.sort(itemById)).to.deep.equal(
-        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById),
+      expect(itemArray.toSorted(itemById)).to.deep.equal(
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].toSorted(itemById),
       );
     });
 
@@ -255,13 +255,13 @@ const testStreamAPI = function (
         entryArray,
         "All items should be included in the array.",
       ).to.have.lengthOf(4);
-      expect(entryArray.sort(pairById)).to.deep.equal(
+      expect(entryArray.toSorted(pairById)).to.deep.equal(
         [
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
           [13, { id: 13 }],
-        ].sort(pairById as any),
+        ].toSorted(pairById as any),
       );
     });
 
@@ -287,11 +287,11 @@ const testStreamAPI = function (
         Object.values(map),
         "All items should be included in the map.",
       ).to.have.lengthOf(4);
-      expect(Object.keys(map).sort()).to.deep.equal(
-        ["3", "7", "10", "13"].sort(),
+      expect(Object.keys(map).toSorted()).to.deep.equal(
+        ["3", "7", "10", "13"].toSorted(),
       );
-      expect(Object.values(map).sort(itemById)).to.deep.equal(
-        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById),
+      expect(Object.values(map).toSorted(itemById)).to.deep.equal(
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].toSorted(itemById),
       );
     });
 
@@ -309,13 +309,13 @@ const testStreamAPI = function (
       expect(map, "All items should be included in the map.").to.have.lengthOf(
         4,
       );
-      expect([...map.entries()].sort(pairById)).to.deep.equal(
+      expect([...map.entries()].toSorted(pairById)).to.deep.equal(
         [
           [3, { id: 3 }],
           [7, { id: 7 }],
           [10, { id: 10 }],
           [13, { id: 13 }],
-        ].sort(pairById as any),
+        ].toSorted(pairById as any),
       );
     });
 
@@ -333,7 +333,9 @@ const testStreamAPI = function (
       expect(idSet, "All ids should be included in the set.").to.have.lengthOf(
         4,
       );
-      expect([...idSet.values()].sort()).to.deep.equal([3, 7, 10, 13].sort());
+      expect([...idSet.values()].toSorted()).to.deep.equal(
+        [3, 7, 10, 13].toSorted(),
+      );
     });
 
     it("Item Set", function (): void {
@@ -351,8 +353,8 @@ const testStreamAPI = function (
         itemSet,
         "All items should be included in the set.",
       ).to.have.lengthOf(4);
-      expect([...itemSet.values()].sort(itemById)).to.deep.equal(
-        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].sort(itemById),
+      expect([...itemSet.values()].toSorted(itemById)).to.deep.equal(
+        [{ id: 3 }, { id: 7 }, { id: 10 }, { id: 13 }].toSorted(itemById),
       );
     });
   });
@@ -462,7 +464,7 @@ const testStreamAPI = function (
 
         const result = stream.distinct(distinctStub);
         expect(result, "Distinct should return a set.").to.be.instanceof(Set);
-        expect([...result].sort()).to.deep.equal([7, 10].sort());
+        expect([...result].toSorted()).to.deep.equal([7, 10].toSorted());
       });
 
       testReuse({
@@ -490,7 +492,7 @@ const testStreamAPI = function (
           [10, { id: 10 }],
         ]);
 
-        expect([...stream.filter(filterStub)]).to.deep.equal([[7, { id: 7 }]]);
+        expect(stream.filter(filterStub)).to.deep.equal([[7, { id: 7 }]]);
       });
 
       testReuse({
@@ -594,7 +596,7 @@ const testStreamAPI = function (
           [10, { id: 10 }],
         ]);
 
-        expect([...stream.map(mapStub)]).to.deep.equal([
+        expect(stream.map(mapStub)).to.deep.equal([
           [7, 7],
           [10, 10],
         ]);
@@ -721,7 +723,7 @@ const testStreamAPI = function (
 
         const { stream } = createDataStream([]);
 
-        expect([...stream.sort(sortSpy)]).to.deep.equal([]);
+        expect(stream.toSorted(sortSpy)).to.deep.equal([]);
         expect(
           sortSpy.callCount,
           "There are no items, so the callback shouldn‘t be called.",
@@ -740,9 +742,9 @@ const testStreamAPI = function (
           [8, { id: 8 }],
         ]);
 
-        expect([
-          ...stream.sort((_a, _b, idA, idB): number => +idA - +idB),
-        ]).to.deep.equal([
+        expect(
+          stream.toSorted((_a, _b, idA, idB): number => +idA - +idB),
+        ).to.deep.equal([
           [1, { id: 1 }],
           [2, { id: 2 }],
           [3, { id: 3 }],
@@ -772,11 +774,11 @@ const testStreamAPI = function (
           [8, { value: 1, id: 8 }],
         ]);
 
-        expect([
-          ...stream.sort(
+        expect(
+          stream.toSorted(
             (a, b, idA, idB): number => a.value - b.value || +idA - +idB,
           ),
-        ]).to.deep.equal([
+        ).to.deep.equal([
           [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
           [4, { value: -12, id: 4 }],
           [11, { value: 0, id: 11 }],
