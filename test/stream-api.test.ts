@@ -723,7 +723,7 @@ const testStreamAPI = function (
 
         const { stream } = createDataStream([]);
 
-        expect([...stream.toSorted(sortSpy)]).to.deep.equal([]);
+        expect(stream.toSorted(sortSpy)).to.deep.equal([]);
         expect(
           sortSpy.callCount,
           "There are no items, so the callback shouldn‘t be called.",
@@ -742,9 +742,9 @@ const testStreamAPI = function (
           [8, { id: 8 }],
         ]);
 
-        expect([
-          ...stream.toSorted((_a, _b, idA, idB): number => +idA - +idB),
-        ]).to.deep.equal([
+        expect(
+          stream.toSorted((_a, _b, idA, idB): number => +idA - +idB),
+        ).to.deep.equal([
           [1, { id: 1 }],
           [2, { id: 2 }],
           [3, { id: 3 }],
@@ -774,11 +774,11 @@ const testStreamAPI = function (
           [8, { value: 1, id: 8 }],
         ]);
 
-        expect([
-          ...stream.toSorted(
+        expect(
+          stream.toSorted(
             (a, b, idA, idB): number => a.value - b.value || +idA - +idB,
           ),
-        ]).to.deep.equal([
+        ).to.deep.equal([
           [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
           [4, { value: -12, id: 4 }],
           [11, { value: 0, id: 11 }],
