@@ -179,14 +179,14 @@ describe("DataSet", function () {
     assert.notStrictEqual(data.get()[0].id, undefined);
 
     // create a dataset with initial data
-    let data = new DataSet([
+    data = new DataSet([
       { id: 1, content: "Item 1", start: new Date(now.valueOf()) },
       { id: 2, content: "Item 2", start: now.toISOString() },
     ]);
     assert.deepEqual(data.getIds(), [1, 2]);
 
     // create a dataset with initial data and options
-    let data = new DataSet(
+    data = new DataSet(
       [
         { _id: 1, content: "Item 1", start: new Date(now.valueOf()) },
         { _id: 2, content: "Item 2", start: now.toISOString() },
@@ -198,9 +198,7 @@ describe("DataSet", function () {
 
   it("constructor should prevent duplicate ids", function () {
     assert.throws(
-      function () {
-        new DataSet([{ id: "duplicate" }, { id: "duplicate" }]);
-      },
+      () => DataSet([{ id: "duplicate" }, { id: "duplicate" }]),
       Error,
       "duplicate id throws error",
     );
@@ -379,11 +377,6 @@ describe("DataSet", function () {
   });
 
   describe("setOptions", function () {
-    const dataset = new DataSet(
-      [{ _id: 1, content: "Item 1", start: new Date(now.valueOf()) }],
-      { queue: true },
-    );
-
     it("does not update queue when passed an undefined queue", function () {
       const dataset = new DataSet([], { queue: true });
 
@@ -459,9 +452,6 @@ describe("DataSet", function () {
   });
 
   describe("on / off", function () {
-    const dataset = new DataSet([
-      { _id: 1, content: "Item 1", start: new Date(now.valueOf()) },
-    ]);
     let count = 0;
     function inc() {
       count++;

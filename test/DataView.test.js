@@ -175,11 +175,11 @@ describe("DataView", function () {
     const dataUpdates = [];
     const viewUpdates = [];
 
-    data.on("update", function (event, properties, senderId) {
+    data.on("update", function (event, properties) {
       dataUpdates.push([event, properties]);
     });
 
-    view.on("update", function (event, properties, senderId) {
+    view.on("update", function (event, properties) {
       viewUpdates.push([event, properties]);
     });
 
