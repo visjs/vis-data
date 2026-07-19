@@ -11,15 +11,14 @@ export default defineConfig<OxlintConfig>({
   },
   rules: {
     // Enabled by the categories but we don't want to enforce
+    "eslint/no-unexpected-multiline": "off",
     "import/no-unassigned-import": "off",
 
     // Enabled by the categories but disabled for now, PRs welcome (even if only partial)
     "eslint/no-shadow": "off",
     "eslint/no-underscore-dangle": "off", // We'll eventually migrate to # (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_elements)
-    "eslint/no-useless-concat": "off",
-    "oxc/no-this-in-exported-function": "off", // Convert to class syntax
-    "typescript/no-extraneous-class": "off",
     "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-instanceof-builtins": "off",
 
     // Enabled beyond the categories
     "eslint/guard-for-in": "error",
