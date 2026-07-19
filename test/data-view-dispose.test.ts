@@ -11,10 +11,10 @@ describe("Data view dispose", function (): void {
     const ds = new DataSet<Item>([{ id: 1 }, { id: 2 }]);
     const dv = new DataView(ds);
 
-    expect(ds.getIds().sort()).to.deep.equal([1, 2].sort());
+    expect(ds.getIds().toSorted()).to.deep.equal([1, 2].toSorted());
 
     ds.add({ id: 3 });
-    expect(ds.getIds().sort()).to.deep.equal([1, 2, 3].sort());
+    expect(ds.getIds().toSorted()).to.deep.equal([1, 2, 3].toSorted());
 
     dv.dispose();
     expect((): void => {

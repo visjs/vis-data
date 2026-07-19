@@ -1,28 +1,28 @@
 import { v4 as uuid4 } from "uuid";
 import { pureDeepObjectAssign } from "vis-util/esnext";
 
-import {
-  type DataInterface,
-  type DataInterfaceForEachOptions,
-  type DataInterfaceGetIdsOptions,
-  type DataInterfaceGetOptions,
-  type DataInterfaceGetOptionsArray,
-  type DataInterfaceGetOptionsObject,
-  type DataInterfaceMapOptions,
-  type DataInterfaceOrder,
-  type DeepPartial,
-  type EventPayloads,
-  type FullItem,
-  type Id,
-  type OptId,
-  type PartItem,
-  type UpdateItem,
-  isId,
+import { isId } from "./data-interface.ts";
+import type {
+  DataInterface,
+  DataInterfaceForEachOptions,
+  DataInterfaceGetIdsOptions,
+  DataInterfaceGetOptions,
+  DataInterfaceGetOptionsArray,
+  DataInterfaceGetOptionsObject,
+  DataInterfaceMapOptions,
+  DataInterfaceOrder,
+  DeepPartial,
+  EventPayloads,
+  FullItem,
+  Id,
+  OptId,
+  PartItem,
+  UpdateItem,
 } from "./data-interface.ts";
-
-import { Queue, type QueueOptions } from "./queue.ts";
 import { DataSetPart } from "./data-set-part.ts";
 import { DataStream } from "./data-stream.ts";
+import { Queue } from "./queue.ts";
+import type { QueueOptions } from "./queue.ts";
 
 /**
  * Initial DataSet configuration object.
