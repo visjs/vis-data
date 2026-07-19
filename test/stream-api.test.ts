@@ -723,7 +723,8 @@ const testStreamAPI = function (
 
         const { stream } = createDataStream([]);
 
-        expect(stream.toSorted(sortSpy)).to.deep.equal([]);
+        // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
+        expect(stream.sort(sortSpy)).to.deep.equal([]);
         expect(
           sortSpy.callCount,
           "There are no items, so the callback shouldn‘t be called.",
@@ -743,7 +744,8 @@ const testStreamAPI = function (
         ]);
 
         expect(
-          stream.toSorted((_a, _b, idA, idB): number => +idA - +idB),
+          // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
+          stream.sort((_a, _b, idA, idB): number => +idA - +idB),
         ).to.deep.equal([
           [1, { id: 1 }],
           [2, { id: 2 }],
@@ -775,7 +777,8 @@ const testStreamAPI = function (
         ]);
 
         expect(
-          stream.toSorted(
+          // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
+          stream.sort(
             (a, b, idA, idB): number => a.value - b.value || +idA - +idB,
           ),
         ).to.deep.equal([
