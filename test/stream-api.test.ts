@@ -492,7 +492,8 @@ const testStreamAPI = function (
           [10, { id: 10 }],
         ]);
 
-        expect(stream.filter(filterStub)).to.deep.equal([[7, { id: 7 }]]);
+        // oxlint-disable-next-line unicorn/no-useless-spread -- This file a false positive on DataStream, not arrays
+        expect([...stream.filter(filterStub)]).to.deep.equal([[7, { id: 7 }]]);
       });
 
       testReuse({
@@ -596,7 +597,8 @@ const testStreamAPI = function (
           [10, { id: 10 }],
         ]);
 
-        expect(stream.map(mapStub)).to.deep.equal([
+        // oxlint-disable-next-line unicorn/no-useless-spread -- This file a false positive on DataStream, not arrays
+        expect([...stream.map(mapStub)]).to.deep.equal([
           [7, 7],
           [10, 10],
         ]);
@@ -724,7 +726,7 @@ const testStreamAPI = function (
         const { stream } = createDataStream([]);
 
         // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
-        expect(stream.sort(sortSpy)).to.deep.equal([]);
+        expect([...stream.sort(sortSpy)]).to.deep.equal([]);
         expect(
           sortSpy.callCount,
           "There are no items, so the callback shouldn‘t be called.",
@@ -745,7 +747,7 @@ const testStreamAPI = function (
 
         expect(
           // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
-          stream.sort((_a, _b, idA, idB): number => +idA - +idB),
+          [...stream.sort((_a, _b, idA, idB): number => +idA - +idB)],
         ).to.deep.equal([
           [1, { id: 1 }],
           [2, { id: 2 }],
@@ -776,12 +778,12 @@ const testStreamAPI = function (
           [8, { value: 1, id: 8 }],
         ]);
 
-        expect(
+        expect([
           // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
-          stream.sort(
+          ...stream.sort(
             (a, b, idA, idB): number => a.value - b.value || +idA - +idB,
           ),
-        ).to.deep.equal([
+        ]).to.deep.equal([
           [10, { value: Number.MIN_SAFE_INTEGER, id: 10 }],
           [4, { value: -12, id: 4 }],
           [11, { value: 0, id: 11 }],
