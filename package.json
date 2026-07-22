@@ -207,7 +207,7 @@
     "component-emitter": "2.0.0",
     "git-authors-cli": "1.0.53",
     "husky": "9.1.7",
-    "lint-staged": "17.0.8",
+    "lint-staged": "17.1.0",
     "mocha": "11.7.6",
     "nyc": "18.0.0",
     "oxfmt": "^0.59.0",
