@@ -1,7 +1,8 @@
+import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
-import babel from "@rollup/plugin-babel";
 import typescript from "@rollup/plugin-typescript";
+
 import { generateHeader } from "vis-dev-utils";
 
 // TypeScript because Babel transpiles modules in isolation, therefore no type reexports.
