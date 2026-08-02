@@ -253,7 +253,7 @@
     "@types/node": "24.13.3",
     "@types/sinon": "22.0.0",
     "component-emitter": "2.0.0",
-    "git-authors-cli": "1.0.53",
+    "git-authors-cli": "1.0.54",
     "husky": "9.1.7",
     "lint-staged": "17.2.0",
     "mocha": "11.7.6",
