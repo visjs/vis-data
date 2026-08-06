@@ -4,5 +4,5 @@
     "declaration": false,
     "declarationMap": false
   },
-  "include": ["*.js", ".*.js", "src", "test"]
+  "include": ["*.ts", ".*.ts", "*.js", ".*.js", "src", "test"]
 }
