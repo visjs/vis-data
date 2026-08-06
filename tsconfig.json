@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "baseUrl": ".",
     "declaration": true,
     "declarationDir": "dist/types",
     "declarationMap": true,
@@ -16,7 +15,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
-    "typeRoots": ["./@types", "node_modules/@types"]
+    "typeRoots": ["./@types", "node_modules/@types"],
+    "types": ["mocha"]
   },
   "exclude": ["node_modules", "**/__tests__/*"],
   "include": ["src", "test"]

@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declarationDir": "declarations",
     "emitDeclarationOnly": true,
-    "noEmit": false
+    "noEmit": false,
+    "rootDir": "src"
   },
   "exclude": ["test"]
 }
