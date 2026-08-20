@@ -810,6 +810,7 @@ const testStreamAPI = function (
         ],
         updateArgs: [5, { id: 5, value: -5 }],
         streamCallback: (stream): any =>
+          // oxlint-disable-next-line unicorn/no-array-sort -- This file a false positive on DataStream, not arrays
           stream.sort((a, b): number => a.value - b.value),
       });
     });
