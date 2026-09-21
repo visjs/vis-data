@@ -260,7 +260,7 @@
     "nyc": "18.0.0",
     "oxfmt": "0.68.0",
     "oxlint": "1.78.0",
-    "oxlint-tsgolint": "7.0.2001",
+    "oxlint-tsgolint": "7.0.2002",
     "shx": "0.4.0",
     "sinon": "22.1.0",
     "snap-shot-it": "7.9.10",
