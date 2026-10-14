@@ -12,7 +12,7 @@ parameters:
 executors:
   node:
     docker:
-      - image: cimg/node:24.21.0-browsers@sha256:7e52dee8e595008b20af17a38b141402bf6d8c9dee09c910c74e0cef61ce9879
+      - image: cimg/node:24.22.0-browsers@sha256:a6bfa688d6bafbd98d54a3f59eb87aa7dde798bf71afd49b3589fcf32792cd89
     resource_class: small
     working_directory: ~/repo
     environment:
@@ -23,7 +23,7 @@ executors:
 
   node-build:
     docker:
-      - image: cimg/node:24.21.0-browsers@sha256:7e52dee8e595008b20af17a38b141402bf6d8c9dee09c910c74e0cef61ce9879
+      - image: cimg/node:24.22.0-browsers@sha256:a6bfa688d6bafbd98d54a3f59eb87aa7dde798bf71afd49b3589fcf32792cd89
     resource_class: medium
     working_directory: ~/repo
     environment:
@@ -34,7 +34,7 @@ executors:
 
   node-interop:
     docker:
-      - image: cimg/node:24.21.0-browsers@sha256:7e52dee8e595008b20af17a38b141402bf6d8c9dee09c910c74e0cef61ce9879
+      - image: cimg/node:24.22.0-browsers@sha256:a6bfa688d6bafbd98d54a3f59eb87aa7dde798bf71afd49b3589fcf32792cd89
     resource_class: "medium+"
     working_directory: ~/repo
     environment:
