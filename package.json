@@ -251,7 +251,7 @@
     "@types/chai": "5.2.3",
     "@types/mocha": "10.0.10",
     "@types/node": "24.19.2",
-    "@types/sinon": "22.0.0",
+    "@types/sinon": "22.0.2",
     "component-emitter": "2.0.0",
     "git-authors-cli": "1.0.54",
     "husky": "9.1.7",
