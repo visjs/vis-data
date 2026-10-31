@@ -267,7 +267,7 @@
     "snap-shot-it": "7.9.10",
     "typedoc": "0.28.20",
     "uuid": "14.0.3",
-    "vis-dev-utils": "7.1.11",
+    "vis-dev-utils": "7.2.0",
     "vis-util": "6.0.3"
   },
   "peerDependencies": {
