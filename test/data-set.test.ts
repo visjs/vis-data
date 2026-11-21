@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { DELETE, DataSet } from "../src/index.ts";
+import { DELETE, DataSet, DataView } from "../src/index.ts";
 
 interface Item1 {
   whoami: number;
@@ -24,6 +24,60 @@ interface Item3 {
 }
 
 describe("Data Set", function (): void {
+  describe("Get projected objects", function (): void {
+    it("keeps each ID as a key when fields omit the ID", function (): void {
+      const ds = new DataSet([
+        { id: 1, value: 3 },
+        { id: 2, value: 1 },
+      ]);
+
+      expect(ds.get({ fields: ["value"], returnType: "Object" })).to.deep.equal(
+        {
+          1: { value: 3 },
+          2: { value: 1 },
+        },
+      );
+      expect(ds.get({ fields: [], returnType: "Object" })).to.deep.equal({
+        1: {},
+        2: {},
+      });
+    });
+
+    it("keeps custom IDs when filtering and sorting a view", function (): void {
+      const ds = new DataSet(
+        [
+          { key: "first", value: 3 },
+          { key: "hidden", value: 2 },
+          { key: "second", value: 1 },
+        ],
+        { fieldId: "key" },
+      );
+      const view = new DataView(ds, {
+        filter: (item) => item.key !== "hidden",
+      });
+      const result = view.get(["first", "unknown", "hidden", "second"], {
+        fields: ["value"],
+        order: "value",
+        returnType: "Object",
+      });
+
+      expect(Object.keys(result)).to.deep.equal(["second", "first"]);
+      expect(result).to.deep.equal({
+        second: { value: 1 },
+        first: { value: 3 },
+      });
+    });
+
+    it("keeps a prototype-named ID as an own key", function (): void {
+      const ds = new DataSet([{ id: "__proto__", value: 3 }]);
+      const result = ds.get({ fields: ["value"], returnType: "Object" });
+
+      expect(Object.getPrototypeOf(result)).to.equal(Object.prototype);
+      expect(Object.keys(result)).to.deep.equal(["__proto__"]);
+      expect(result["__proto__"]).to.deep.equal({ value: 3 });
+    });
+  });
+
   describe("Update Only", function (): void {
     it("No id", function (): void {
       const ds = new DataSet<Item1, "whoami">(

@@ -611,9 +611,30 @@ export class DataSet<
       this._sort(items, options.order);
     }
 
+    const fields = options?.fields;
+    if (returnType === "Object") {
+      const result: Record<Id, FullItem<Item, IdProp>> = {};
+      for (const item of items) {
+        const id = item[this._idProp];
+        const value = fields
+          ? (this._filterFields(item, fields) as FullItem<Item, IdProp>)
+          : item;
+        if (id === "__proto__") {
+          Object.defineProperty(result, id, {
+            value,
+            enumerable: true,
+            writable: true,
+            configurable: true,
+          });
+        } else {
+          result[id] = value;
+        }
+      }
+      return result;
+    }
+
     // filter fields of the items
-    if (options && options.fields) {
-      const fields = options.fields;
+    if (fields) {
       if (id != undefined && item != null) {
         item = this._filterFields(item, fields) as FullItem<Item, IdProp>;
       } else {
@@ -626,26 +647,10 @@ export class DataSet<
       }
     }
 
-    // return the results
-    if (returnType == "Object") {
-      const result: Record<string, FullItem<Item, IdProp>> = {};
-      for (let i = 0, len = items.length; i < len; i++) {
-        const resultant = items[i];
-        // @TODO: Shoudn't this be this._fieldId?
-        // result[resultant.id] = resultant
-        const id: Id = resultant[this._idProp];
-        result[id] = resultant;
-      }
-      return result;
-    } else {
-      if (id != null) {
-        // a single item
-        return item ?? null;
-      } else {
-        // just return our array
-        return items;
-      }
+    if (id != null) {
+      return item ?? null;
     }
+    return items;
   }
 
   /** @inheritDoc */
